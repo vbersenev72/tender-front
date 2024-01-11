@@ -38,13 +38,13 @@ export const TextGray14pxRegular = styled.p`
   font-family: 'Open-Sans', sans-serif;
   font-size: 14px;
   width: fit-content;
-  color: black;
+  color: gray;
   text-decoration: none;
 `;
 
 export const TextGray11pxRegular = styled.p`
   font-family: 'Open-Sans', sans-serif;
-  color: #909EBB;
+  color: gray;
   font-size: 11px;
   width: fit-content;
 `;

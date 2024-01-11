@@ -21,41 +21,41 @@ export const Menu: FC = () => {
     };
 
     return(
-        <MenuContainer isShow={isSecondContainerVisible}>
+        <MenuContainer onClick={handleClick} isShow={isSecondContainerVisible}>
             <MenuItem isShow={isSecondContainerVisible}>
                 <Finder />
                 {isSecondContainerVisible && (
-                    <TextGray14pxRegular>Поиск</TextGray14pxRegular>
+                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}} href="/personal">Поиск</a></TextGray14pxRegular>
                 )}
             </MenuItem>
             <MenuItem isShow={isSecondContainerVisible}>
                 <ReFinder />
                 {isSecondContainerVisible && (
-                    <TextGray14pxRegular>Автопоиск</TextGray14pxRegular>
+                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}} href="/personal">Автопоиск</a></TextGray14pxRegular>
                 )}
             </MenuItem>
             <MenuItem isShow={isSecondContainerVisible}>
                 <TendIcon />
                 {isSecondContainerVisible && (
-                    <TextGray14pxRegular>Мои тендеры</TextGray14pxRegular>
+                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}} href="/personal">Мои Тендеры</a></TextGray14pxRegular>
                 )}
             </MenuItem>
             <MenuItem isShow={isSecondContainerVisible}>
                 <Keeps />
                 {isSecondContainerVisible && (
-                    <TextGray14pxRegular>Заметки</TextGray14pxRegular>
+                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}} href="/personal">Заметки</a></TextGray14pxRegular>
                 )}
             </MenuItem>
             <MenuItem isShow={isSecondContainerVisible}>
                 <StatIcon />
                 {isSecondContainerVisible && (
-                    <TextGray14pxRegular>Аналитика</TextGray14pxRegular>
+                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}} href="/personal">Аналитика</a></TextGray14pxRegular>
                 )}
             </MenuItem>
             <MenuItem isShow={isSecondContainerVisible}>
                 <Plans />
                 {isSecondContainerVisible && (
-                    <TextGray14pxRegular>Планы</TextGray14pxRegular>
+                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}} href="/">Планы</a></TextGray14pxRegular>
                 )}
             </MenuItem>
             <MenuItem isShow={isSecondContainerVisible}>
