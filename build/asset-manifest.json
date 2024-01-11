@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/static/css/main.42781b21.css",
+    "main.js": "/static/js/main.6411440d.js",
+    "static/js/787.d4aba7ab.chunk.js": "/static/js/787.d4aba7ab.chunk.js",
+    "static/media/TENDER.svg": "/static/media/TENDER.bbd0584008085a6a740fb2326bbd2b7b.svg",
+    "static/media/statistic.svg": "/static/media/statistic.372d8046a68da7e39b666653d0a0597e.svg",
+    "static/media/user.svg": "/static/media/user.1a26a295b0e4f273dddeadd09d5fc99a.svg",
+    "index.html": "/index.html",
+    "static/media/reFinder.svg": "/static/media/reFinder.2e9f75650384e68933d19993fd694373.svg",
+    "static/media/arrowBack.svg": "/static/media/arrowBack.72ab06b5fc9b44f14407ad14507e12ec.svg",
+    "static/media/finder.svg": "/static/media/finder.e8ecba7f30b9e532a6dba7dead4ae0bb.svg",
+    "static/media/tendersIcon.svg": "/static/media/tendersIcon.e821d7efddae9fc70e6932c0bfc6c0c4.svg",
+    "static/media/plans.svg": "/static/media/plans.d33b2f89f7f751532f6399d6b0618d4d.svg",
+    "static/media/keeps.svg": "/static/media/keeps.37f422de4dcfa980f83787626a30d75d.svg",
+    "static/media/arrow.svg": "/static/media/arrow.19891baaa8858c8f6439a0caaf33055a.svg",
+    "main.42781b21.css.map": "/static/css/main.42781b21.css.map",
+    "main.6411440d.js.map": "/static/js/main.6411440d.js.map",
+    "787.d4aba7ab.chunk.js.map": "/static/js/787.d4aba7ab.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.42781b21.css",
+    "static/js/main.6411440d.js"
+  ]
+}
