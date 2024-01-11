@@ -10,43 +10,17 @@ import { Route, Router, Routes } from "react-router-dom";
 import { ContractsPage } from "./pages/ContractsPage/ContractsPage";
 import axios from 'axios'
 import { PersonalPage } from './pages/Personal/PersonalPage';
-
-async function checkAuth() {
-
-    const token = localStorage.getItem('token')
-
-    if (token) {
-        const response = await axios.post('/api/auth/auth', {}, {
-            headers: {
-                authorization: token
-            }
-        })
-
-        if (response.status == 400 || response.status == 401) {
-            // console.log('Вы не авторизованы');
-        } else {
-            const token = response.data.token
-            localStorage.setItem('token', token)
-
-            return true
-        }
-    } 
-
-    console.log('Вы не авторизованы');
-    
-
-    return false
-
-}
-
+import { checkAuth } from './functions/CheckAuth';
+import AuthPage from './pages/Auth/AuthPage';
 
 function App() {
 
-    const [auth, useAuth] = useState<boolean>(false)
+    const [auth, setAuth] = useState<boolean>(false)
+    const check: any = checkAuth()
 
-    useEffect(() => { 
-         checkAuth()
-     })
+    useEffect(() => {
+        setAuth(check)
+    }, [])
 
 
     return (
@@ -54,13 +28,14 @@ function App() {
             <Header />
             <Menu />
             <Routes>
-                {/*<TenderCard />*/}
                 <Route path="/" element={<Catalog />} />
                 <Route path="/contracts" element={<ContractsPage />} />
                 <Route path="/tender/:id" element={<TenderCard />} />
-                {/* <Route path="/testtender" element={<TenderCard />} /> */}
-                <Route path='/personal' element={<PersonalPage/>} />
-                {/*<JsonRenderer data={test_data} />*/}
+                <Route path='/personal' element={<PersonalPage />} />
+                <Route path="/auth" element={ <AuthPage/>} />
+                {
+                    !auth && <Route path="/auth" element={ <AuthPage/>} />
+                }
             </Routes>
         </Fragment>
     );

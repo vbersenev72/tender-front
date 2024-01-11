@@ -1,0 +1,50 @@
+.authmenuproperty {
+    display: flex;
+    width: 80%;
+    height: auto;
+    background-color: #F4F6F9;
+
+}
+
+.authmenuprop {
+    display: flex;
+    margin-left: 0;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    cursor: pointer;
+    background-color: white;
+
+    color: rgb(65, 150, 247);
+}
+
+.authmenubody {
+    width: 80%;
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    background-color: #F4F6F9;
+
+}
+
+.authmenucontainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.authmenupropactive {
+    background-color: #F4F6F9;
+    display: flex;
+    margin-left: 0;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    cursor: pointer;
+}
+
+.authmenucontent {
+    height: 50%;
+}
