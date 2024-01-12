@@ -5,7 +5,7 @@ export async function checkAuth() {
     const token = localStorage.getItem('token')
 
     if (token) {
-        const response = await axios.post('/api/auth/auth', {}, {
+        const response = await axios.post(process.env.REACT_APP_API+'/api/auth/auth', {}, {
             headers: {
                 authorization: token
             }

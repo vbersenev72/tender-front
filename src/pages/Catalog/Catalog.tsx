@@ -8,7 +8,7 @@ import { TailSpin } from 'react-loader-spinner';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { showErrorMessage } from "../../functions/Message";
+import { showErrorMessage, showSuccesMessage } from "../../functions/Message";
 
 interface Tender {
     fz?: string

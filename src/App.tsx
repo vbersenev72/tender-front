@@ -16,10 +16,10 @@ import AuthPage from './pages/Auth/AuthPage';
 function App() {
 
     const [auth, setAuth] = useState<boolean>(false)
-    const check: any = checkAuth()
+    // const check: any = checkAuth()
 
     useEffect(() => {
-        setAuth(check)
+        // setAuth(check)
     }, [])
 
 
@@ -32,9 +32,9 @@ function App() {
                 <Route path="/contracts" element={<ContractsPage />} />
                 <Route path="/tender/:id" element={<TenderCard />} />
                 <Route path='/personal' element={<PersonalPage />} />
-                <Route path="/auth" element={ <AuthPage/>} />
+                <Route path="/auth" element={<AuthPage />} />
                 {
-                    !auth && <Route path="/auth" element={ <AuthPage/>} />
+                    !auth && <Route path="/auth" element={<AuthPage />} />
                 }
             </Routes>
         </Fragment>
