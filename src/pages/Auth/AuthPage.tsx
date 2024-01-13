@@ -4,6 +4,7 @@ import './authpage.css'
 import { AuthPageInput } from "../../components/AuthPageInput/AuthPageInput";
 import axios from "axios";
 import { showErrorMessage, showSuccesMessage } from "../../functions/Message";
+import { AuthNotifModal } from "../../components/NotifModal/AuthNotifModal";
 
 function Login() {
 
@@ -47,7 +48,7 @@ function Login() {
                 <h3 style={{ margin: '30px', width: 'fit-content', fontSize: '20px' }}>Войти в личный кабинет</h3>
                 <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px', justifyContent: "center" }}>
                     <p style={{ marginRight: '10px' }}>Email:</p>
-                    <AuthPageInput setInput={setEmail} value={email}  />
+                    <AuthPageInput setInput={setEmail} value={email} />
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center", marginBottom: "30px" }}>
                     <p style={{ marginRight: '10px', marginLeft: "-18px" }}>Пароль:</p>
@@ -69,6 +70,17 @@ function Register() {
     const [email, setEmail] = useState('')
     const [inn, setInn] = useState('')
 
+    const [isOpen, setIsOpen] = useState(false);
+
+    const closeModal = () => {
+        setIsOpen(false);
+    };
+
+    const openModal = () => {
+        setIsOpen(true);
+    };
+
+
     async function register() {
         try {
             const resposnse = await axios.post(`${process.env.REACT_APP_API}/api/auth/register`, {
@@ -78,7 +90,8 @@ function Register() {
                 name: name
             })
 
-            showSuccesMessage('Письмо с паролем направлено на вашу почту')
+            showSuccesMessage('Письмо с паролем направлено на вашу почту.')
+            openModal()
 
 
 
@@ -90,29 +103,30 @@ function Register() {
 
     return (
         <div className="authmenucontentlogin">
-        <div style={{ width: 'fit-content' }}>
-            <h3 style={{ margin: '30px', width: 'fit-content', fontSize: '20px' }}>Для использования личного кабинета необходимо зарегистрироваться</h3>
-            <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px', justifyContent: "center" }}>
-                <p style={{ marginRight: '10px' }}>Имя:</p>
-                <AuthPageInput setInput={setName} value={name}  />
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center", marginBottom: "10px" }}>
-                <p style={{ marginRight: '10px', marginLeft: "-8px" }}>Email:</p>
-                <AuthPageInput setInput={setEmail} value={email} />
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center", marginBottom: "10px" }}>
-                <p style={{ marginRight: '10px', marginLeft: "-34px" }}>Телефон:</p>
-                <AuthPageInput setInput={setPhone} value={phone} />
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center", marginBottom: "30px" }}>
-                <p style={{ marginRight: '10px', marginLeft: "-4px" }}>ИНН:</p>
-                <AuthPageInput setInput={setInn} value={inn} />
-            </div>
-            <div className="authmenucontentloginbutton"  onClick={async () => await register()}>
-                <p>Зарегистрироваться</p>
+            <AuthNotifModal isOpen={isOpen} closeModal={closeModal} />
+            <div style={{ width: 'fit-content' }}>
+                <h3 style={{ margin: '30px', width: 'fit-content', fontSize: '20px' }}>Для использования личного кабинета необходимо зарегистрироваться</h3>
+                <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px', justifyContent: "center" }}>
+                    <p style={{ marginRight: '10px' }}>Имя:</p>
+                    <AuthPageInput setInput={setName} value={name} />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center", marginBottom: "10px" }}>
+                    <p style={{ marginRight: '10px', marginLeft: "-8px" }}>Email:</p>
+                    <AuthPageInput setInput={setEmail} value={email} />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center", marginBottom: "10px" }}>
+                    <p style={{ marginRight: '10px', marginLeft: "-34px" }}>Телефон:</p>
+                    <AuthPageInput setInput={setPhone} value={phone} />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center", marginBottom: "30px" }}>
+                    <p style={{ marginRight: '10px', marginLeft: "-4px" }}>ИНН:</p>
+                    <AuthPageInput setInput={setInn} value={inn} />
+                </div>
+                <div className="authmenucontentloginbutton" onClick={async () => await register()}>
+                    <p>Зарегистрироваться</p>
+                </div>
             </div>
         </div>
-    </div>
     )
 }
 

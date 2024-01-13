@@ -2,28 +2,29 @@ import axios from "axios"
 
 export async function checkAuth() {
 
-    const token = localStorage.getItem('token')
+    try {
+        const token = localStorage.getItem('token')
 
-    if (token) {
-        const response = await axios.post(process.env.REACT_APP_API+'/api/auth/auth', {}, {
-            headers: {
-                authorization: token
-            }
-        })
+        if (token) {
+            const response = await axios.post(process.env.REACT_APP_API + '/api/auth/auth', {}, {
+                headers: {
+                    authorization: `Bearer ${token}`
+                }
+            })
 
-        if (response.status == 400 || response.status == 401) {
-            // console.log('Вы не авторизованы');
-        } else {
-            const token = response.data.token
-            localStorage.setItem('token', token)
+                const newToken = response.data.token
+                localStorage.setItem('token', newToken)
 
-            return true
+                return true
         }
+
+        console.log('Вы не авторизованы');
+        
+        return false
+
+    } catch (error) {
+        console.log(error);
+        return false
     }
-
-    console.log('Вы не авторизованы');
-
-
-    return false
 
 }
