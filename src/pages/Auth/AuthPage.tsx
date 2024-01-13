@@ -96,6 +96,8 @@ function Register() {
 
 
         } catch (error) {
+            console.log(error);
+            
             showErrorMessage('Пользователь уже существует')
         }
     }
