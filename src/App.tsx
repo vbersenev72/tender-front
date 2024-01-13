@@ -12,6 +12,7 @@ import axios from 'axios'
 import { PersonalPage } from './pages/Personal/PersonalPage';
 import { checkAuth } from './functions/CheckAuth';
 import AuthPage from './pages/Auth/AuthPage';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
 
     return (
         <Fragment>
+            <ToastContainer />
             <Header />
             <Menu />
             <Routes>

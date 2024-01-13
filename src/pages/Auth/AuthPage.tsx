@@ -5,7 +5,6 @@ import { AuthPageInput } from "../../components/AuthPageInput/AuthPageInput";
 import axios from "axios";
 import { showErrorMessage, showSuccesMessage } from "../../functions/Message";
 
-
 function Login() {
 
     const [email, setEmail] = useState('')
@@ -23,7 +22,7 @@ function Login() {
             if (email == '' || password == '') {
                 console.log('Все поля должны быть заполнены');
 
-                showErrorMessage('Все поля должны быть заполнены')
+                return showErrorMessage('Все поля должны быть заполнены')
             }
 
             const response = await axios.post(`${process.env.REACT_APP_API}/api/auth/login`, {
@@ -38,7 +37,7 @@ function Login() {
             window.location.href = '/'
 
         } catch (error) {
-            showErrorMessage('Все поля должны быть заполнены')
+            showErrorMessage('Проверьте правильность введённых данных')
         }
     }
 
@@ -71,7 +70,21 @@ function Register() {
     const [inn, setInn] = useState('')
 
     async function register() {
-        showSuccesMessage('бла бла блаааа')
+        try {
+            const resposnse = await axios.post(`${process.env.REACT_APP_API}/api/auth/register`, {
+                email: email,
+                phone: phone,
+                inn: inn,
+                name: name
+            })
+
+            showSuccesMessage('Письмо с паролем направлено на вашу почту')
+
+
+
+        } catch (error) {
+            showErrorMessage('Пользователь уже существует')
+        }
     }
 
 

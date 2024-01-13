@@ -5,8 +5,7 @@ import axios from "axios";
 import { TextBlack14pxRegular, TextBlack22pxRegular, TextGray14pxRegular } from "../../constants/fonts";
 import { FlexRow, FlexTextRow } from "../../containers/containers";
 import { TailSpin } from 'react-loader-spinner';
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 
 import { showErrorMessage, showSuccesMessage } from "../../functions/Message";
 
@@ -116,8 +115,6 @@ export const Catalog: FC = () => {
                 </LoaderTest>
             ) : (
                 <CatalogPage>
-
-                    <ToastContainer />
                     <FlexRow style={{ width: '100%', justifyContent: 'flex-start' }}>
                         <FinderByID placeholder="Введите полностью или часть номера, наименование закупки, идентификационного номера кода закупки" onChange={(event) => setTextSearch(event.target.value)} />
                         <FindByIDButton onClick={fetchData}>Поиск</FindByIDButton>
