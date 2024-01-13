@@ -83,6 +83,11 @@ function Register() {
 
     async function register() {
         try {
+
+            if (email == '' || phone == '' || inn == '' || name == '' ||) {
+                return showErrorMessage('Все поля должны быть заполнены')
+            }
+
             const resposnse = await axios.post(`${process.env.REACT_APP_API}/api/auth/register`, {
                 email: email,
                 phone: phone,
@@ -97,7 +102,7 @@ function Register() {
 
         } catch (error) {
             console.log(error);
-            
+
             showErrorMessage('Пользователь уже существует')
         }
     }
