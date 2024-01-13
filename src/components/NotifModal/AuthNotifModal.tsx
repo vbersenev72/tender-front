@@ -13,9 +13,6 @@ export function AuthNotifModal({ isOpen, closeModal, children }: any) {
       <div className="modal-overlay" onClick={closeModal}>
         <div className="modal-content">
           <div>
-            <div className="close-icon" onClick={closeModal}>
-              x
-            </div>
             <p style={{fontSize:"18px"}}>Письмо с паролем направлено на вашу почту.</p>
             <br />
             <a href="/auth" className="blue-link">
