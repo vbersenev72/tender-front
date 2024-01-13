@@ -84,7 +84,7 @@ function Register() {
     async function register() {
         try {
 
-            if (email == '' || phone == '' || inn == '' || name == '' ||) {
+            if (email == '' || phone == '' || inn == '' || name == '') {
                 return showErrorMessage('Все поля должны быть заполнены')
             }
 
