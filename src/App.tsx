@@ -40,9 +40,6 @@ function App() {
                     !auth && <Route path="/auth" element={<AuthPage />} />
                 }
             </Routes>
-            {
-                !auth && <AccesNotif/>
-            }
         </Fragment>
     );
 }

@@ -5,10 +5,9 @@ import axios from "axios";
 import { TextBlack14pxRegular, TextBlack22pxRegular, TextGray14pxRegular } from "../../constants/fonts";
 import { FlexRow, FlexTextRow } from "../../containers/containers";
 import { TailSpin } from 'react-loader-spinner';
-
-
-import { showErrorMessage, showSuccesMessage } from "../../functions/Message";
 import { AccesNotif } from "../../components/AccessNotif/AccesNotif";
+import { showErrorMessage, showSuccesMessage } from "../../functions/Message";
+import { checkAuth } from "../../functions/CheckAuth.js";
 
 interface Tender {
     fz?: string
@@ -24,6 +23,9 @@ export const Catalog: FC = () => {
     const [loading, setLoading] = useState(false) // true
     const [textSearch, setTextSearch] = useState('')
 
+
+    const [auth, setAuth] = useState<boolean>(false)
+    const [openAccesNotif, setOpenAccesNotif] = useState(true)
 
 
     const fetchData = async () => {
@@ -68,11 +70,11 @@ export const Catalog: FC = () => {
 
 
     useEffect(() => {
-        // Определите функцию для выполнения запроса
+
+        checkAuth().then((auth) => setAuth(auth))
         console.log('fz', fz)
 
         fetchData();
-        fetchTendersCount();
     }, [currentPage, fz]);
 
 
@@ -111,6 +113,9 @@ export const Catalog: FC = () => {
     // @ts-ignore
     return (
         <Fragment>
+            {
+                !auth && <AccesNotif openAccesNotif={openAccesNotif} setOpenAccesNotif={setOpenAccesNotif} />
+            }
             {loading ? (
                 <LoaderTest>
                     <TailSpin color="#3294F4" height={150} width={150} />
@@ -119,10 +124,16 @@ export const Catalog: FC = () => {
                 <CatalogPage>
                     <FlexRow style={{ width: '100%', justifyContent: 'flex-start' }}>
                         <FinderByID placeholder="Введите полностью или часть номера, наименование закупки, идентификационного номера кода закупки" onChange={(event) => setTextSearch(event.target.value)} />
-                        <FindByIDButton onClick={fetchData}>Поиск</FindByIDButton>
+                        <FindByIDButton onClick={
+                            () => {
+                                if (!auth) return showErrorMessage('Для доступа к поиску необходимо авторизоваться')
+                                fetchData()
+                            
+                            }
+                            }>Поиск</FindByIDButton>
                     </FlexRow>
                     <FlexRow style={{ width: '100%', justifyContent: 'flex-end' }}>
-                        <div style={{width: "18%", display: 'flex', justifyContent: 'center'}}>
+                        <div style={{ width: "18%", display: 'flex', justifyContent: 'center' }}>
                             <AdvancedFindP>Расширенный поиск</AdvancedFindP>
                         </div>
                     </FlexRow>
