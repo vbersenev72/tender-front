@@ -13,14 +13,15 @@ import { PersonalPage } from './pages/Personal/PersonalPage';
 import { checkAuth } from './functions/CheckAuth';
 import AuthPage from './pages/Auth/AuthPage';
 import { ToastContainer } from 'react-toastify';
+import { AccesNotif } from './components/AccessNotif/AccesNotif';
 
 function App() {
 
     const [auth, setAuth] = useState<boolean>(false)
-    // const check: any = checkAuth()
+
 
     useEffect(() => {
-        // setAuth(check)
+        checkAuth().then((auth)=>setAuth(auth))
     }, [])
 
 
@@ -39,6 +40,9 @@ function App() {
                     !auth && <Route path="/auth" element={<AuthPage />} />
                 }
             </Routes>
+            {
+                !auth && <AccesNotif/>
+            }
         </Fragment>
     );
 }

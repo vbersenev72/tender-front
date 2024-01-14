@@ -8,6 +8,7 @@ import { TailSpin } from 'react-loader-spinner';
 
 
 import { showErrorMessage, showSuccesMessage } from "../../functions/Message";
+import { AccesNotif } from "../../components/AccessNotif/AccesNotif";
 
 interface Tender {
     fz?: string
@@ -22,6 +23,7 @@ export const Catalog: FC = () => {
     const [fz, setFz] = useState('')
     const [loading, setLoading] = useState(false) // true
     const [textSearch, setTextSearch] = useState('')
+
 
 
     const fetchData = async () => {
