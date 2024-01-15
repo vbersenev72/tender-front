@@ -8,6 +8,7 @@ import { TailSpin } from 'react-loader-spinner';
 import { AccesNotif } from "../../components/AccessNotif/AccesNotif";
 import { showErrorMessage, showSuccesMessage } from "../../functions/Message";
 import { checkAuth } from "../../functions/CheckAuth.js";
+import { checkDigitsOnly } from "../../functions/CheckDigitsOnly";
 
 interface Tender {
     fz?: string
@@ -39,22 +40,26 @@ export const Catalog: FC = () => {
             }
 
             setLoading(true)
-            const response = await axios.post(`${process.env.REACT_APP_API}/api/find/find`, {
-                limit: limit,
-                tags: textSearch.trim().replace(',', ' ').replace('.', ' ').split(' ')
-            });
+            if(!checkDigitsOnly(textSearch) || textSearch == '') {
 
-            if (response.status == 400) {
+                const response = await axios.post(`${process.env.REACT_APP_API}/api/find/find`, {
+                    limit: limit,
+                    tags: textSearch.trim()
+                });
 
+                setTenders(response.data.message);
+
+            } else {
+                const response = await axios.get(`${process.env.REACT_APP_API}/api/find/innOrRegnumber/${textSearch}`);
+                console.log(response.data.tender);
+
+                setTenders(response.data.tender); // Обновите состояние данными из ответа
             }
-
-
-
-            setTenders(response.data.message); // Обновите состояние данными из ответа
-            console.log(response.data.message);
 
             setLoading(false)
         } catch (error) {
+            console.log(error);
+
             showErrorMessage('Что то пошло не так. Попробуйте позже!')
         }
     };
@@ -161,7 +166,7 @@ export const Catalog: FC = () => {
                         .map((item: Tender, index) => (
                             // Проверка на null перед отображением TenderPreiewC
                             item ?
-                                item?.fz === 'fz223' ? (<TenderPreiewCard223 key={index} jsonData={item} />) :
+                                item?.fz === 'fz223' ? (<TenderPreiewCard223 key={index} jsonData={item} auth={auth} setAuth={setAuth} />) :
                                     (<TenderPreiewCard44 key={index} jsonData={item} />)
                                 : null
 

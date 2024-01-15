@@ -16,11 +16,12 @@ import { useNavigate } from "react-router-dom";
 
 interface ITender {
     jsonData: any,
+    auth: any,
+    setAuth: any
 }
 
-export const TenderPreiewCard223: FC<ITender> = ({ jsonData }) => {
+export const TenderPreiewCard223: FC<ITender> = ({ jsonData, auth, setAuth }) => {
 
-    const [auth, setAuth] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
