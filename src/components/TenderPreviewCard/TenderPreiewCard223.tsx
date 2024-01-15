@@ -48,7 +48,7 @@ export const TenderPreiewCard223: FC<ITender> = ({ jsonData }) => {
                                 <Link onClick={() => {
                                     if (!auth) return showErrorMessage('Для доступа к карточке тендера необходимо авторизоваться');
                                     navigate(`/tender/${jsonData?.registrationNumber}`);
-                                } } to={""}>
+                                } } to={auth ? `/tender/${jsonData?.registrationNumber}` : ''}>
                                     <TextBlue16pxSemiBold style={{ width: '40%' }}>
                                         № {jsonData.registrationNumber}
                                     </TextBlue16pxSemiBold>
