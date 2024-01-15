@@ -128,9 +128,9 @@ export const Catalog: FC = () => {
                             () => {
                                 if (!auth) return showErrorMessage('Для доступа к поиску необходимо авторизоваться')
                                 fetchData()
-                            
+
                             }
-                            }>Поиск</FindByIDButton>
+                        }>Поиск</FindByIDButton>
                     </FlexRow>
                     <FlexRow style={{ width: '100%', justifyContent: 'flex-end' }}>
                         <div style={{ width: "18%", display: 'flex', justifyContent: 'center' }}>
@@ -171,7 +171,10 @@ export const Catalog: FC = () => {
                             Назад
                         </button>
                         <span style={{ margin: '0 10px' }}>Страница {currentPage}</span>
-                        <button onClick={() => handlePageChange(currentPage + 1)}>
+                        <button onClick={() => {
+                            if (!auth) return showErrorMessage('Для просмотра всех тендеров необходимо авторизоваться')
+                            handlePageChange(currentPage + 1)
+                        }}>
                             Вперед
                         </button>
                     </div>

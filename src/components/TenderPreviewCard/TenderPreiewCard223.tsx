@@ -1,4 +1,4 @@
-import { FC, Fragment } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
 import { PrevContainer } from "./styles";
 import { FlexRow, FlexTextColumn, FlexTextRow } from "../../containers/containers";
 import {
@@ -10,12 +10,22 @@ import {
 import { ReactComponent as RubleIcon } from '../../assets/icons/ruble.svg'
 import { format, parseISO } from 'date-fns';
 import { Link } from "react-router-dom";
+import { checkAuth } from "../../functions/CheckAuth.js";
+import { showErrorMessage } from "../../functions/Message";
+import { useNavigate } from "react-router-dom";
 
 interface ITender {
     jsonData: any,
 }
 
 export const TenderPreiewCard223: FC<ITender> = ({ jsonData }) => {
+
+    const [auth, setAuth] = useState(false)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        checkAuth().then((auth) => setAuth(auth))
+    }, [])
 
     const formatDate = (originalDate: string) => {
         const parsedDate = parseISO(originalDate);
@@ -35,7 +45,10 @@ export const TenderPreiewCard223: FC<ITender> = ({ jsonData }) => {
                                 223-ФЗ Электронный аукцион
                             </TextBlue16pxSemiBold>
                             {jsonData?.registrationNumber ? (
-                                <Link to={`/tender/${jsonData?.registrationNumber}`}>
+                                <Link onClick={() => {
+                                    if (!auth) return showErrorMessage('Для доступа к карточке тендера необходимо авторизоваться');
+                                    navigate(`/tender/${jsonData?.registrationNumber}`);
+                                } } to={""}>
                                     <TextBlue16pxSemiBold style={{ width: '40%' }}>
                                         № {jsonData.registrationNumber}
                                     </TextBlue16pxSemiBold>
@@ -45,48 +58,48 @@ export const TenderPreiewCard223: FC<ITender> = ({ jsonData }) => {
                         <FlexTextColumn style={{ gap: '10px', marginTop: '10px', paddingRight: '10px' }}>
                             <FlexRow>
                                 <div className="tenderProp">
-                                    <TextGray14pxRegular style={{marginRight: '20px'}}>Тип заявки</TextGray14pxRegular>
+                                    <TextGray14pxRegular style={{ marginRight: '20px' }}>Тип заявки</TextGray14pxRegular>
                                 </div>
                                 <div className="tenderData">
-                                <TextBlack14pxRegular>
-                                    {jsonData?.purchaseCodeName
-                                        ? '  '+jsonData.purchaseCodeName
-                                        : 'Нет данных'
-                                    }
-                                </TextBlack14pxRegular>
+                                    <TextBlack14pxRegular>
+                                        {jsonData?.purchaseCodeName
+                                            ? '  ' + jsonData.purchaseCodeName
+                                            : 'Нет данных'
+                                        }
+                                    </TextBlack14pxRegular>
                                 </div>
                             </FlexRow>
                             <FlexRow>
                                 <div className="tenderProp" >
-                                    <TextGray14pxRegular style={{marginRight: '20px'}}>Объём закупки</TextGray14pxRegular>
+                                    <TextGray14pxRegular style={{ marginRight: '20px' }}>Объём закупки</TextGray14pxRegular>
                                 </div>
                                 <div className="tenderData">
-                                <TextBlue14pxRegular>
-                                    {jsonData?.name
-                                        ? '  '+jsonData.name
-                                        : 'Нет данных'
-                                    }
-                                </TextBlue14pxRegular>
+                                    <TextBlue14pxRegular>
+                                        {jsonData?.name
+                                            ? '  ' + jsonData.name
+                                            : 'Нет данных'
+                                        }
+                                    </TextBlue14pxRegular>
                                 </div>
                             </FlexRow>
                             <FlexRow>
                                 <div className="tenderProp" >
-                                    <TextGray14pxRegular style={{marginRight: '20px'}}>Заказчик</TextGray14pxRegular>
+                                    <TextGray14pxRegular style={{ marginRight: '20px' }}>Заказчик</TextGray14pxRegular>
                                 </div>
                                 <div className="tenderData">
-                                <TextBlack14pxRegular>
-                                    {jsonData?.customer.mainInfo?.fullName
-                                        ? '  '+jsonData.customer.mainInfo.fullName
-                                        : 'Нет данных'
-                                    }
-                                </TextBlack14pxRegular>
+                                    <TextBlack14pxRegular>
+                                        {jsonData?.customer.mainInfo?.fullName
+                                            ? '  ' + jsonData.customer.mainInfo.fullName
+                                            : 'Нет данных'
+                                        }
+                                    </TextBlack14pxRegular>
                                 </div>
                             </FlexRow>
                         </FlexTextColumn>
                     </FlexTextColumn>
                     <FlexTextColumn style={{ width: '30%', paddingLeft: '15px' }}>
                         <FlexTextRow style={{ width: '100%' }}>
-                            <TextGray14pxRegular style={{marginRight: '20px'}} >Начальная цена</TextGray14pxRegular>
+                            <TextGray14pxRegular style={{ marginRight: '20px' }} >Начальная цена</TextGray14pxRegular>
                         </FlexTextRow>
                         <FlexTextRow style={{ width: '100%' }}>
                             <TextBlack22pxRegular>
@@ -102,7 +115,7 @@ export const TenderPreiewCard223: FC<ITender> = ({ jsonData }) => {
                         </FlexTextRow>
                         <FlexTextRow>
                             <FlexTextColumn>
-                                <TextGray14pxRegular style={{marginRight: '20px'}}>Дата начала</TextGray14pxRegular>
+                                <TextGray14pxRegular style={{ marginRight: '20px' }}>Дата начала</TextGray14pxRegular>
                                 <TextBlack14pxRegular>
                                     {jsonData?.applSubmisionStartDate
                                         ? jsonData.publicationDateTime
@@ -111,7 +124,7 @@ export const TenderPreiewCard223: FC<ITender> = ({ jsonData }) => {
                                 </TextBlack14pxRegular>
                             </FlexTextColumn>
                             <FlexTextColumn>
-                                <TextGray14pxRegular style={{marginRight: '20px'}}>Дата окончания</TextGray14pxRegular>
+                                <TextGray14pxRegular style={{ marginRight: '20px' }}>Дата окончания</TextGray14pxRegular>
                                 <TextBlack14pxRegular>
                                     {jsonData?.submissionCloseDateTime
                                         ? jsonData.submissionCloseDateTime
@@ -122,7 +135,7 @@ export const TenderPreiewCard223: FC<ITender> = ({ jsonData }) => {
                         </FlexTextRow>
                         <FlexTextRow>
                             <FlexTextColumn>
-                                <TextGray14pxRegular style={{marginRight: '20px'}}>Дата публикации</TextGray14pxRegular>
+                                <TextGray14pxRegular style={{ marginRight: '20px' }}>Дата публикации</TextGray14pxRegular>
                                 <TextBlack14pxRegular>
                                     {jsonData?.publicationDateTime
                                         ? formatDate(jsonData.publicationDateTime)

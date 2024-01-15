@@ -35,7 +35,7 @@ body {
     scroll-behavior: smooth;
     text-rendering: optimizeSpeed;
     background-color: #F4F6F9;
-    font-family: 'Open Sans'
+    font-family: 'Open Sans';
 }
 
 /* Удаляем стандартную стилизацию для всех ul и il, у которых есть атрибут class*/
@@ -77,3 +77,11 @@ select {
         scroll-behavior: auto !important;
     }
 }
+
+
+@media (max-width: 1000px) {
+    body {
+      width: fit-content;
+    }
+
+  }
