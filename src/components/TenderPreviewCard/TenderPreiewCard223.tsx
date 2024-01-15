@@ -24,9 +24,6 @@ export const TenderPreiewCard223: FC<ITender> = ({ jsonData, auth, setAuth }) =>
 
     const navigate = useNavigate()
 
-    useEffect(() => {
-        checkAuth().then((auth) => setAuth(auth))
-    }, [])
 
     const formatDate = (originalDate: string) => {
         const parsedDate = parseISO(originalDate);
