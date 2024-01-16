@@ -14,6 +14,7 @@ import { checkAuth } from './functions/CheckAuth';
 import AuthPage from './pages/Auth/AuthPage';
 import { ToastContainer } from 'react-toastify';
 import { AccesNotif } from './components/AccessNotif/AccesNotif';
+import { MyTendersPage } from './pages/MyTenders/MyTendesPage';
 
 function App() {
 
@@ -36,8 +37,12 @@ function App() {
                 <Route path="/tender/:id" element={<TenderCard />} />
                 <Route path='/personal' element={<PersonalPage />} />
                 <Route path="/auth" element={<AuthPage />} />
+                <Route path="/mytenders" element={<MyTendersPage />} />
                 {
-                    !auth && <Route path="/auth" element={<AuthPage />} />
+                    !auth
+                    &&
+                    <Route path="/auth" element={<AuthPage />} />
+
                 }
             </Routes>
         </Fragment>
