@@ -128,7 +128,7 @@ export const Catalog: FC = () => {
             ) : (
                 <CatalogPage>
                     <FlexRow style={{ width: '100%', justifyContent: 'flex-start' }}>
-                        <FinderByID placeholder="Введите полностью или часть номера, наименование закупки, идентификационного номера кода закупки" onChange={(event) => setTextSearch(event.target.value)} />
+                        <FinderByID placeholder="Введите полностью или часть номера, наименование закупки, идентификационного номера кода закупки" onChange={(event) => setTextSearch(event.target.value)} value={textSearch} />
                         <FindByIDButton onClick={
                             () => {
                                 if (!auth) return showErrorMessage('Для доступа к поиску необходимо авторизоваться')
