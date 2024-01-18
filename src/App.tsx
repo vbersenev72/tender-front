@@ -37,7 +37,7 @@ function App() {
                 <Route path="/tender/:id" element={<TenderCard />} />
                 <Route path='/personal' element={<PersonalPage />} />
                 <Route path="/auth" element={<AuthPage />} />
-                <Route path="/mytenders" element={<MyTendersPage />} />
+                <Route path="/mytenders" element={<MyTendersPage auth={auth} />} />
                 {
                     !auth
                     &&

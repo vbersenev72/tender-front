@@ -14,7 +14,7 @@ import { MyTendersList } from '../../components/MyTendersComponents/MyTendersLis
 export interface IMyTendersPageProps {
 }
 
-export function MyTendersPage(props: IMyTendersPageProps) {
+export function MyTendersPage(props: any) {
 
   const [loading, setLoading] = useState(false)
 
@@ -48,8 +48,8 @@ export function MyTendersPage(props: IMyTendersPageProps) {
               </div>
             </div>
             <br />
-            
-            <MyTendersList/>
+
+            <MyTendersList auth={props.auth}/>
           </div>
 
         </div>

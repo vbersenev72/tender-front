@@ -15,7 +15,9 @@ interface Tender {
 }
 
 export const Catalog: FC = () => {
-    const [tenders, setTenders] = useState([]);
+    const [tendersList, setTendersList] = useState([]);
+    const [myTenders, setMyTenders] = useState<any[]>([])
+
     const [tendersCount, setTendersCount] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [countItems, setCountItems] = useState(10);
@@ -40,20 +42,20 @@ export const Catalog: FC = () => {
             }
 
             setLoading(true)
-            if(!checkDigitsOnly(textSearch) || textSearch == '') {
+            if (!checkDigitsOnly(textSearch) || textSearch == '') {
 
                 const response = await axios.post(`${process.env.REACT_APP_API}/api/find/find`, {
                     limit: limit,
                     tags: textSearch.trim()
                 });
 
-                setTenders(response.data.message);
+                setTendersList(response.data.message);
 
             } else {
                 const response = await axios.get(`${process.env.REACT_APP_API}/api/find/innOrRegnumber/${textSearch}`);
                 console.log(response.data.tender);
 
-                setTenders(response.data.tender); // Обновите состояние данными из ответа
+                setTendersList(response.data.tender); // Обновите состояние данными из ответа
             }
 
             setLoading(false)
@@ -63,6 +65,43 @@ export const Catalog: FC = () => {
             showErrorMessage('Что то пошло не так. Попробуйте позже!')
         }
     };
+
+    const getMyTenders = async () => {
+        try {
+            setLoading(true)
+
+            const token = localStorage.getItem('token')
+
+            const response = await axios.get(`${process.env.REACT_APP_API}/api/lk/mytenders`, {
+                headers: {
+                    authorization: `Bearer ${token}`
+                }
+            })
+            const tenders: any = response.data.message
+            console.log(tenders);
+
+            for (let i = 0; i < tenders.length; i++) {
+                const tenderInfo = tenders[i];
+
+                const response = await axios.get(`${process.env.REACT_APP_API}/api/find/innOrRegnumber/${tenderInfo.reg_num}`, {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                })
+
+                const tender = response.data.tender[0]
+
+                setMyTenders([...myTenders, tender])
+
+            }
+
+
+
+            setLoading(false)
+        } catch (error) {
+            showErrorMessage('Что то пошло не так, попробуйте позже!')
+        }
+    }
 
     const fetchTendersCount = async () => {
         // try {
@@ -77,6 +116,7 @@ export const Catalog: FC = () => {
     useEffect(() => {
 
         checkAuth().then((auth) => setAuth(auth))
+        //getMyTenders()
         console.log('fz', fz)
 
         fetchData();
@@ -104,13 +144,6 @@ export const Catalog: FC = () => {
         }
     }
 
-    // const handleCheckbox223Change = () => {
-    //     check223 = !check223
-    // };
-
-    // const handleCheckbox44Change = () => {
-    //     check44 = !check44
-    // };
 
 
 
@@ -162,12 +195,14 @@ export const Catalog: FC = () => {
                             ФЗ 44
                         </label>
                     </FlexRow> */}
-                    {tenders
-                        .map((item: Tender, index) => (
+                    {tendersList
+                        .map((item: any, index) => (
                             // Проверка на null перед отображением TenderPreiewC
                             item ?
-                                item?.fz === 'fz223' ? (<TenderPreiewCard223 key={index} jsonData={item} auth={auth} setAuth={setAuth} />) :
-                                    (<TenderPreiewCard44 key={index} jsonData={item} />)
+                                item?.fz === 'fz223' ? (<TenderPreiewCard223 key={index} jsonData={item} auth={auth} myTender={false} />)
+                                    :
+
+                                    (<TenderPreiewCard44 key={index} jsonData={item} myTender={false} auth={auth} />)
                                 : null
 
                         ))}

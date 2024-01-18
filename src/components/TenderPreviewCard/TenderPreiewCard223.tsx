@@ -11,18 +11,75 @@ import { ReactComponent as RubleIcon } from '../../assets/icons/ruble.svg'
 import { format, parseISO } from 'date-fns';
 import { Link } from "react-router-dom";
 import { checkAuth } from "../../functions/CheckAuth.js";
-import { showErrorMessage } from "../../functions/Message";
+import { showErrorMessage, showSuccesMessage } from "../../functions/Message";
 import { useNavigate } from "react-router-dom";
+import { CiCirclePlus } from "react-icons/ci";
+import { IoIosLink } from "react-icons/io";
+import { PiTagSimpleLight } from "react-icons/pi";
+import { CiCircleMinus } from "react-icons/ci";
+import axios from "axios";
+
+
+
 
 interface ITender {
     jsonData: any,
     auth: any,
-    setAuth: any
+    myTender: any
 }
 
-export const TenderPreiewCard223: FC<ITender> = ({ jsonData, auth, setAuth }) => {
+export const TenderPreiewCard223: FC<ITender> = ({ jsonData, auth, myTender}: any) => {
+
+    const [isMyTender, setIsMyTender] = useState(myTender === true)
 
     const navigate = useNavigate()
+
+
+    const addMyTenders = async (id: any) => {
+        try {
+
+            if (!auth) {
+                return showErrorMessage('Для сохранения тендера необходимо авторизоваться!')
+            }
+
+            const response = await axios.post(`${process.env.REACT_APP_API}/api/lk/mytenders`, {
+                regNum: String(id)
+            }, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+
+            setIsMyTender(true)
+            showSuccesMessage('Тендер успешно добавлен!')
+
+
+        } catch (error) {
+            showErrorMessage('Тендер уже добавлен!')
+        }
+    }
+
+    const deleteFromMyTenders = async (id: any) => {
+        try {
+
+            if (!auth) {
+                return showErrorMessage('Для удаления тендера необходимо авторизоваться!')
+            }
+
+            const response = await axios.delete(`${process.env.REACT_APP_API}/api/lk/mytenders/${id}`, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+
+            setIsMyTender(false)
+            showSuccesMessage('Тендер успешно удален!')
+
+
+        } catch (error) {
+            showErrorMessage('Тендер уже удален!')
+        }
+    }
 
 
     const formatDate = (originalDate: string) => {
@@ -33,117 +90,150 @@ export const TenderPreiewCard223: FC<ITender> = ({ jsonData, auth, setAuth }) =>
     return (
         <Fragment>
             {jsonData !== null ? (
-                <PrevContainer>
-                    <FlexTextColumn style={{ width: '70%', borderRight: '1px solid #F2F2F2' }}>
-                        <FlexTextRow style={{ width: '100%' }}>
-                            <TextGray14pxRegular>Работа комиссии</TextGray14pxRegular>
-                        </FlexTextRow>
-                        <FlexTextRow style={{ width: '100%', paddingBottom: '5px', borderBottom: '1px solid #F2F2F2' }}>
-                            <TextBlue16pxSemiBold style={{ width: '60%' }}>
-                                223-ФЗ Электронный аукцион
-                            </TextBlue16pxSemiBold>
-                            {jsonData?.registrationNumber ? (
-                                <Link onClick={() => {
-                                    if (!auth) return showErrorMessage('Для доступа к карточке тендера необходимо авторизоваться');
-                                    navigate(`/tender/${jsonData?.registrationNumber}`);
-                                } } to={auth ? `/tender/${jsonData?.registrationNumber}` : ''}>
-                                    <TextBlue16pxSemiBold style={{ width: '40%' }}>
-                                        № {jsonData.registrationNumber}
-                                    </TextBlue16pxSemiBold>
-                                </Link>
-                            ) : null}
-                        </FlexTextRow>
-                        <FlexTextColumn style={{ gap: '10px', marginTop: '10px', paddingRight: '10px' }}>
-                            <FlexRow>
-                                <div className="tenderProp">
-                                    <TextGray14pxRegular style={{ marginRight: '20px' }}>Тип заявки</TextGray14pxRegular>
-                                </div>
-                                <div className="tenderData">
-                                    <TextBlack14pxRegular>
-                                        {jsonData?.purchaseCodeName
-                                            ? '  ' + jsonData.purchaseCodeName
-                                            : 'Нет данных'
-                                        }
-                                    </TextBlack14pxRegular>
-                                </div>
-                            </FlexRow>
-                            <FlexRow>
-                                <div className="tenderProp" >
-                                    <TextGray14pxRegular style={{ marginRight: '20px' }}>Объём закупки</TextGray14pxRegular>
-                                </div>
-                                <div className="tenderData">
-                                    <TextBlue14pxRegular>
-                                        {jsonData?.name
-                                            ? '  ' + jsonData.name
-                                            : 'Нет данных'
-                                        }
-                                    </TextBlue14pxRegular>
-                                </div>
-                            </FlexRow>
-                            <FlexRow>
-                                <div className="tenderProp" >
-                                    <TextGray14pxRegular style={{ marginRight: '20px' }}>Заказчик</TextGray14pxRegular>
-                                </div>
-                                <div className="tenderData">
-                                    <TextBlack14pxRegular>
-                                        {jsonData?.customer.mainInfo?.fullName
-                                            ? '  ' + jsonData.customer.mainInfo.fullName
-                                            : 'Нет данных'
-                                        }
-                                    </TextBlack14pxRegular>
-                                </div>
-                            </FlexRow>
+                <div>
+                    <PrevContainer>
+                        <FlexTextColumn style={{ width: '70%', borderRight: '1px solid #F2F2F2' }}>
+                            <FlexTextRow style={{ width: '100%' }}>
+                                <TextGray14pxRegular>Работа комиссии</TextGray14pxRegular>
+                            </FlexTextRow>
+                            <FlexTextRow style={{ width: '100%', paddingBottom: '5px', borderBottom: '1px solid #F2F2F2' }}>
+                                <TextBlue16pxSemiBold style={{ width: '60%' }}>
+                                    223-ФЗ Электронный аукцион
+                                </TextBlue16pxSemiBold>
+                                {jsonData?.registrationNumber ? (
+                                    <Link onClick={() => {
+                                        if (!auth) return showErrorMessage('Для доступа к карточке тендера необходимо авторизоваться');
+                                        navigate(`/tender/${jsonData?.registrationNumber}`);
+                                    }} to={auth ? `/tender/${jsonData?.registrationNumber}` : ''}>
+                                        <TextBlue16pxSemiBold style={{ width: '40%' }}>
+                                            № {jsonData.registrationNumber}
+                                        </TextBlue16pxSemiBold>
+                                    </Link>
+                                ) : null}
+                            </FlexTextRow>
+                            <FlexTextColumn style={{ gap: '10px', marginTop: '10px', paddingRight: '10px' }}>
+                                <FlexRow>
+                                    <div className="tenderProp">
+                                        <TextGray14pxRegular style={{ marginRight: '20px' }}>Тип заявки</TextGray14pxRegular>
+                                    </div>
+                                    <div className="tenderData">
+                                        <TextBlack14pxRegular>
+                                            {jsonData?.purchaseCodeName
+                                                ? '  ' + jsonData.purchaseCodeName
+                                                : 'Нет данных'
+                                            }
+                                        </TextBlack14pxRegular>
+                                    </div>
+                                </FlexRow>
+                                <FlexRow>
+                                    <div className="tenderProp" >
+                                        <TextGray14pxRegular style={{ marginRight: '20px' }}>Объём закупки</TextGray14pxRegular>
+                                    </div>
+                                    <div className="tenderData">
+                                        <TextBlue14pxRegular>
+                                            {jsonData?.name
+                                                ? '  ' + jsonData.name
+                                                : 'Нет данных'
+                                            }
+                                        </TextBlue14pxRegular>
+                                    </div>
+                                </FlexRow>
+                                <FlexRow>
+                                    <div className="tenderProp" >
+                                        <TextGray14pxRegular style={{ marginRight: '20px' }}>Заказчик</TextGray14pxRegular>
+                                    </div>
+                                    <div className="tenderData">
+                                        <TextBlack14pxRegular>
+                                            {jsonData?.customer.mainInfo?.fullName
+                                                ? '  ' + jsonData.customer.mainInfo.fullName
+                                                : 'Нет данных'
+                                            }
+                                        </TextBlack14pxRegular>
+                                    </div>
+                                </FlexRow>
+                            </FlexTextColumn>
                         </FlexTextColumn>
-                    </FlexTextColumn>
-                    <FlexTextColumn style={{ width: '30%', paddingLeft: '15px' }}>
-                        <FlexTextRow style={{ width: '100%' }}>
-                            <TextGray14pxRegular style={{ marginRight: '20px' }} >Начальная цена</TextGray14pxRegular>
-                        </FlexTextRow>
-                        <FlexTextRow style={{ width: '100%' }}>
-                            <TextBlack22pxRegular>
-                                {jsonData?.lots
-                                    ? `${[jsonData.lots].flat().reduce((acc, curr) => acc + Number(curr.lot?.lotData?.initialSum) || 0, 0)} ₽`
-                                    : 'Нет данных'
-                                }
-                            </TextBlack22pxRegular>
-                        </FlexTextRow>
-                        <FlexTextRow style={{ width: '30%', justifyContent: 'space-between', marginRight: '20px' }}>
-                            <TextGray14pxRegular>Регион</TextGray14pxRegular>
-                            <TextBlack14pxRegular>{jsonData.customer?.mainInfo?.region}</TextBlack14pxRegular>
-                        </FlexTextRow>
-                        <FlexTextRow>
-                            <FlexTextColumn>
-                                <TextGray14pxRegular style={{ marginRight: '20px' }}>Дата начала</TextGray14pxRegular>
-                                <TextBlack14pxRegular>
-                                    {jsonData?.applSubmisionStartDate
-                                        ? jsonData.publicationDateTime
+                        <FlexTextColumn style={{ width: '30%', paddingLeft: '15px' }}>
+                            <FlexTextRow style={{ width: '100%' }}>
+                                <TextGray14pxRegular style={{ marginRight: '20px' }} >Начальная цена</TextGray14pxRegular>
+                            </FlexTextRow>
+                            <FlexTextRow style={{ width: '100%' }}>
+                                <TextBlack22pxRegular>
+                                    {jsonData?.lots
+                                        ? `${[jsonData.lots].flat().reduce((acc, curr) => acc + Number(curr.lot?.lotData?.initialSum) || 0, 0)} ₽`
                                         : 'Нет данных'
                                     }
-                                </TextBlack14pxRegular>
-                            </FlexTextColumn>
-                            <FlexTextColumn>
-                                <TextGray14pxRegular style={{ marginRight: '20px' }}>Дата окончания</TextGray14pxRegular>
-                                <TextBlack14pxRegular>
-                                    {jsonData?.submissionCloseDateTime
-                                        ? jsonData.submissionCloseDateTime
-                                        : 'Нет данных'
-                                    }
-                                </TextBlack14pxRegular>
-                            </FlexTextColumn>
-                        </FlexTextRow>
-                        <FlexTextRow>
-                            <FlexTextColumn>
-                                <TextGray14pxRegular style={{ marginRight: '20px' }}>Дата публикации</TextGray14pxRegular>
-                                <TextBlack14pxRegular>
-                                    {jsonData?.publicationDateTime
-                                        ? formatDate(jsonData.publicationDateTime)
-                                        : 'Нет данных'
-                                    }
-                                </TextBlack14pxRegular>
-                            </FlexTextColumn>
-                        </FlexTextRow>
-                    </FlexTextColumn>
-                </PrevContainer>
+                                </TextBlack22pxRegular>
+                            </FlexTextRow>
+                            <FlexTextRow style={{ width: '30%', justifyContent: 'space-between', marginRight: '20px' }}>
+                                <TextGray14pxRegular>Регион</TextGray14pxRegular>
+                                <TextBlack14pxRegular>{jsonData.customer?.mainInfo?.region}</TextBlack14pxRegular>
+                            </FlexTextRow>
+                            <FlexTextRow>
+                                <FlexTextColumn>
+                                    <TextGray14pxRegular style={{ marginRight: '20px' }}>Дата начала</TextGray14pxRegular>
+                                    <TextBlack14pxRegular>
+                                        {jsonData?.applSubmisionStartDate
+                                            ? jsonData.publicationDateTime
+                                            : 'Нет данных'
+                                        }
+                                    </TextBlack14pxRegular>
+                                </FlexTextColumn>
+                                <FlexTextColumn>
+                                    <TextGray14pxRegular style={{ marginRight: '20px' }}>Дата окончания</TextGray14pxRegular>
+                                    <TextBlack14pxRegular>
+                                        {jsonData?.submissionCloseDateTime
+                                            ? jsonData.submissionCloseDateTime
+                                            : 'Нет данных'
+                                        }
+                                    </TextBlack14pxRegular>
+                                </FlexTextColumn>
+                            </FlexTextRow>
+                            <FlexTextRow>
+                                <FlexTextColumn>
+                                    <TextGray14pxRegular style={{ marginRight: '20px' }}>Дата публикации</TextGray14pxRegular>
+                                    <TextBlack14pxRegular>
+                                        {jsonData?.publicationDateTime
+                                            ? formatDate(jsonData.publicationDateTime)
+                                            : 'Нет данных'
+                                        }
+                                    </TextBlack14pxRegular>
+                                </FlexTextColumn>
+                            </FlexTextRow>
+                        </FlexTextColumn>
+                    </PrevContainer>
+                    <div style={{
+                        width: '80%',
+                        display: 'flex',
+                        // flexDirection: 'column',
+                        marginLeft: '10%',
+                        backgroundColor: 'white',
+                        height: 'auto',
+                        padding: '15px'
+                    }}>
+                        {
+                            !isMyTender
+                                ?
+                                <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }}  onClick={() => addMyTenders(jsonData?.registrationNumber)}>
+                                    <CiCirclePlus size={20} color="dodgerblue" />
+                                    <p>Добавить в мои тендеры</p>
+                                </div>
+                                :
+                                <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }}  onClick={() => deleteFromMyTenders(jsonData?.registrationNumber)} >
+                                    <CiCircleMinus size={20} color="dodgerblue" />
+                                    <p>Удалить из моих тендеров</p>
+                                </div>
+                        }
+                        <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }}>
+                            <PiTagSimpleLight size={20} color="dodgerblue" />
+                            <p>Добавить метку</p>
+                        </div>
+                        <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }}>
+                            <IoIosLink size={20} color="dodgerblue" />
+                            <p>Официальный сайт</p>
+                        </div>
+                    </div>
+                </div>
             ) : null}
         </Fragment>
     );
