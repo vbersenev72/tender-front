@@ -18,33 +18,40 @@ import { MyTendersPage } from './pages/MyTenders/MyTendesPage';
 
 function App() {
 
-    const [auth, setAuth] = useState<boolean>(false)
+    const [auth, setAuth]:any = useState(false)
 
 
     useEffect(() => {
-        checkAuth().then((auth)=>setAuth(auth))
+        checkAuth().then((auth) => setAuth(auth))
     }, [])
 
-
+// @ts-ignore
     return (
         <Fragment>
             <ToastContainer />
             <Header />
-            <Menu />
-            <Routes>
-                <Route path="/" element={<Catalog />} />
-                <Route path="/contracts" element={<ContractsPage />} />
-                <Route path="/tender/:id" element={<TenderCard />} />
-                <Route path='/personal' element={<PersonalPage />} />
-                <Route path="/auth" element={<AuthPage />} />
-                <Route path="/mytenders" element={<MyTendersPage auth={auth} />} />
-                {
-                    !auth
-                    &&
-                    <Route path="/auth" element={<AuthPage />} />
+            <Menu auth={auth} />
 
-                }
-            </Routes>
+            {
+                auth
+                    ?
+                    <Routes>
+                        <Route path="/" element={<Catalog />} />
+                        <Route path="/contracts" element={<ContractsPage />} />
+                        <Route path="/tender/:id" element={<TenderCard />} />
+                        <Route path='/personal' element={<PersonalPage />} />
+                        <Route path="/auth" element={<AuthPage />} />
+                        <Route path="/mytenders" element={<MyTendersPage auth={auth} />} />
+                    </Routes>
+                    :
+                    <Routes>
+                        <Route path="/" element={<Catalog />} />
+                        <Route path="/auth" element={<AuthPage />} />
+
+                    </Routes>
+            }
+
+
         </Fragment>
     );
 }

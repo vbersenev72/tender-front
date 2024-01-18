@@ -9,10 +9,13 @@ import {ReactComponent as TendIcon} from '../../assets/icons/tendersIcon.svg'
 import {ReactComponent as StatIcon} from '../../assets/icons/statistic.svg'
 import {ReactComponent as Plans} from '../../assets/icons/plans.svg'
 import {ReactComponent as UserIcon} from '../../assets/icons/user.svg'
+import { useNavigate } from 'react-router-dom';
+import { showErrorMessage } from '../../functions/Message';
 
-export const Menu: FC = () => {
+export const Menu = ({auth}: any) => {
 
     const [isSecondContainerVisible, setSecondContainerVisible] = useState(false);
+    const navigate = useNavigate()
 
     // Обработчик клика по кнопке
     const handleClick = () => {
@@ -25,43 +28,83 @@ export const Menu: FC = () => {
             <MenuItem isShow={isSecondContainerVisible}>
                 <Finder />
                 {isSecondContainerVisible && (
-                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}} href="/personal">Поиск</a></TextGray14pxRegular>
+                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}} href="/">Поиск</a></TextGray14pxRegular>
                 )}
             </MenuItem>
             <MenuItem isShow={isSecondContainerVisible}>
                 <ReFinder />
                 {isSecondContainerVisible && (
-                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}} href="/personal">Автопоиск</a></TextGray14pxRegular>
+                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}} href="/autosearch">Автопоиск</a></TextGray14pxRegular>
                 )}
             </MenuItem>
-            <MenuItem isShow={isSecondContainerVisible}>
+            <MenuItem isShow={isSecondContainerVisible} onClick={() => {
+                if (auth == true) {
+                    return navigate('/mytenders')
+                } else {
+                    console.log(auth);
+                    
+                    return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                }
+            }}>
                 <TendIcon />
                 {isSecondContainerVisible && (
-                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}} href="/personal">Мои Тендеры</a></TextGray14pxRegular>
+                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}} >Мои Тендеры</a></TextGray14pxRegular>
                 )}
             </MenuItem>
-            <MenuItem isShow={isSecondContainerVisible}>
+            <MenuItem isShow={isSecondContainerVisible} onClick={() => {
+                if (auth == true) {
+                    return navigate('/notes')
+                } else {
+                    console.log(auth);
+                    
+                    return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                }
+            }}>
                 <Keeps />
                 {isSecondContainerVisible && (
-                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}} href="/personal">Заметки</a></TextGray14pxRegular>
+                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}}>Заметки</a></TextGray14pxRegular>
                 )}
             </MenuItem>
-            <MenuItem isShow={isSecondContainerVisible}>
+            <MenuItem isShow={isSecondContainerVisible} onClick={() => {
+                if (auth == true) {
+                    return navigate('/analitics')
+                } else {
+                    console.log(auth);
+                    
+                    return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                }
+            }}>
                 <StatIcon />
                 {isSecondContainerVisible && (
-                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}} href="/personal">Аналитика</a></TextGray14pxRegular>
+                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}} >Аналитика</a></TextGray14pxRegular>
                 )}
             </MenuItem>
-            <MenuItem isShow={isSecondContainerVisible}>
+            <MenuItem isShow={isSecondContainerVisible} onClick={() => {
+                if (auth == true) {
+                    return navigate('/plans')
+                } else {
+                    console.log(auth);
+                    
+                    return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                }
+            }}>
                 <Plans />
                 {isSecondContainerVisible && (
-                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}} href="/">Планы</a></TextGray14pxRegular>
+                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}}>Планы</a></TextGray14pxRegular>
                 )}
             </MenuItem>
-            <MenuItem isShow={isSecondContainerVisible}>
+            <MenuItem isShow={isSecondContainerVisible} onClick={() => {
+                if (auth == true) {
+                    return navigate('/personal')
+                } else {
+                    console.log(auth);
+                    
+                    return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                }
+            }}>
                 <UserIcon />
                 {isSecondContainerVisible && (
-                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}} href="/personal">Личный кабинет</a></TextGray14pxRegular>
+                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}} >Личный кабинет</a></TextGray14pxRegular>
                 )}
             </MenuItem>
                 {isSecondContainerVisible ? (
