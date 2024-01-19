@@ -293,6 +293,7 @@ export function MyTendersPage(props: any) {
 
   useEffect(() => {
     getMyTenders()
+    sortByDateAddedTenders()
 
   }, [currentPage, setCurrentPage,])
 
