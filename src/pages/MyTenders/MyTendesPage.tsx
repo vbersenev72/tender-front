@@ -248,7 +248,48 @@ export function MyTendersPage(props: any) {
 
   }
 
+  const sortByDateFinishedTenders = () => {
+    const newTendersArray = beforeTenders.sort((a: any, b: any) => {
+      console.log(a);
 
+      if (a.fz == 'fz223') {
+        const aDate = a?.submissionCloseDateTime
+        const bDate = b.fz == 'fz223' ? b?.submissionCloseDateTime : b?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
+
+        return new Date(bDate).getTime() - new Date(aDate).getTime()
+      } else {
+        const aDate = a?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
+        const bDate = b.fz == 'fz223' ? b?.submissionCloseDateTime : b?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
+
+        return new Date(bDate).getTime() - new Date(aDate).getTime()
+      }
+    })
+
+
+    setTenders(newTendersArray)
+  }
+
+  const sortByDatePublicTenders = () => {
+    const newTendersArray = beforeTenders.sort((a: any, b: any) => {
+      console.log(a);
+
+      if (a.fz == 'fz223') {
+        const aDate = a?.publicationDateTime
+        const bDate = b.fz == 'fz223' ? b?.publicationDateTime : b?.commonInfo?.publishDTInEIS
+
+        return new Date(bDate).getTime() - new Date(aDate).getTime()
+      } else {
+        const aDate = a?.commonInfo?.publishDTInEIS
+        const bDate = b.fz == 'fz223' ? b?.publicationDateTime : b?.commonInfo?.publishDTInEIS
+
+
+        return new Date(bDate).getTime() - new Date(aDate).getTime()
+      }
+    })
+
+
+    setTenders(newTendersArray)
+  }
 
   useEffect(() => {
     getMyTenders()
@@ -407,6 +448,8 @@ export function MyTendersPage(props: any) {
                 setSortByDateFinished(true)
                 setSortByDatePublic(false)
 
+                sortByDateFinishedTenders()
+
               }}>
                 {
                   !sortByDateFinished
@@ -423,6 +466,8 @@ export function MyTendersPage(props: any) {
                 setSortByPrice(false)
                 setSortByDateFinished(false)
                 setSortByDatePublic(true)
+
+                sortByDatePublicTenders()
 
               }}>
                 {
