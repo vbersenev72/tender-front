@@ -18,7 +18,7 @@ export function TagsPage(props: ITagsPageProps) {
 
   useEffect(() => {
 
-    getAllTags().then(() => console.log(tags))
+    getAllTags()
 
   }, [])
 
@@ -43,21 +43,20 @@ export function TagsPage(props: ITagsPageProps) {
         }
       })
 
-      const result = getAllTags.data.message.map(async (tag: any) => {
+      console.log(getAllTags.data.message);
+
+      for (let i = 0; i < getAllTags.data.message.length; i++) {
+        const tag = getAllTags.data.message[i];
+
         const countTenders: any = await axios.post(`${process.env.REACT_APP_API}/api/tags/getcounttenders`, {
           idTag: tag.id
         }, {
           headers: {
             authorization: `Bearer ${localStorage.getItem('token')}`
           }
-        }).then((data: any) => { console.log({ ...tag, count: data.message }) }) ////////////
+        }).then((data: any) => { setTags([...tags, { ...tag, count: data.message }]) }) ////////////
 
-        return countTenders
-
-      })
-
-      setTags([...result])
-
+      }
 
 
     } catch (error: any) {
