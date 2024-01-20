@@ -20,52 +20,55 @@ export function TagsPage(props: ITagsPageProps) {
   const [createTagColor, setCreateTagColor] = useState('white')
   const [createTagName, setCreateTagName] = useState('')
 
-  const getAllTags = async () => {
-    try {
-      setLoading(true)
-      const getAllTags: any = await axios.get(`${process.env.REACT_APP_API}/api/tags/getall`, {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      })
+  const [flag, setFlag] = useState(false)
 
-      const newAllTags: any = []
-
-      for (let i = 0; i < getAllTags.data.message; i++) {
-
-        const tag: any = getAllTags.data.message[i];
-
-        let count = await axios.post(`${process.env.REACT_APP_API}/api/tags/getcounttenders`, {
-          idTag: tag.id
-        }, {
-          headers: {
-            authorization: `Bearer ${localStorage.getItem('token')}`
-          }
-        })
-
-        const newTag = { ...tag, count: count.data.message }
-        console.log(newTag);
-
-        newAllTags.push(newTag)
-
-      }
-
-      setTags([...newAllTags])
-      console.log(tags);
-
-      setLoading(false)
-
-
-    } catch (error: any) {
-      showErrorMessage(error.data)
-    }
+  const changeFlag = () => {
+    setFlag(!flag)
   }
 
   useEffect(() => {
+    const getAllTags = async () => {
+      try {
+        setLoading(true);
+        const getAllTags: any = await axios.get(`${process.env.REACT_APP_API}/api/tags/getall`, {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
 
-    getAllTags()
+        const newAllTags: any = [];
 
-  }, [])
+        for (let i = 0; i < getAllTags.data.message.length; i++) {
+          const tag: any = getAllTags.data.message[i];
+
+          let count = await axios.post(`${process.env.REACT_APP_API}/api/tags/getcounttenders`, {
+            idTag: tag.id
+          }, {
+            headers: {
+              authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+          });
+
+          const newTag = { ...tag, count: count.data.message };
+
+          newAllTags.push(newTag);
+        }
+
+        setTags([...newAllTags]);
+        console.log(newAllTags);
+        console.log(tags);
+
+
+        setLoading(false);
+      } catch (error: any) {
+        showErrorMessage(error.data);
+      }
+    };
+
+    getAllTags();
+
+  }, [flag]);
+
 
 
 
@@ -133,11 +136,12 @@ export function TagsPage(props: ITagsPageProps) {
             </div>
 
             <div>
-              {
-                tags.map((tag: any) => {
-                  <div><p>{tag.tag_name}</p></div>
-                })
-              }
+              {tags.map((tag:any) => (
+                <div key={tag.id}>
+                  <p>{tag.tag_name}</p>
+                  <p>{tag.count}</p>
+                </div>
+              ))}
             </div>
 
           </div>
