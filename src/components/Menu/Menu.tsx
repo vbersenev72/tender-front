@@ -42,7 +42,7 @@ export const Menu = ({auth}: any) => {
                     return navigate('/mytenders')
                 } else {
                     console.log(auth);
-                    
+
                     return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
                 }
             }}>
@@ -53,16 +53,16 @@ export const Menu = ({auth}: any) => {
             </MenuItem>
             <MenuItem isShow={isSecondContainerVisible} onClick={() => {
                 if (auth == true) {
-                    return navigate('/notes')
+                    return navigate('/tags')
                 } else {
                     console.log(auth);
-                    
+
                     return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
                 }
             }}>
                 <Keeps />
                 {isSecondContainerVisible && (
-                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}}>Заметки</a></TextGray14pxRegular>
+                    <TextGray14pxRegular><a style={{textDecoration: 'none', color: 'white'}}>Метки</a></TextGray14pxRegular>
                 )}
             </MenuItem>
             <MenuItem isShow={isSecondContainerVisible} onClick={() => {
@@ -70,7 +70,7 @@ export const Menu = ({auth}: any) => {
                     return navigate('/analitics')
                 } else {
                     console.log(auth);
-                    
+
                     return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
                 }
             }}>
@@ -84,7 +84,7 @@ export const Menu = ({auth}: any) => {
                     return navigate('/plans')
                 } else {
                     console.log(auth);
-                    
+
                     return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
                 }
             }}>
@@ -98,7 +98,7 @@ export const Menu = ({auth}: any) => {
                     return navigate('/personal')
                 } else {
                     console.log(auth);
-                    
+
                     return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
                 }
             }}>

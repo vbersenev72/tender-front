@@ -15,6 +15,8 @@ import AuthPage from './pages/Auth/AuthPage';
 import { ToastContainer } from 'react-toastify';
 import { AccesNotif } from './components/AccessNotif/AccesNotif';
 import { MyTendersPage } from './pages/MyTenders/MyTendesPage';
+import { TagsPage } from './pages/Tags/Tags/TagsPage';
+import { TagCard } from './pages/Tags/TagCard/TagCard';
 
 function App() {
 
@@ -42,12 +44,14 @@ function App() {
                         <Route path='/personal' element={<PersonalPage />} />
                         <Route path="/auth" element={<AuthPage />} />
                         <Route path="/mytenders" element={<MyTendersPage auth={auth} />} />
+
+                        <Route path='/tags' element={<TagsPage/>} />
+                        <Route path='/tags/:id' element={<TagCard/>} />
                     </Routes>
                     :
                     <Routes>
                         <Route path="/" element={<Catalog />} />
                         <Route path="/auth" element={<AuthPage />} />
-
                     </Routes>
             }
 
