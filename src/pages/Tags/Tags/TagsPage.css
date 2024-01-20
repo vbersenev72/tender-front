@@ -1,0 +1,10 @@
+.TagsPage-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.TagsPage-content {
+    width: 80%;
+
+}
