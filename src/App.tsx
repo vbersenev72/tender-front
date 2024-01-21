@@ -20,14 +20,29 @@ import { TagCard } from './pages/Tags/TagCard/TagCard';
 
 function App() {
 
-    const [auth, setAuth]:any = useState(false)
+    const [auth, setAuth]: any = useState(false)
+
+    async function getAllTags() {
+
+        const getAllTags: any = await axios.get(`${process.env.REACT_APP_API}/api/tags/getall`, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        const tags = JSON.stringify(getAllTags.data.message)
+        return tags
+
+    }
+
 
 
     useEffect(() => {
         checkAuth().then((auth) => setAuth(auth))
+        getAllTags().then((tags) => localStorage.setItem('tags', tags))
     }, [])
 
-// @ts-ignore
+    // @ts-ignore
     return (
         <Fragment>
             <ToastContainer />
@@ -45,8 +60,8 @@ function App() {
                         <Route path="/auth" element={<AuthPage />} />
                         <Route path="/mytenders" element={<MyTendersPage auth={auth} />} />
 
-                        <Route path='/tags' element={<TagsPage/>} />
-                        <Route path='/tags/:id' element={<TagCard/>} />
+                        <Route path='/tags' element={<TagsPage />} />
+                        <Route path='/tags/:id' element={<TagCard />} />
                     </Routes>
                     :
                     <Routes>

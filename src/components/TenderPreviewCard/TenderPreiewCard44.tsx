@@ -1,4 +1,4 @@
-import { FC, Fragment, useState } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
 import { PrevContainer } from "./styles";
 import { FlexRow, FlexTextColumn, FlexTextRow } from "../../containers/containers";
 import {
@@ -15,6 +15,7 @@ import { PiTagSimpleLight } from "react-icons/pi";
 import { IoIosLink } from "react-icons/io";
 import { showErrorMessage, showSuccesMessage } from "../../functions/Message";
 import axios from "axios";
+import React from "react";
 
 interface ITender {
     jsonData: any,
@@ -26,6 +27,13 @@ export const TenderPreiewCard44: FC<ITender> = ({ jsonData, auth, myTender }: an
 
     const [isMyTender, setIsMyTender] = useState(myTender === true)
 
+    const [showTagsPopup, setShowTagsPopup] = useState(false);
+    const [popupTagsPosition, setPopupTagsPosition] = useState({ x: 0, y: 0 });
+
+
+    const getLSTags: any = localStorage.getItem('tags')
+    const parseLSTags: any = JSON.parse(getLSTags)
+    const [tags, setTags] = useState<any>(parseLSTags)
 
     const formatDate = (originalDate: string) => {
         const parsedDate = parseISO(originalDate);
@@ -76,6 +84,26 @@ export const TenderPreiewCard44: FC<ITender> = ({ jsonData, auth, myTender }: an
         } catch (error) {
             showErrorMessage('Тендер уже удален!')
         }
+    }
+
+    const addTagWindow = async (event: any) => {
+        try {
+
+
+            const allTags: any = localStorage.getItem('tags')
+
+            setTags(JSON.parse(allTags))
+            console.log(tags);
+
+
+            const { clientX, clientY } = event;
+            setPopupTagsPosition({ x: clientX, y: clientY });
+            setShowTagsPopup(true);
+
+        } catch (error) {
+            showErrorMessage('Что то пошло не так, попробуйте позже')
+        }
+
     }
 
     return (
@@ -200,13 +228,38 @@ export const TenderPreiewCard44: FC<ITender> = ({ jsonData, auth, myTender }: an
                                     <p>Удалить из моих тендеров</p>
                                 </div>
                         }
-                        <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }}>
+                        <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }} onClick={(event: any) => addTagWindow(event)}>
                             <PiTagSimpleLight size={20} color="dodgerblue" />
                             <p>Добавить метку</p>
                         </div>
                         <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }}>
                             <IoIosLink size={20} color="dodgerblue" />
                             <p>Официальный сайт</p>
+                        </div>
+                        <div>
+                            {showTagsPopup && (
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        top: popupTagsPosition.y,
+                                        left: popupTagsPosition.x,
+                                        display: 'grid',
+                                        gridTemplateColumns: '1fr 1fr 1fr',
+                                        width: 'fit-content',
+                                        height: 'fit-content',
+                                        backgroundColor: 'white'
+                                    }}
+                                >
+                                        {
+                                            tags.map((tag: any) => {
+                                                <div style={{ display: 'flex', padding: '10px' }}>
+                                                    <div style={{ backgroundColor: tag.tag_color, width: '18px', height: '18px' }} />
+                                                    <p>{tag.tag_name}</p>
+                                                </div>
+                                            })
+                                        }
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
