@@ -27,13 +27,13 @@ export const TenderPreiewCard44: FC<ITender> = ({ jsonData, auth, myTender }: an
 
     const [isMyTender, setIsMyTender] = useState(myTender === true)
 
+    const tags = JSON.parse(localStorage.getItem('tags') || '[]');
+
     const [showTagsPopup, setShowTagsPopup] = useState(false);
     const [popupTagsPosition, setPopupTagsPosition] = useState({ x: 0, y: 0 });
 
+    const [activeTag, setActiveTag] = useState(0)
 
-    const getLSTags: any = localStorage.getItem('tags')
-    const parseLSTags: any = JSON.parse(getLSTags)
-    const [tags, setTags] = useState<any>(parseLSTags)
 
     const formatDate = (originalDate: string) => {
         const parsedDate = parseISO(originalDate);
@@ -89,22 +89,35 @@ export const TenderPreiewCard44: FC<ITender> = ({ jsonData, auth, myTender }: an
     const addTagWindow = async (event: any) => {
         try {
 
+            const tags:any = JSON.parse(localStorage.getItem('tags') as any)
+            if (!tags || tags.length == 0) return showErrorMessage('Нет активных меток')
 
-            const allTags: any = localStorage.getItem('tags')
-
-            setTags(JSON.parse(allTags))
-            console.log(tags);
 
 
             const { clientX, clientY } = event;
             setPopupTagsPosition({ x: clientX, y: clientY });
             setShowTagsPopup(true);
 
+
+
         } catch (error) {
             showErrorMessage('Что то пошло не так, попробуйте позже')
         }
 
     }
+
+
+    const addTagToTender = (regNum: any, tagId: any) => {
+        try {
+
+            showSuccesMessage('Метка добавлена')
+            setShowTagsPopup(false)
+
+        } catch (error) {
+            showErrorMessage('Что то пошло не так, попробуйте позже')
+        }
+    }
+
 
     return (
         <Fragment>
@@ -237,8 +250,9 @@ export const TenderPreiewCard44: FC<ITender> = ({ jsonData, auth, myTender }: an
                             <p>Официальный сайт</p>
                         </div>
                         <div>
-                            {showTagsPopup && (
+                            {(showTagsPopup && tags.length) > 0 && (
                                 <div
+
                                     style={{
                                         position: 'absolute',
                                         top: popupTagsPosition.y,
@@ -247,19 +261,28 @@ export const TenderPreiewCard44: FC<ITender> = ({ jsonData, auth, myTender }: an
                                         gridTemplateColumns: '1fr 1fr 1fr',
                                         width: 'fit-content',
                                         height: 'fit-content',
-                                        backgroundColor: 'white'
+                                        backgroundColor: 'white',
+                                        boxShadow: '1'
                                     }}
                                 >
-                                        {
-                                            tags.map((tag: any) => {
-                                                <div style={{ display: 'flex', padding: '10px' }}>
+                                    {
+
+                                        tags.map((tag: any) => {
+                                            return (
+                                                <div key={tag.id} style={{ display: 'flex', padding: '10px', width: 'fit-content' }}
+                                                onClick={async()=> await addTagToTender(jsonData?.commonInfo?.purchaseNumber, tag.id)}
+                                                >
                                                     <div style={{ backgroundColor: tag.tag_color, width: '18px', height: '18px' }} />
                                                     <p>{tag.tag_name}</p>
                                                 </div>
-                                            })
-                                        }
+                                            )
+
+                                        })
+                                    }
                                 </div>
-                            )}
+                            )
+
+                            }
                         </div>
                     </div>
                 </div>
