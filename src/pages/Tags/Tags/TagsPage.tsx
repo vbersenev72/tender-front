@@ -102,7 +102,8 @@ export function TagsPage(props: ITagsPageProps) {
       setCreateTagName('')
 
       showSuccesMessage('Метка создана')
-      setTags([...tags, createTag.createTag])
+      setTimeout(() => { }, 1000);
+      window.location.reload()
 
     } catch (error: any) {
       console.log(error);
@@ -123,25 +124,35 @@ export function TagsPage(props: ITagsPageProps) {
           <div className="TagsPage-content">
             <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', fontSize: '30px', width: 'fit-content', marginBottom: '10px' }}><p>Метки</p></div>
 
-            <div style={{ height: '38px', display: 'flex', flexDirection: 'row' }}>
+            <div style={{ height: '38px', display: 'flex', flexDirection: 'row', marginBottom: '25px' }}>
 
-              <div style={{ height: '36px', width: '36px', backgroundColor: createTagColor, borderRadius: '5px', border: '1px solid gray', marginRight: '15px' }} />
+              <div style={{ height: '36px', width: '36px', backgroundColor: createTagColor, borderRadius: '5px', marginRight: '15px' }} />
 
               <Select options={colorTagsOptions} onChange={(color: any) => setCreateTagColor(color.value)} />
 
-              <input type="text" placeholder='Название метки' style={{ height: '100%', width: '40%', marginLeft: '15px', padding: '10px', border: '1px solid gray', borderRadius: '5px' }} onChange={(e: any) => setCreateTagName(e.target.value)} value={createTagName} />
+              <input type="text" placeholder='Название метки' style={{ height: '100%', width: '35%', marginLeft: '15px', padding: '10px', border: '1px solid gray', borderRadius: '5px' }} onChange={(e: any) => setCreateTagName(e.target.value)} value={createTagName} />
 
               <div style={{ width: '18%', backgroundColor: 'dodgerblue', display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'white', overflow: 'hidden', cursor: 'pointer' }} onClick={() => createTag()}>Добавить</div>
 
             </div>
 
-            <div>
-              {tags.map((tag:any) => (
-                <div key={tag.id}>
-                  <p>{tag.tag_name}</p>
-                  <p>{tag.count}</p>
-                </div>
-              ))}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', border: tags.length != 0 ? '1px solid #c3bfbf' : 'none', borderRadius: '5px', flex: 'wrap' }} >
+              {
+                tags.length == 0
+                  ?
+                  <h1>Нет активных меток</h1>
+                  :
+                  tags.map((tag: any) => (
+                    <div key={tag.id} style={{ display: 'flex', alignItems: 'center', padding: '25px', justifyContent: 'space-between' }}>
+
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div style={{ height: '22px', width: '22px', backgroundColor: tag.tag_color, borderRadius: '5px', marginRight: '15px' }} />
+                        <p style={{ fontSize: '14px' }}>{tag.tag_name}</p>
+                      </div>
+
+                      <p style={{ fontSize: '12px' }}>{tag.count} Тендеров</p>
+                    </div>
+                  ))}
             </div>
 
           </div>
