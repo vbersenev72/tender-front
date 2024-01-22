@@ -1,0 +1,18 @@
+.TagCard-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+}
+
+.TagCard-preview {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    margin-bottom: 50px;
+
+}
+
+.TagCard-content {
+    width: 85%;
+}
