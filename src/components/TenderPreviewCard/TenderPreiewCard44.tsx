@@ -1,4 +1,4 @@
-import { FC, Fragment, useEffect, useState } from "react";
+import { FC, Fragment, useEffect, useRef, useState } from "react";
 import { PrevContainer } from "./styles";
 import { FlexRow, FlexTextColumn, FlexTextRow } from "../../containers/containers";
 import {
@@ -16,6 +16,7 @@ import { IoIosLink } from "react-icons/io";
 import { showErrorMessage, showSuccesMessage } from "../../functions/Message";
 import axios from "axios";
 import React from "react";
+import { TagsModal } from "../TagsModal/TagsModal";
 
 interface ITender {
     jsonData: any,
@@ -31,8 +32,6 @@ export const TenderPreiewCard44: FC<ITender> = ({ jsonData, auth, myTender }: an
 
     const [showTagsPopup, setShowTagsPopup] = useState(false);
     const [popupTagsPosition, setPopupTagsPosition] = useState({ x: 0, y: 0 });
-
-    const [activeTag, setActiveTag] = useState(0)
 
 
     const formatDate = (originalDate: string) => {
@@ -89,7 +88,7 @@ export const TenderPreiewCard44: FC<ITender> = ({ jsonData, auth, myTender }: an
     const addTagWindow = async (event: any) => {
         try {
 
-            const tags:any = JSON.parse(localStorage.getItem('tags') as any)
+            const tags: any = JSON.parse(localStorage.getItem('tags') as any)
             if (!tags || tags.length == 0) return showErrorMessage('Нет активных меток')
 
 
@@ -116,6 +115,10 @@ export const TenderPreiewCard44: FC<ITender> = ({ jsonData, auth, myTender }: an
         } catch (error) {
             showErrorMessage('Что то пошло не так, попробуйте позже')
         }
+    }
+
+    const closeModal = () => {
+        setShowTagsPopup(false)
     }
 
 
@@ -241,7 +244,7 @@ export const TenderPreiewCard44: FC<ITender> = ({ jsonData, auth, myTender }: an
                                     <p>Удалить из моих тендеров</p>
                                 </div>
                         }
-                        <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }} onClick={(event: any) => addTagWindow(event)}>
+                        <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }} onClick={addTagWindow}>
                             <PiTagSimpleLight size={20} color="dodgerblue" />
                             <p>Добавить метку</p>
                         </div>
@@ -251,35 +254,36 @@ export const TenderPreiewCard44: FC<ITender> = ({ jsonData, auth, myTender }: an
                         </div>
                         <div>
                             {(showTagsPopup && tags.length) > 0 && (
-                                <div
+                                // <div
 
-                                    style={{
-                                        position: 'absolute',
-                                        top: popupTagsPosition.y,
-                                        left: popupTagsPosition.x,
-                                        display: 'grid',
-                                        gridTemplateColumns: '1fr 1fr 1fr',
-                                        width: 'fit-content',
-                                        height: 'fit-content',
-                                        backgroundColor: 'white',
-                                        boxShadow: '1'
-                                    }}
-                                >
-                                    {
+                                //     style={{
+                                //         position: 'absolute',
+                                //         top: popupTagsPosition.y,
+                                //         left: popupTagsPosition.x,
+                                //         display: 'grid',
+                                //         gridTemplateColumns: '1fr 1fr 1fr',
+                                //         width: 'fit-content',
+                                //         height: 'fit-content',
+                                //         backgroundColor: 'white',
+                                //         boxShadow: '1'
+                                //     }}
+                                // >
+                                //     {
 
-                                        tags.map((tag: any) => {
-                                            return (
-                                                <div key={tag.id} style={{ display: 'flex', padding: '10px', width: 'fit-content' }}
-                                                onClick={async()=> await addTagToTender(jsonData?.commonInfo?.purchaseNumber, tag.id)}
-                                                >
-                                                    <div style={{ backgroundColor: tag.tag_color, width: '18px', height: '18px' }} />
-                                                    <p>{tag.tag_name}</p>
-                                                </div>
-                                            )
+                                //         tags.map((tag: any) => {
+                                //             return (
+                                //                 <div key={tag.id} style={{ display: 'flex', padding: '10px', width: 'fit-content' }}
+                                //                 onClick={async()=> await addTagToTender(jsonData?.commonInfo?.purchaseNumber, tag.id)}
+                                //                 >
+                                //                     <div style={{ backgroundColor: tag.tag_color, width: '18px', height: '18px' }} />
+                                //                     <p>{tag.tag_name}</p>
+                                //                 </div>
+                                //             )
 
-                                        })
-                                    }
-                                </div>
+                                //         })
+                                //     }
+                                // </div>
+                                <TagsModal  tags = {tags} closeModal = {closeModal} addTagToTender = {addTagToTender} popupTagsPosition={popupTagsPosition} jsonData={jsonData} />
                             )
 
                             }
