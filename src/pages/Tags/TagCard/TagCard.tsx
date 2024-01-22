@@ -101,14 +101,14 @@ export function TagCard(props: ITagCardProps) {
         <div className='TagCard-content'>
           <div className="TagCard-preview">
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '30px', width: 'fit-content' }}><p>Метки</p></div>
-            <div key={tag.id} style={{ display: 'flex', alignItems: 'center', padding: '25px', justifyContent: 'space-between' }}>
+            <div key={tag.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }}>
 
               <div style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ height: '22px', width: '22px', backgroundColor: tag.tag_color, borderRadius: '5px', marginRight: '15px' }} />
+                <div style={{ height: '22px', width: '22px', backgroundColor: tag.tag_color, borderRadius: '5px', marginRight: '8px' }} />
                 <p style={{ fontSize: '14px' }}>{tag.tag_name}</p>
               </div>
 
-              <p style={{ fontSize: '12px', color: '#8F9090' }}>{tenders.length} Тендеров</p>
+              <p style={{ fontSize: '12px', color: '#8F9090', marginLeft: '10px' }}>{tenders.length} Тендеров</p>
             </div>
           </div>
 

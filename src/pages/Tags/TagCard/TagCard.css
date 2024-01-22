@@ -6,9 +6,7 @@
 }
 
 .TagCard-preview {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: start;
+
     margin-bottom: 50px;
 
 }
