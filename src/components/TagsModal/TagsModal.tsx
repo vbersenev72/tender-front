@@ -4,9 +4,12 @@ import './TagsModal.css'
 
 export function TagsModal({ tags, addTagToTender, closeModal, popupTagsPosition, jsonData }: any) {
 
-    console.log(
-        JSON.stringify({ tags, addTagToTender, closeModal, popupTagsPosition, jsonData })
-    );
+    const regNum = jsonData?.commonInfo?.purchaseNumber ? jsonData?.commonInfo?.purchaseNumber : jsonData?.registrationNumber
+    
+    console.log(tags);
+    console.log(regNum);
+    
+    
 
     return (
         <div className='TagsModal-overlay' onClick={closeModal}
@@ -15,7 +18,7 @@ export function TagsModal({ tags, addTagToTender, closeModal, popupTagsPosition,
                 top: '0',
                 left: '0',
                 width: '100%',
-                height: '100vh',
+                height: 'calc(11 * 100vh)',
             }}
         >
             <div className="TagsModal-content"
@@ -28,17 +31,18 @@ export function TagsModal({ tags, addTagToTender, closeModal, popupTagsPosition,
                     width: 'fit-content',
                     height: 'fit-content',
                     backgroundColor: 'white',
-                    boxShadow: '1'
+                    boxShadow: '0 0 2px rgba(0,0,0,0.5)',
+                    padding: '7px'
                 }}
             >
                 {
                     tags.map((tag: any) => {
                         return (
-                            <div key={tag.id} style={{ display: 'flex', padding: '10px', width: 'fit-content' }}
-                                onClick={async () => await addTagToTender(jsonData?.commonInfo?.purchaseNumber, tag.id)}
+                            <div key={tag.id} style={{ display: 'flex', width: 'fit-content', justifyContent: 'start', alignItems: 'center', cursor: 'pointer' }}
+                                onClick={async () => await addTagToTender(regNum, tag.id)}
                             >
-                                <div style={{ backgroundColor: tag.tag_color, width: '18px', height: '18px' }} />
-                                <p>{tag.tag_name}</p>
+                                <div style={{ backgroundColor: tag.tag_color, width: '18px', height: '18px', marginLeft: '10px' }} />
+                                <p style={{padding: '10px'}}>{tag.tag_name}</p>
                             </div>
                         )
                     })

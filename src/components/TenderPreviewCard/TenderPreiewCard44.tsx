@@ -93,8 +93,8 @@ export const TenderPreiewCard44: FC<ITender> = ({ jsonData, auth, myTender }: an
 
 
 
-            const { clientX, clientY } = event;
-            setPopupTagsPosition({ x: clientX, y: clientY });
+            const { pageX, pageY } = event;
+            setPopupTagsPosition({ x: pageX, y: pageY });
             setShowTagsPopup(true);
 
 
@@ -106,14 +106,28 @@ export const TenderPreiewCard44: FC<ITender> = ({ jsonData, auth, myTender }: an
     }
 
 
-    const addTagToTender = (regNum: any, tagId: any) => {
+    const addTagToTender = async (regNum: any, tagId: any) => {
         try {
+
+            if (!auth) {
+                return showErrorMessage('Для сохранения тендера необходимо авторизоваться!')
+            }
+
+            const response = await axios.post(`${process.env.REACT_APP_API}/api/tags/addtotender`, {
+                regNum: String(regNum),
+                idTag: tagId
+            }, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+
 
             showSuccesMessage('Метка добавлена')
             setShowTagsPopup(false)
 
-        } catch (error) {
-            showErrorMessage('Что то пошло не так, попробуйте позже')
+        } catch (error: any) {
+            showErrorMessage('Эта метка уже добавлена')
         }
     }
 
@@ -254,36 +268,7 @@ export const TenderPreiewCard44: FC<ITender> = ({ jsonData, auth, myTender }: an
                         </div>
                         <div>
                             {(showTagsPopup && tags.length) > 0 && (
-                                // <div
-
-                                //     style={{
-                                //         position: 'absolute',
-                                //         top: popupTagsPosition.y,
-                                //         left: popupTagsPosition.x,
-                                //         display: 'grid',
-                                //         gridTemplateColumns: '1fr 1fr 1fr',
-                                //         width: 'fit-content',
-                                //         height: 'fit-content',
-                                //         backgroundColor: 'white',
-                                //         boxShadow: '1'
-                                //     }}
-                                // >
-                                //     {
-
-                                //         tags.map((tag: any) => {
-                                //             return (
-                                //                 <div key={tag.id} style={{ display: 'flex', padding: '10px', width: 'fit-content' }}
-                                //                 onClick={async()=> await addTagToTender(jsonData?.commonInfo?.purchaseNumber, tag.id)}
-                                //                 >
-                                //                     <div style={{ backgroundColor: tag.tag_color, width: '18px', height: '18px' }} />
-                                //                     <p>{tag.tag_name}</p>
-                                //                 </div>
-                                //             )
-
-                                //         })
-                                //     }
-                                // </div>
-                                <TagsModal  tags = {tags} closeModal = {closeModal} addTagToTender = {addTagToTender} popupTagsPosition={popupTagsPosition} jsonData={jsonData} />
+                                <TagsModal tags={tags} closeModal={closeModal} addTagToTender={addTagToTender} popupTagsPosition={popupTagsPosition} jsonData={jsonData} />
                             )
 
                             }

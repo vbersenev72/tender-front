@@ -18,6 +18,7 @@ import { IoIosLink } from "react-icons/io";
 import { PiTagSimpleLight } from "react-icons/pi";
 import { CiCircleMinus } from "react-icons/ci";
 import axios from "axios";
+import { TagsModal } from "../TagsModal/TagsModal";
 
 
 
@@ -28,11 +29,16 @@ interface ITender {
     myTender: any
 }
 
-export const TenderPreiewCard223: FC<ITender> = ({ jsonData, auth, myTender}: any) => {
+export const TenderPreiewCard223: FC<ITender> = ({ jsonData, auth, myTender }: any) => {
 
     const [isMyTender, setIsMyTender] = useState(myTender === true)
 
     const navigate = useNavigate()
+
+    const tags = JSON.parse(localStorage.getItem('tags') || '[]');
+
+    const [showTagsPopup, setShowTagsPopup] = useState(false);
+    const [popupTagsPosition, setPopupTagsPosition] = useState({ x: 0, y: 0 });
 
 
     const addMyTenders = async (id: any) => {
@@ -86,6 +92,57 @@ export const TenderPreiewCard223: FC<ITender> = ({ jsonData, auth, myTender}: an
         const parsedDate = parseISO(originalDate);
         return format(parsedDate, 'dd.MM.yyyy');
     };
+
+    const addTagWindow = async (event: any) => {
+        try {
+
+            const tags: any = JSON.parse(localStorage.getItem('tags') as any)
+            if (!tags || tags.length == 0) return showErrorMessage('Нет активных меток')
+
+
+
+            const { pageX, pageY } = event;
+            setPopupTagsPosition({ x: pageX, y: pageY });
+            setShowTagsPopup(true);
+
+
+
+        } catch (error) {
+            showErrorMessage('Что то пошло не так, попробуйте позже')
+        }
+
+    }
+
+    const addTagToTender = async (regNum: any, tagId: any) => {
+        try {
+
+            if (!auth) {
+                return showErrorMessage('Для сохранения тендера необходимо авторизоваться!')
+            }
+
+            const response = await axios.post(`${process.env.REACT_APP_API}/api/tags/addtotender`, {
+                regNum: String(regNum),
+                idTag: tagId
+            }, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+
+
+            showSuccesMessage('Метка добавлена')
+            setShowTagsPopup(false)
+
+        } catch (error: any) {
+            console.log(error);
+            showErrorMessage(error.response.data.message)
+        }
+    }
+
+    const closeModal = () => {
+        setShowTagsPopup(false)
+    }
+
 
     return (
         <Fragment>
@@ -214,23 +271,30 @@ export const TenderPreiewCard223: FC<ITender> = ({ jsonData, auth, myTender}: an
                         {
                             !isMyTender
                                 ?
-                                <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }}  onClick={() => addMyTenders(jsonData?.registrationNumber)}>
+                                <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }} onClick={() => addMyTenders(jsonData?.registrationNumber)}>
                                     <CiCirclePlus size={20} color="dodgerblue" />
                                     <p>Добавить в мои тендеры</p>
                                 </div>
                                 :
-                                <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }}  onClick={() => deleteFromMyTenders(jsonData?.registrationNumber)} >
+                                <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }} onClick={() => deleteFromMyTenders(jsonData?.registrationNumber)} >
                                     <CiCircleMinus size={20} color="dodgerblue" />
                                     <p>Удалить из моих тендеров</p>
                                 </div>
                         }
-                        <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }}>
+                        <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }} onClick={addTagWindow}>
                             <PiTagSimpleLight size={20} color="dodgerblue" />
                             <p>Добавить метку</p>
                         </div>
                         <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }}>
                             <IoIosLink size={20} color="dodgerblue" />
                             <p>Официальный сайт</p>
+                        </div>
+                        <div>
+                            {(showTagsPopup && tags.length) > 0 && (
+                                <TagsModal tags={tags} closeModal={closeModal} addTagToTender={addTagToTender} popupTagsPosition={popupTagsPosition} jsonData={jsonData} />
+                            )
+
+                            }
                         </div>
                     </div>
                 </div>
