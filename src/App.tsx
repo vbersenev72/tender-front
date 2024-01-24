@@ -17,6 +17,7 @@ import { AccesNotif } from './components/AccessNotif/AccesNotif';
 import { MyTendersPage } from './pages/MyTenders/MyTendesPage';
 import { TagsPage } from './pages/Tags/Tags/TagsPage';
 import { TagCard } from './pages/Tags/TagCard/TagCard';
+import { AutoSearchPage } from './pages/AutoSearchPage/AutoSearchPage';
 
 function App() {
 
@@ -62,6 +63,8 @@ function App() {
 
                         <Route path='/tags' element={<TagsPage />} />
                         <Route path='/tags/:id' element={<TagCard />} />
+
+                        <Route path='/autosearch' element={<AutoSearchPage/>}/>
                     </Routes>
                     :
                     <Routes>

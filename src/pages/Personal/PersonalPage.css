@@ -1,0 +1,59 @@
+.personal-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    box-shadow: 10px  #F4F6F9;
+}
+
+.personal-menu-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    box-shadow: 10px  #F4F6F9;
+}
+
+.personal-menu-body {
+    width: 80%;
+    height: 40%;
+    display: flex;
+    justify-content: start;
+    background-color: #F4F6F9;
+}
+
+.personal-menu-property {
+    display: flex;
+    width: 80%;
+    height: auto;
+    background-color: #F4F6F9;
+}
+
+.personal-menu-content {
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.personal-menu-prop {
+    display: flex;
+    margin-left: 0;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    cursor: pointer;
+    background-color: white;
+
+    color: rgb(65, 150, 247);
+}
+
+.personal-menu-prop-active {
+    background-color: #F4F6F9;
+    display: flex;
+    margin-left: 0;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    cursor: pointer;
+}
