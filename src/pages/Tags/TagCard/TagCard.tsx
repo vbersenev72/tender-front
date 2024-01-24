@@ -39,6 +39,95 @@ export function TagCard(props: ITagCardProps) {
   const [sortByDateFinished, setSortByDateFinished] = useState(false)
   const [sortByDatePublic, setSortByDatePublic] = useState(false)
 
+  const sortByPriceTenders = () => {
+
+    const newTendersArray = beforeTenders.sort((a: any, b: any) => {
+      console.log(a);
+
+      if (a.fz == 'fz223') {
+        const aPrice = a.lots?.lot?.lotData?.initialSum
+        const bPrice = b.fz == 'fz223' ? b.lots?.lot?.lotData?.initialSum : b.notificationInfo?.contractConditionsInfo?.maxPriceInfo?.maxPrice
+
+        return parseFloat(aPrice) - parseFloat(bPrice)
+      } else {
+        const aPrice = a.notificationInfo?.contractConditionsInfo?.maxPriceInfo?.maxPrice
+        const bPrice = b.fz == 'fz223' ? b.lots?.lot?.lotData?.initialSum : b.notificationInfo?.contractConditionsInfo?.maxPriceInfo?.maxPrice
+
+        return parseFloat(aPrice) - parseFloat(bPrice)
+      }
+    })
+
+
+    setTenders(newTendersArray)
+
+  }
+
+  const sortByDateStartTenders = () => {
+
+    const newTendersArray = beforeTenders.sort((a: any, b: any) => {
+      console.log(a);
+
+      if (a.fz == 'fz223') {
+        const aDate = a?.publicationDateTime
+        const bDate = b.fz == 'fz223' ? b?.publicationDateTime : b?.notificationInfo?.procedureInfo?.collectingInfo?.startDT
+
+        return new Date(bDate).getTime() - new Date(aDate).getTime()
+      } else {
+        const aDate = a?.notificationInfo?.procedureInfo?.collectingInfo?.startDT
+        const bDate = b.fz == 'fz223' ? b?.publicationDateTime : b?.notificationInfo?.procedureInfo?.collectingInfo?.startDT
+
+        return new Date(bDate).getTime() - new Date(aDate).getTime()
+      }
+    })
+
+
+    setTenders(newTendersArray)
+
+  }
+
+  const sortByDateFinishedTenders = () => {
+    const newTendersArray = beforeTenders.sort((a: any, b: any) => {
+      console.log(a);
+
+      if (a.fz == 'fz223') {
+        const aDate = a?.submissionCloseDateTime
+        const bDate = b.fz == 'fz223' ? b?.submissionCloseDateTime : b?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
+
+        return new Date(bDate).getTime() - new Date(aDate).getTime()
+      } else {
+        const aDate = a?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
+        const bDate = b.fz == 'fz223' ? b?.submissionCloseDateTime : b?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
+
+        return new Date(bDate).getTime() - new Date(aDate).getTime()
+      }
+    })
+
+
+    setTenders(newTendersArray)
+  }
+
+  const sortByDatePublicTenders = () => {
+    const newTendersArray = beforeTenders.sort((a: any, b: any) => {
+      console.log(a);
+
+      if (a.fz == 'fz223') {
+        const aDate = a?.publicationDateTime
+        const bDate = b.fz == 'fz223' ? b?.publicationDateTime : b?.commonInfo?.publishDTInEIS
+
+        return new Date(bDate).getTime() - new Date(aDate).getTime()
+      } else {
+        const aDate = a?.commonInfo?.publishDTInEIS
+        const bDate = b.fz == 'fz223' ? b?.publicationDateTime : b?.commonInfo?.publishDTInEIS
+
+
+        return new Date(bDate).getTime() - new Date(aDate).getTime()
+      }
+    })
+
+
+    setTenders(newTendersArray)
+  }
+
   React.useEffect(() => {
 
     const getTendersByTag = async () => {
@@ -61,7 +150,7 @@ export function TagCard(props: ITagCardProps) {
         })
 
         console.log(getTag.data.message);
-        
+
 
 
 
@@ -123,7 +212,7 @@ export function TagCard(props: ITagCardProps) {
                 setSortByPrice(false)
                 setSortByDateFinished(false)
                 setSortByDatePublic(false)
-                //sortByDateStartTenders()
+                sortByDateStartTenders()
 
               }}>
                 {
@@ -141,7 +230,7 @@ export function TagCard(props: ITagCardProps) {
                 setSortByPrice(true)
                 setSortByDateFinished(false)
                 setSortByDatePublic(false)
-                //sortByPriceTenders()
+                sortByPriceTenders()
 
               }}>
                 {
@@ -160,7 +249,7 @@ export function TagCard(props: ITagCardProps) {
                 setSortByDateFinished(true)
                 setSortByDatePublic(false)
 
-                //sortByDateFinishedTenders()
+                sortByDateFinishedTenders()
 
               }}>
                 {
@@ -179,7 +268,7 @@ export function TagCard(props: ITagCardProps) {
                 setSortByDateFinished(false)
                 setSortByDatePublic(true)
 
-                //sortByDatePublicTenders()
+                sortByDatePublicTenders()
 
               }}>
                 {

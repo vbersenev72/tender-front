@@ -15,6 +15,8 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { SlArrowDown } from "react-icons/sl";
 import { SlArrowUp } from "react-icons/sl";
+import { CiSquarePlus } from "react-icons/ci";
+import { FiPlusSquare } from "react-icons/fi";
 
 export const Menu = ({ auth }: any) => {
 
@@ -23,14 +25,20 @@ export const Menu = ({ auth }: any) => {
 
     const [showTagsArray, setShowTagsArray] = useState(false)
 
+    let tagsFromLs: any = localStorage.getItem('tags')
+    tagsFromLs = JSON.parse(tagsFromLs)
+
+    const [tags, setTags] = useState<any>([...tagsFromLs])
+
+
     // Обработчик клика по кнопке
     const handleClick = () => {
-        // Изменяем состояние для показа/скрытия второго контейнера
         setSecondContainerVisible(!isSecondContainerVisible);
     };
 
+
     return (
-        <MenuContainer isShow={isSecondContainerVisible}>
+        <MenuContainer onClick={handleClick} isShow={isSecondContainerVisible}>
             <MenuItem isShow={isSecondContainerVisible}>
                 <Finder />
                 {isSecondContainerVisible && (
@@ -57,32 +65,92 @@ export const Menu = ({ auth }: any) => {
                     <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }} >Мои Тендеры</a></TextGray14pxRegular>
                 )}
             </MenuItem>
-            <MenuItem style={{ paddingTop: '10px', paddingBottom: '10px', paddingLeft: '15%', paddingRight: '3%' }} isShow={isSecondContainerVisible} onClick={() => {
-                if (auth == true) {
-                    return navigate('/tags')
-                } else {
-                    console.log(auth);
+            {
+                !showTagsArray
 
-                    return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
-                }
-            }}>
+                    ?
 
-                <Keeps />
-                {isSecondContainerVisible && (
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '190px' }}>
-                        <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }}>Метки</a></TextGray14pxRegular>
-                        <div style={{ display: 'flex', alignItems: 'center', }} onClick={(e:any)=>{
-                            e.preventDefault()
-                            showSuccesMessage('список меток')
+                    <MenuItem style={{ paddingTop: '10px', paddingBottom: '10px', paddingLeft: '15%', paddingRight: '3%' }} isShow={isSecondContainerVisible} onClick={(e:any) => {
+                        if (auth == true) {
+                            e.stopPropagation()
+                            return setShowTagsArray(true)
 
-                            }}>
-                            <SlArrowDown color='white' size={15} />
+                        } else {
+                            console.log(auth);
+
+                            return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                        }
+                    }}>
+
+                        <Keeps width={21} height={21} />
+                        {(isSecondContainerVisible) && (
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '190px' }}>
+                                <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }}>Метки</a></TextGray14pxRegular>
+                                <div style={{ display: 'flex', alignItems: 'center', }}>
+                                    <SlArrowDown color='white' size={15} />
+                                </div>
+                            </div>
+                        )}
+
+                    </MenuItem>
+
+                    :
+
+                    <div
+                        style={{
+                            width: '100%',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            flexDirection: 'column',
+                            alignItems: 'center'
+                        }}
+                    >
+
+                        <MenuItem style={{ paddingTop: '10px', paddingBottom: '10px', paddingLeft: '15%', paddingRight: '3%' }} isShow={isSecondContainerVisible} onClick={(e:any) => {
+                            if (auth == true) {
+                                e.stopPropagation()
+                                return setShowTagsArray(false)
+
+                            } else {
+                                console.log(auth);
+
+                                return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                            }
+                        }}>
+
+                            <Keeps />
+                            {
+                                (isSecondContainerVisible) && (
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                                        <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }}>Метки</a></TextGray14pxRegular>
+                                        <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => setShowTagsArray(true)}>
+                                            <SlArrowUp color='white' size={15} />
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        </MenuItem>
+
+                        <div hidden={!isSecondContainerVisible}>
+                            {
+                                tags.map((tag: any) => {
+                                    return (
+                                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', cursor: 'pointer' }} onClick={() => window.location.href = (`/tags/${tag.id}`)}>
+                                            <div style={{ height: '16px', width: '16px', backgroundColor: tag.tag_color, borderRadius: '5px', marginRight: '8px' }} />
+                                            <p style={{ fontSize: '14px', color: 'white' }}>{tag.tag_name}</p>
+                                        </div>
+                                    )
+                                })
+                            }
+                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', cursor: 'pointer', }} onClick={() => window.location.href = (`/tags`)}>
+                                <div style={{ height: '20px', width: '20px', borderRadius: '5px', marginRight: '4px', }}><FiPlusSquare size='18px' color='white' /></div>
+                                <p style={{ fontSize: '14px', color: 'white' }}>Управление метками</p>
+                            </div>
                         </div>
                     </div>
-                )}
 
+            }
 
-            </MenuItem>
             <MenuItem isShow={isSecondContainerVisible} onClick={() => {
                 if (auth == true) {
                     return navigate('/analitics')
