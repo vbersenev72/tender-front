@@ -39,7 +39,7 @@ function App() {
 
     useEffect(() => {
         checkAuth().then((auth) => setAuth(auth))
-        getAllTags().then((tags) => localStorage.setItem('tags', tags))
+        getAllTags().then((tags) => localStorage.setItem('tags', tags)).catch(()=>console.log('Не авторизован'))
     }, [])
 
     // @ts-ignore
