@@ -7,16 +7,18 @@ export async function checkAuth() {
         const token = localStorage.getItem('token')
 
         if (token) {
-            const response = await axios.post(process.env.REACT_APP_API + '/api/auth/auth', {}, {
+            const response:any = await axios.post(process.env.REACT_APP_API + '/api/auth/auth', {}, {
                 headers: {
                     authorization: `Bearer ${token}`
                 }
+            }).catch(() => {
+                showErrorMessage('Вы не авторизованы. Доступ ограничен')
             })
 
-                const newToken = response.data.token
-                localStorage.setItem('token', newToken)
+            const newToken = response.data.token
+            localStorage.setItem('token', newToken)
 
-                return true
+            return true
         }
 
         console.log('Вы не авторизованы');
@@ -24,7 +26,7 @@ export async function checkAuth() {
         return false
 
     } catch (error) {
-        showErrorMessage('Вы не авторизованы. Доступ ограничен')
+        console.log(error);
         return false
     }
 
