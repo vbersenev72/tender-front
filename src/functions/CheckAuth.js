@@ -7,7 +7,7 @@ export async function checkAuth() {
         const token = localStorage.getItem('token')
 
         if (token) {
-            const response:any = await axios.post(process.env.REACT_APP_API + '/api/auth/auth', {}, {
+            const response = await axios.post(process.env.REACT_APP_API + '/api/auth/auth', {}, {
                 headers: {
                     authorization: `Bearer ${token}`
                 }
