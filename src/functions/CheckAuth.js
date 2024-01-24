@@ -1,4 +1,5 @@
 import axios from "axios"
+import { showErrorMessage } from "./Message"
 
 export async function checkAuth() {
 
@@ -19,11 +20,11 @@ export async function checkAuth() {
         }
 
         console.log('Вы не авторизованы');
-        
+
         return false
 
     } catch (error) {
-        console.log(error);
+        showErrorMessage('Вы не авторизованы. Доступ ограничен')
         return false
     }
 
