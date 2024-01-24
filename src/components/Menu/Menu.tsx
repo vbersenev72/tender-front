@@ -25,10 +25,10 @@ export const Menu = ({ auth }: any) => {
 
     const [showTagsArray, setShowTagsArray] = useState(false)
 
-    let tagsFromLs: any = localStorage.getItem('tags')
-    tagsFromLs = JSON.parse(tagsFromLs)
 
-    const [tags, setTags] = useState<any>([...tagsFromLs])
+    let tagsFromLs: any = localStorage.getItem('tags')
+
+    const tags = tagsFromLs ? JSON.parse(tagsFromLs) : []
 
 
     // Обработчик клика по кнопке
@@ -70,7 +70,7 @@ export const Menu = ({ auth }: any) => {
 
                     ?
 
-                    <MenuItem style={{ paddingTop: '10px', paddingBottom: '10px', paddingLeft: '15%', paddingRight: '3%' }} isShow={isSecondContainerVisible} onClick={(e:any) => {
+                    <MenuItem style={{ paddingTop: '10px', paddingBottom: '10px', paddingLeft: '15%', paddingRight: '3%' }} isShow={isSecondContainerVisible} onClick={(e: any) => {
                         if (auth == true) {
                             e.stopPropagation()
                             return setShowTagsArray(true)
@@ -106,7 +106,7 @@ export const Menu = ({ auth }: any) => {
                         }}
                     >
 
-                        <MenuItem style={{ paddingTop: '10px', paddingBottom: '10px', paddingLeft: '15%', paddingRight: '3%' }} isShow={isSecondContainerVisible} onClick={(e:any) => {
+                        <MenuItem style={{ paddingTop: '10px', paddingBottom: '10px', paddingLeft: '15%', paddingRight: '3%' }} isShow={isSecondContainerVisible} onClick={(e: any) => {
                             if (auth == true) {
                                 e.stopPropagation()
                                 return setShowTagsArray(false)
