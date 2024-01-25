@@ -5,7 +5,7 @@ export interface IProfileProps {
 
 export function Profile (props: IProfileProps) {
   return (
-    <div>
+    <div className='personal-menu-content-property'>
       Профиль
     </div>
   );

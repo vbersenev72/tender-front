@@ -62,16 +62,16 @@ export const PersonalPage = () => {
 
             <div className="personal-menu-content">
                 {
-                    viewСhapter == 'profile' && <Profile/>
+                    viewСhapter == 'profile' && <Profile />
                 }
                 {
-                    viewСhapter == 'readyReports' && <ReadyReports/>
+                    viewСhapter == 'readyReports' && <ReadyReports />
                 }
                 {
-                    viewСhapter == 'feedbacks' && <FeedBacks/>
+                    viewСhapter == 'feedbacks' && <FeedBacks />
                 }
                 {
-                    viewСhapter == 'tarrifs' && <Tarrifs/>
+                    viewСhapter == 'tarrifs' && <Tarrifs />
                 }
             </div>
         </div>

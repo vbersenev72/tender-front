@@ -1,9 +1,3 @@
-.personal-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    box-shadow: 10px  #F4F6F9;
-}
 
 .personal-menu-container {
     width: 100%;
@@ -56,4 +50,19 @@
     padding-top: 15px;
     padding-bottom: 15px;
     cursor: pointer;
+}
+
+
+
+
+
+.personal-menu-content-property {
+    width: 80%;
+    background-color: white;
+    height: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: '20px';
 }
