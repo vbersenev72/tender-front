@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
-import { Profile } from "./PersonalContainers.tsx/Profile"
-import { ReadyReports } from "./PersonalContainers.tsx/ReadyReports"
-import FeedBacks from "./PersonalContainers.tsx/FeedBacks"
-import Tarrifs from "./PersonalContainers.tsx/Tarrifs"
+import { Profile } from "./PersonalContainers/Profile"
+import { ReadyReports } from "./PersonalContainers/ReadyReports"
+import FeedBacks from "./PersonalContainers/FeedBacks"
+import Tarrifs from "./PersonalContainers/Tarrifs"
 import './PersonalPage.css'
 
 export const PersonalPage = () => {

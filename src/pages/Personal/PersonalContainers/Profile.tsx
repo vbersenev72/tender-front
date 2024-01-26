@@ -3,7 +3,7 @@ import './Profile/style.css'
 import { Checkbox, FormControlLabel } from '@mui/material';
 import { CiStar } from "react-icons/ci";
 import { GiWallet } from "react-icons/gi";
-import { showErrorMessage } from '../../../functions/Message';
+import { showErrorMessage, showSuccesMessage } from '../../../functions/Message';
 import { LoaderTest } from '../../../styles';
 import { TailSpin } from 'react-loader-spinner';
 import axios from 'axios';
@@ -70,6 +70,59 @@ export function Profile(props: IProfileProps) {
     }
   }
 
+  const editProfile = async () => {
+    try {
+
+      const editProfile = await axios.post(`${process.env.REACT_APP_API}/api/lk/profile`, {
+        name: name,
+        phone: phone,
+        email: email,
+        companyName: companyName,
+        companyInn: companyInn,
+        companyAddress: companyAddress,
+        postAddress: companyPostAddress,
+        pushNotif: pushNotif,
+        emailNotif: emailNotif,
+      }, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+
+      return showSuccesMessage('Профиль обновлён!')
+
+
+    } catch (error) {
+      showErrorMessage('Произошла ошибка, попробуйте позже!')
+    }
+  }
+
+  const changePassword = async () => {
+    try {
+
+      const changePassword = await axios.post(`${process.env.REACT_APP_API}/api/lk/changepass`, {
+        oldPassword: oldPass,
+        newPassword: newPass,
+        copyNewPassword: reEnterNewPass
+      }, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+
+      showSuccesMessage('Пароль изменён!')
+
+      setOldPass('')
+      setNewPass('')
+      setReEnterNewPass('')
+
+    } catch (error: any) {
+
+      console.log(error.response.data.message);
+      return showErrorMessage(error.response.data.message)
+    }
+  }
+
   const getDate = () => {
 
     const day = new Date().getDate();
@@ -81,8 +134,8 @@ export function Profile(props: IProfileProps) {
   }
 
 
-  React.useEffect(()=>{
-    getUserInfo().then(()=>console.log(userInfo))
+  React.useEffect(() => {
+    getUserInfo().then(() => console.log(userInfo))
 
   }, [])
 
@@ -120,7 +173,7 @@ export function Profile(props: IProfileProps) {
                 justifyContent: 'space-between'
               }}>
                 <p style={{ marginRight: '40px' }}>ФИО</p>
-                <input type="text" style={{ width: '100%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} value={name && name}/>
+                <input type="text" style={{ width: '100%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} value={name && name} onChange={(e: any) => setName(e.target.value)} />
               </div>
               <br />
 
@@ -130,7 +183,7 @@ export function Profile(props: IProfileProps) {
                 justifyContent: 'space-between'
               }}>
                 <p style={{ marginRight: '10px' }}>Телефон</p>
-                <input type="text" style={{ width: '100%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} value={phone && phone} />
+                <input type="text" style={{ width: '100%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} value={phone && phone} onChange={(e) => setPhone(e.target.value)} />
               </div>
               <br />
 
@@ -140,7 +193,7 @@ export function Profile(props: IProfileProps) {
                 justifyContent: 'space-between'
               }}>
                 <p style={{ marginRight: '30px' }}>Почта</p>
-                <input type="text" style={{ width: '100%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} value={email & email} />
+                <input type="text" style={{ width: '100%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} value={email} onChange={(e: any) => setEmail(e.target.value)} />
               </div>
               <br />
 
@@ -157,7 +210,9 @@ export function Profile(props: IProfileProps) {
                   cursor: 'pointer',
                   padding: '10px 20px 10px 20px',
                   width: 'fit-content'
-                }}>
+                }}
+                  onClick={() => editProfile()}
+                >
                   <p>Сохранить</p>
                 </div>
               </div>
@@ -178,7 +233,7 @@ export function Profile(props: IProfileProps) {
                 justifyContent: 'space-between'
               }}>
                 <p style={{ marginRight: '22px' }}>Старый пароль</p>
-                <input type="text" style={{ width: '80%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} />
+                <input type="text" style={{ width: '80%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} onChange={(e: any) => setOldPass(e.target.value)} />
               </div>
               <br />
 
@@ -188,7 +243,7 @@ export function Profile(props: IProfileProps) {
                 justifyContent: 'space-between'
               }}>
                 <p style={{ marginRight: '28px' }}>Новый пароль</p>
-                <input type="text" style={{ width: '80%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} />
+                <input type="text" style={{ width: '80%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} onChange={(e: any) => setNewPass(e.target.value)} />
               </div>
               <br />
 
@@ -198,10 +253,9 @@ export function Profile(props: IProfileProps) {
                 justifyContent: 'space-between'
               }}>
                 <p style={{ marginRight: '0' }}>Повторить пароль</p>
-                <input type="text" style={{ width: '80%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} />
+                <input type="text" style={{ width: '80%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} onChange={(e:any)=>setReEnterNewPass(e.target.value)} />
               </div>
               <br />
-
 
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <div style={{
@@ -215,7 +269,9 @@ export function Profile(props: IProfileProps) {
                   cursor: 'pointer',
                   padding: '10px 20px 10px 20px',
                   width: 'fit-content'
-                }}>
+                }}
+                  onClick={changePassword}
+                >
                   <p>Сохранить</p>
                 </div>
               </div>
@@ -236,7 +292,7 @@ export function Profile(props: IProfileProps) {
                 justifyContent: 'space-between'
               }}>
                 <p style={{ marginRight: '60px' }}>Название</p>
-                <input type="text" style={{ width: '100%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} value={companyName && companyName} />
+                <input type="text" style={{ width: '100%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} value={companyName && companyName} onChange={(e: any) => setCompanyName(e.target.value)} />
               </div>
               <br />
 
@@ -246,7 +302,7 @@ export function Profile(props: IProfileProps) {
                 justifyContent: 'space-between'
               }}>
                 <p style={{ marginRight: '100px' }}>ИНН</p>
-                <input type="text" style={{ width: '100%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} value={companyInn && companyInn} />
+                <input type="text" style={{ width: '100%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} value={companyInn && companyInn} onChange={(e: any) => setCompanyInn(e.target.value)} />
               </div>
               <br />
 
@@ -256,7 +312,7 @@ export function Profile(props: IProfileProps) {
                 justifyContent: 'space-between'
               }}>
                 <p style={{ marginRight: '5px' }}>Юридический адрес</p>
-                <input type="text" style={{ width: '100%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} value={companyAddress && companyAddress} />
+                <input type="text" style={{ width: '100%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} value={companyAddress && companyAddress} onChange={(e: any) => setCompanyAddress(e.target.value)} />
               </div>
               <br />
 
@@ -266,7 +322,7 @@ export function Profile(props: IProfileProps) {
                 justifyContent: 'space-between'
               }}>
                 <p style={{ marginRight: '30px' }}>Почтовый адрес</p>
-                <input type="text" style={{ width: '100%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} value={companyPostAddress && companyPostAddress}/>
+                <input type="text" style={{ width: '100%', height: '30px', border: '0.6px solid gray', borderRadius: '3px' }} value={companyPostAddress && companyPostAddress} onChange={(e: any) => setCompanyPostAddress(e.target.value)} />
               </div>
               <br />
 
@@ -283,7 +339,9 @@ export function Profile(props: IProfileProps) {
                   cursor: 'pointer',
                   padding: '10px 20px 10px 20px',
                   width: 'fit-content'
-                }}>
+                }}
+                  onClick={() => editProfile()}
+                >
                   <p>Сохранить</p>
                 </div>
               </div>
@@ -352,8 +410,8 @@ export function Profile(props: IProfileProps) {
                     marginLeft: '0',
                     flexDirection: 'column'
                   }}>
-                    <h3 style={{ display: 'flex', justifyContent: 'flex-start' }}>{userInfo.balance ? userInfo.balance : 0 } руб.</h3>
-                    <p style={{ display: 'flex', justifyContent: 'flex-start', color: '#909EBB' }}>Текущий баланс на {getDate()}</p>
+                    <h3 style={{ display: 'flex', justifyContent: 'flex-start' }}>{userInfo.balance ? userInfo.balance : 0} руб.</h3>
+                    <p style={{ display: 'flex', justifyContent: 'flex-start', color: '#909EBB', fontSize: '12px' }}>Текущий баланс на {getDate()}</p>
                   </div>
 
                   <br />
@@ -413,7 +471,7 @@ export function Profile(props: IProfileProps) {
                     width: '100%',
                     marginLeft: '0',
                     flexDirection: 'column',
-                    height: '47px'
+                    height: '42px'
                   }}>
                     <h3 style={{ display: 'flex', justifyContent: 'flex-start' }}>{
                       userInfo.tariff == 'test' ? 'Тестовый' : userInfo.tariff == 'std' ? 'Стандарт' : 'VIP'
