@@ -18,6 +18,7 @@ import { MyTendersPage } from './pages/MyTenders/MyTendesPage';
 import { TagsPage } from './pages/Tags/Tags/TagsPage';
 import { TagCard } from './pages/Tags/TagCard/TagCard';
 import { AutoSearchPage } from './pages/AutoSearchPage/AutoSearchPage';
+import { AutoSearchCard } from './pages/AutoSearchPage/AutoSearchCard/AutoSearchCard';
 
 function App() {
 
@@ -37,10 +38,25 @@ function App() {
     }
 
 
+    async function getAllAutoSearches() {
+
+        const getAll: any = await axios.get(`${process.env.REACT_APP_API}/api/autosearch/autosearches/all`, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+
+        const autoSearches = JSON.stringify(getAll.data.message)
+
+        return autoSearches
+    }
+
+
 
     useEffect(() => {
         checkAuth().then((auth) => setAuth(auth))
-        getAllTags().then((tags) => localStorage.setItem('tags', tags)).catch(()=>console.log('Не авторизован'))
+        getAllTags().then((tags) => localStorage.setItem('tags', tags)).catch(() => console.log('Не авторизован'))
+        getAllAutoSearches().then((autoSearches) => localStorage.setItem('autosearches', autoSearches)).catch(() => console.log('Не авторизован'))
     }, [])
 
     // @ts-ignore
@@ -64,7 +80,8 @@ function App() {
                         <Route path='/tags' element={<TagsPage />} />
                         <Route path='/tags/:id' element={<TagCard />} />
 
-                        <Route path='/autosearch' element={<AutoSearchPage/>}/>
+                        <Route path='/autosearch' element={<AutoSearchPage />} />
+                        <Route path='/autosearch/:id' element={<AutoSearchCard />} />
                     </Routes>
                     :
                     <Routes>
