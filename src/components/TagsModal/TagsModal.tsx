@@ -1,5 +1,7 @@
 import * as React from 'react';
 import './TagsModal.css'
+import { showErrorMessage, showSuccesMessage } from '../../functions/Message';
+import axios from 'axios';
 
 
 export function TagsModal({ tags, addTagToTender, closeModal, popupTagsPosition, jsonData, addTag, setAddTag }: any) {
@@ -9,7 +11,23 @@ export function TagsModal({ tags, addTagToTender, closeModal, popupTagsPosition,
     console.log(tags);
     console.log(regNum);
 
+    let newTags = [...tags, { id: -1, tag_color: 'white', tag_name: 'Удалить метку' }]
 
+    const deleteTag = async (id: any) => {
+        try {
+
+            const response = await axios.delete(`${process.env.REACT_APP_API}/api/tags/deletefromtender/${id}`, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+
+            return showSuccesMessage(response.data.message)
+
+        } catch (error) {
+            showErrorMessage('Произошла ошибка, попробуйте позже')
+        }
+    }
 
     return (
         <div className='TagsModal-overlay' onClick={closeModal}
@@ -36,18 +54,36 @@ export function TagsModal({ tags, addTagToTender, closeModal, popupTagsPosition,
                 }}
             >
                 {
-                    tags.map((tag: any) => {
+                    newTags.map((tag: any) => {
 
                         return (
-                            <div key={tag.id} style={{ display: 'flex', width: 'fit-content', justifyContent: 'start', alignItems: 'center', cursor: 'pointer', border: addTag.id == tag.id ? '1px solid gray' : ''  }}
-                                onClick={async () => {
-                                    await addTagToTender(regNum, tag.id)
-                                    setAddTag(tag)
-                                }}
-                            >
-                                <div style={{ backgroundColor: tag.tag_color, width: '18px', height: '18px', marginLeft: '10px',  }} />
-                                <p style={{padding: '10px'}}>{tag.tag_name}</p>
-                            </div>
+                            <>
+                                {
+                                    (tag.id == -1)
+                                        ?
+                                        <div key={tag.id} style={{ display: 'flex', width: 'fit-content', justifyContent: 'start', alignItems: 'center', cursor: 'pointer', fontWeight: addTag.id == tag.id ? 'bold' : '' }}
+                                            onClick={async () => {
+                                                await deleteTag(regNum)
+                                                setAddTag()
+                                            }}
+                                        >
+                                            <p style={{ padding: '10px' }}>{tag.tag_name}</p>
+                                        </div>
+
+                                        :
+                                        
+
+                                        <div key={tag.id} style={{ display: 'flex', width: 'fit-content', justifyContent: 'start', alignItems: 'center', cursor: 'pointer', fontWeight: addTag.id == tag.id ? 'bold' : '' }}
+                                            onClick={async () => {
+                                                await addTagToTender(regNum, tag.id)
+                                                setAddTag(tag)
+                                            }}
+                                        >
+                                            <div style={{ backgroundColor: tag.tag_color, width: '18px', height: '18px', marginLeft: '10px', }} />
+                                            <p style={{ padding: '10px' }}>{tag.tag_name}</p>
+                                        </div>
+                                }
+                            </>
                         )
                     })
                 }

@@ -10,9 +10,6 @@ import { showErrorMessage, showSuccesMessage } from "../../functions/Message";
 import { checkAuth } from "../../functions/CheckAuth.js";
 import { checkDigitsOnly } from "../../functions/CheckDigitsOnly";
 
-interface Tender {
-    fz?: string
-}
 
 export const Catalog: FC = () => {
     const [tendersList, setTendersList] = useState([]);
@@ -26,10 +23,35 @@ export const Catalog: FC = () => {
     const [loading, setLoading] = useState(false) // true
     const [textSearch, setTextSearch] = useState('')
 
+    let tags: any = localStorage.getItem('tags')
+    tags = JSON.parse(tags)
+
 
     const [auth, setAuth] = useState<boolean>(false)
     const [openAccesNotif, setOpenAccesNotif] = useState(true)
 
+    const getTagForRegNum = async (regNum: any) => {
+        let result: any = []
+
+        for (let i = 0; i < tags.length; i++) {
+            const tag = tags[i];
+
+            const response:any = await axios.post(`${process.env.REACT_APP_API}/api/tags/gettenderslist`, {
+                idTag: tag.id
+            }, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            }).catch((err) => console.log(err))
+
+            const tenders = response.data.message
+
+            result.push(...tenders)
+
+        }
+
+        
+    }
 
     const fetchData = async () => {
         try {
