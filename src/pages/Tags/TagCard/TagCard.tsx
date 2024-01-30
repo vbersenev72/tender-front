@@ -299,8 +299,8 @@ export function TagCard(props: ITagCardProps) {
                   .map((item: any, index: any) => (
 
                     item ?
-                      item?.fz === 'fz223' ? (<TenderPreiewCard223 key={index} jsonData={item} myTender={true} auth={true} />) :
-                        (<TenderPreiewCard44 key={index} jsonData={item} myTender={true} auth={true} />)
+                      item?.fz === 'fz223' ? (<TenderPreiewCard223 key={index} jsonData={item} myTender={true} auth={true} tag={tag} />) :
+                        (<TenderPreiewCard44 key={index} jsonData={item} myTender={true} auth={true} tag={tag} />)
                       : null
 
                   ))}

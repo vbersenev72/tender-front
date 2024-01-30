@@ -2,14 +2,14 @@ import * as React from 'react';
 import './TagsModal.css'
 
 
-export function TagsModal({ tags, addTagToTender, closeModal, popupTagsPosition, jsonData }: any) {
+export function TagsModal({ tags, addTagToTender, closeModal, popupTagsPosition, jsonData, addTag, setAddTag }: any) {
 
     const regNum = jsonData?.commonInfo?.purchaseNumber ? jsonData?.commonInfo?.purchaseNumber : jsonData?.registrationNumber
-    
+
     console.log(tags);
     console.log(regNum);
-    
-    
+
+
 
     return (
         <div className='TagsModal-overlay' onClick={closeModal}
@@ -37,11 +37,15 @@ export function TagsModal({ tags, addTagToTender, closeModal, popupTagsPosition,
             >
                 {
                     tags.map((tag: any) => {
+
                         return (
-                            <div key={tag.id} style={{ display: 'flex', width: 'fit-content', justifyContent: 'start', alignItems: 'center', cursor: 'pointer' }}
-                                onClick={async () => await addTagToTender(regNum, tag.id)}
+                            <div key={tag.id} style={{ display: 'flex', width: 'fit-content', justifyContent: 'start', alignItems: 'center', cursor: 'pointer', border: addTag.id == tag.id ? '1px solid gray' : ''  }}
+                                onClick={async () => {
+                                    await addTagToTender(regNum, tag.id)
+                                    setAddTag(tag)
+                                }}
                             >
-                                <div style={{ backgroundColor: tag.tag_color, width: '18px', height: '18px', marginLeft: '10px' }} />
+                                <div style={{ backgroundColor: tag.tag_color, width: '18px', height: '18px', marginLeft: '10px',  }} />
                                 <p style={{padding: '10px'}}>{tag.tag_name}</p>
                             </div>
                         )

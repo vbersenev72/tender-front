@@ -60,7 +60,7 @@ export function AutoSearchPage(props: IAutoSearchPageProps) {
 
       showSuccesMessage('Автопоиск создан!')
 
-      setTimeout(() => {}, 2000);
+      setTimeout(() => { }, 2000);
 
       window.location.reload()
 
@@ -69,16 +69,71 @@ export function AutoSearchPage(props: IAutoSearchPageProps) {
     }
   }
 
-  const deleteAutoSearch = (id: any) => {
+  const deleteAutoSearch = async (id: any) => {
     try {
+
+      const response = await axios.delete(`${process.env.REACT_APP_API}/api/autosearch/delete/${id}`, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+
+      showSuccesMessage('Автопоиск успешно удалён')
+
+      setTimeout(() => {}, 3000);
+
+      window.location.reload()
 
     } catch (error: any) {
       showErrorMessage(error.response.data.message)
     }
   }
 
-  const editAutoSearch = (id: any) => {
+  const editAutoSearch = async (id: any) => {
     try {
+
+      if (selectAutoSearchEditName == '') {
+        return showErrorMessage('Имя автопоиска не может быть пустым')
+      }
+
+      const response = await axios.post(`${process.env.REACT_APP_API}/api/autosearch/edit`, {
+        name: selectAutoSearchEditName,
+        tags: '',
+        stopTags: '',
+        publicDateFrom: '',
+        publicDateTo: '',
+        startDateFrom: '',
+        startDateTo: '',
+        endDateFrom: '',
+        endDateTo: '',
+        fz: '',
+        region: "",
+        tenderNum: "",
+        customerName: '',
+        stopCustomerName: '',
+        inn: '',
+        priceFrom: '',
+        priceTo: '',
+        enablePrice: '',
+        purchaseStage: '',
+        methodDeterminingSupplier: '',
+        source: '',
+        enableSource: '',
+        okpd2: '',
+        autoSearchId: id
+      }, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+
+
+
+      showSuccesMessage('Имя изменено!')
+
+      setTimeout(() => {}, 3000);
+
+      window.location.reload()
 
     } catch (error: any) {
       showErrorMessage(error.response.data.message)

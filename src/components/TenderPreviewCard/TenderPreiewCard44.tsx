@@ -18,13 +18,9 @@ import axios from "axios";
 import React from "react";
 import { TagsModal } from "../TagsModal/TagsModal";
 
-interface ITender {
-    jsonData: any,
-    auth: boolean,
-    myTender: any
-}
 
-export const TenderPreiewCard44: FC<ITender> = ({ jsonData, auth, myTender }: any) => {
+
+export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, tag }: any) => {
 
     const [isMyTender, setIsMyTender] = useState(myTender === true)
 
@@ -32,6 +28,8 @@ export const TenderPreiewCard44: FC<ITender> = ({ jsonData, auth, myTender }: an
 
     const [showTagsPopup, setShowTagsPopup] = useState(false);
     const [popupTagsPosition, setPopupTagsPosition] = useState({ x: 0, y: 0 });
+    const [markTag, setMarkTag] = useState<any>(tag)
+
 
 
     const formatDate = (originalDate: string) => {
@@ -258,17 +256,28 @@ export const TenderPreiewCard44: FC<ITender> = ({ jsonData, auth, myTender }: an
                                     <p>Удалить из моих тендеров</p>
                                 </div>
                         }
-                        <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }} onClick={addTagWindow}>
-                            <PiTagSimpleLight size={20} color="dodgerblue" />
-                            <p>Добавить метку</p>
-                        </div>
+                        {
+                            markTag
+                                ?
+                                <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }} onClick={addTagWindow}>
+                                    <div style={{ backgroundColor: markTag.tag_color, width: '22px', height: '22px', marginRight: '8px', borderRadius: '5px' }} />
+                                    <p>{markTag.tag_name}</p>
+                                </div>
+                                :
+                                <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }} onClick={addTagWindow}>
+                                    <PiTagSimpleLight size={20} color="dodgerblue" />
+                                    <p>Добавить метку</p>
+                                </div>
+                        }
+
+
                         <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }}>
                             <IoIosLink size={20} color="dodgerblue" />
                             <p>Официальный сайт</p>
                         </div>
                         <div>
                             {(showTagsPopup && tags.length) > 0 && (
-                                <TagsModal tags={tags} closeModal={closeModal} addTagToTender={addTagToTender} popupTagsPosition={popupTagsPosition} jsonData={jsonData} />
+                                <TagsModal tags={tags} closeModal={closeModal} addTagToTender={addTagToTender} popupTagsPosition={popupTagsPosition} jsonData={jsonData} addTag={markTag} setAddTag={setMarkTag} />
                             )
 
                             }
