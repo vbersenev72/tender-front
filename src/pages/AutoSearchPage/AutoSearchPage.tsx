@@ -1,10 +1,11 @@
 import { Select } from '@mui/material';
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import { LoaderTest } from '../../styles';
 import { FaCheck } from 'react-icons/fa';
-import { showErrorMessage } from '../../functions/Message';
+import { showErrorMessage, showSuccesMessage } from '../../functions/Message';
+import axios from 'axios';
 
 export interface IAutoSearchPageProps {
 }
@@ -22,7 +23,53 @@ export function AutoSearchPage(props: IAutoSearchPageProps) {
   const [selectAutoSearchEditId, setSelectAutoSearchEditId] = useState(0)
   const [selectAutoSearchEditName, setSelectAutoSearchEditName] = useState('')
 
-  const createAutoSearch = () => {
+  const createAutoSearch = async () => {
+    try {
+
+      if (createAutoSearchName == '') return showErrorMessage('Имя автопоиска не может быть пустым')
+
+      const response = await axios.post(`${process.env.REACT_APP_API}/api/autosearch/create`, {
+        name: createAutoSearchName,
+        tags: '',
+        stopTags: '',
+        publicDateFrom: '',
+        publicDateTo: '',
+        startDateFrom: '',
+        startDateTo: '',
+        endDateFrom: '',
+        endDateTo: '',
+        fz: '',
+        region: "",
+        tenderNum: "",
+        customerName: '',
+        stopCustomerName: '',
+        inn: '',
+        priceFrom: '',
+        priceTo: '',
+        enablePrice: '',
+        purchaseStage: '',
+        methodDeterminingSupplier: '',
+        source: '',
+        enableSource: '',
+        okpd2: '',
+      }, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+
+      showSuccesMessage('Автопоиск создан!')
+
+      setTimeout(() => {}, 2000);
+
+      window.location.reload()
+
+    } catch (error: any) {
+      showErrorMessage(error.response.data.message)
+    }
+  }
+
+  const deleteAutoSearch = (id: any) => {
     try {
 
     } catch (error: any) {
@@ -30,7 +77,7 @@ export function AutoSearchPage(props: IAutoSearchPageProps) {
     }
   }
 
-  const deleteAutoSearch = (id:any) => {
+  const editAutoSearch = (id: any) => {
     try {
 
     } catch (error: any) {
@@ -38,13 +85,46 @@ export function AutoSearchPage(props: IAutoSearchPageProps) {
     }
   }
 
-  const editAutoSearch = (id:any) => {
+  const getAll = async () => {
     try {
 
-    } catch (error: any) {
-      showErrorMessage(error.response.data.message)
+      setLoading(true)
+
+      const getAll: any = await axios.get(`${process.env.REACT_APP_API}/api/autosearch/autosearches/all`, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+
+      const newGetAll: any = []
+
+      for (let i = 0; i < getAll.data.message.length; i++) {
+        const autoSearch = getAll.data.message[i];
+
+        let count = await axios.get(`${process.env.REACT_APP_API}/api/autosearch/count/${autoSearch.id}`, {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+
+        const newAutoSearch = { ...autoSearch, count: count.data.message }
+
+        newGetAll.push(newAutoSearch)
+
+      }
+
+      setAutoSearches([...newGetAll])
+
+      setLoading(false)
+
+    } catch (error) {
+      showErrorMessage('Произошла ошибка, попробуйте позже')
     }
   }
+
+  useEffect(() => {
+    getAll()
+  }, [])
 
   return (
     <>
@@ -66,7 +146,7 @@ export function AutoSearchPage(props: IAutoSearchPageProps) {
 
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', border: autoSearches.length != 0 ? '0.6px solid #D6D6D6' : 'none', borderRadius: '5px', flex: 'wrap' }} >
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', border: autoSearches.length != 0 ? '0.6px solid #D6D6D6' : 'none', borderRadius: '5px', flex: 'wrap' }} >
               {
                 autoSearches.length == 0
                   ?
@@ -93,14 +173,14 @@ export function AutoSearchPage(props: IAutoSearchPageProps) {
                         <div key={tag.id} style={{ display: 'flex', alignItems: 'center', padding: '25px', justifyContent: 'space-between' }} onClick={() => setSelectAutoSearchId(tag.id)}>
 
                           <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <div style={{ height: '22px', width: '22px', backgroundColor: tag.tag_color, borderRadius: '5px', marginRight: '15px' }} />
-                            <p style={{ fontSize: '14px', fontWeight: 'bold' }}>{tag.tag_name}</p>
+
+                            <p style={{ fontSize: '14px', fontWeight: 'bold' }}>{tag.name}</p>
                           </div>
 
                           <div style={{ display: 'flex' }}>
                             <p style={{ fontSize: '12px', marginRight: '15px', cursor: 'pointer' }} onClick={() => {
                               setSelectAutoSearchEditId(tag.id)
-                              setSelectAutoSearchEditName(tag.tag_name)
+                              setSelectAutoSearchEditName(tag.name)
                             }}>Редактировать</p>
                             <p style={{ fontSize: '12px', cursor: 'pointer' }} onClick={async () => await deleteAutoSearch(tag.id)}>Удалить</p>
                           </div>
@@ -109,7 +189,7 @@ export function AutoSearchPage(props: IAutoSearchPageProps) {
                         <div key={tag.id} style={{ display: 'flex', alignItems: 'center', padding: '25px', justifyContent: 'space-between' }}>
 
                           <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <div style={{ height: '22px', width: '22px', backgroundColor: tag.tag_color, borderRadius: '5px', marginRight: '15px' }} />
+
                             <input style={{ fontSize: '14px', width: '200px' }} placeholder='Новое имя метки' value={selectAutoSearchEditName} onChange={(e: any) => setSelectAutoSearchEditName(e.target.value)} />
                           </div>
 
