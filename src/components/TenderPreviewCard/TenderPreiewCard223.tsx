@@ -34,6 +34,7 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, tag }: any) 
     const [showTagsPopup, setShowTagsPopup] = useState(false);
     const [popupTagsPosition, setPopupTagsPosition] = useState({ x: 0, y: 0 });
     const [markTag, setMarkTag] = useState<any>(tag)
+    console.log(markTag);
 
 
 
@@ -278,16 +279,18 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, tag }: any) 
                                 </div>
                         }
                         {
-                            markTag
+                            markTag.id == -1
                                 ?
-                                <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }} onClick={addTagWindow}>
-                                    <div style={{ backgroundColor: markTag.tag_color, width: '22px', height: '22px', marginRight: '8px', borderRadius: '5px' }} />
-                                    <p>{markTag.tag_name}</p>
-                                </div>
-                                :
                                 <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }} onClick={addTagWindow}>
                                     <PiTagSimpleLight size={20} color="dodgerblue" />
                                     <p>Добавить метку</p>
+                                </div>
+
+                                :
+
+                                <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }} onClick={addTagWindow}>
+                                    <div style={{ backgroundColor: markTag.tag_color, width: '22px', height: '22px', marginRight: '8px', borderRadius: '5px' }} />
+                                    <p>{markTag.tag_name}</p>
                                 </div>
                         }
                         <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }}>

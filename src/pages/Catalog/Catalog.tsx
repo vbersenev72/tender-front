@@ -23,34 +23,96 @@ export const Catalog: FC = () => {
     const [loading, setLoading] = useState(false) // true
     const [textSearch, setTextSearch] = useState('')
 
-    let tags: any = localStorage.getItem('tags')
-    tags = JSON.parse(tags)
-
 
     const [auth, setAuth] = useState<boolean>(false)
     const [openAccesNotif, setOpenAccesNotif] = useState(true)
 
+    const [getTagForRegNumList, setGetTagForRegNumList] = useState<any>([])
+
     const getTagForRegNum = async (regNum: any) => {
+
         let result: any = []
+
+        let tags: any = localStorage.getItem('tags')
+        tags = JSON.parse(tags)
 
         for (let i = 0; i < tags.length; i++) {
             const tag = tags[i];
 
-            const response:any = await axios.post(`${process.env.REACT_APP_API}/api/tags/gettenderslist`, {
-                idTag: tag.id
-            }, {
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            }).catch((err) => console.log(err))
+            try {
 
-            const tenders = response.data.message
+                const response: any = await axios.post(`${process.env.REACT_APP_API}/api/tags/gettenderslist`, {
+                    idTag: tag.id
+                }, {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                })
 
-            result.push(...tenders)
+                const tenders = response.data.message
+
+                result.push(...tenders)
+
+
+            } catch (error) {
+                showErrorMessage('Произошла ошибка, попробуйте позже')
+            }
 
         }
 
-        
+        for (let i = 0; i < result.length; i++) {
+            try {
+                const tender = result[i];
+                console.log(tender.reg_num == regNum);
+
+                if (tender.reg_num == regNum) {
+                    const findTag = await axios.get(`${process.env.REACT_APP_API}/api/tags/${tender.tag_id}`, {
+                        headers: {
+                            authorization: `Bearer ${localStorage.getItem('token')}`
+                        }
+                    })
+
+                    // console.log(findTag.data.message);
+                    // console.log(tender.reg_num + ' + '+regNum);
+                    // console.log('tender data > '+JSON.stringify(tender));
+
+
+
+                    return findTag.data.message
+                }
+            } catch (error) {
+                showErrorMessage('Произошла ошибка, попробуйте позже')
+            }
+
+        }
+        return
+    }
+
+    const getTagsForAllRegNums = () => {
+        const list = tendersList.map(async (tender: any) => {
+            if (tender.fz == 'fz44') {
+                const regNum = tender?.commonInfo?.purchaseNumber
+                const tag = await getTagForRegNum(regNum)
+                return tag
+            }
+
+            if (tender.fz == 'fz223') {
+                const regNum = tender?.registrationNumber
+                const tag = await getTagForRegNum(regNum)
+                return tag
+            }
+        })
+
+        setGetTagForRegNumList([...list])
+
+
+
+    }
+
+    const getTag = async (regNum: any) => {
+        const tag = getTagForRegNumList.find((tag:any)=>tag.reg_num == regNum)
+
+        return tag
     }
 
     const fetchData = async () => {
@@ -142,6 +204,8 @@ export const Catalog: FC = () => {
         console.log('fz', fz)
 
         fetchData();
+        getTagsForAllRegNums()
+
     }, [currentPage, fz]);
 
 
@@ -221,10 +285,10 @@ export const Catalog: FC = () => {
                         .map((item: any, index) => (
                             // Проверка на null перед отображением TenderPreiewC
                             item ?
-                                item?.fz === 'fz223' ? (<TenderPreiewCard223 key={index} jsonData={item} auth={auth} myTender={false} />)
+                                item?.fz === 'fz223' ? (<TenderPreiewCard223 key={index} jsonData={item} auth={auth} myTender={false} tag={getTag(item?.registrationNumber)} />)
                                     :
 
-                                    (<TenderPreiewCard44 key={index} jsonData={item} myTender={false} auth={auth} />)
+                                    (<TenderPreiewCard44 key={index} jsonData={item} myTender={false} auth={auth} tag={getTag(item.commonInfo?.purchaseNumber)} />)
                                 : null
 
                         ))}

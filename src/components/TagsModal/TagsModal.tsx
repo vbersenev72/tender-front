@@ -2,6 +2,7 @@ import * as React from 'react';
 import './TagsModal.css'
 import { showErrorMessage, showSuccesMessage } from '../../functions/Message';
 import axios from 'axios';
+import { FaMinus } from 'react-icons/fa';
 
 
 export function TagsModal({ tags, addTagToTender, closeModal, popupTagsPosition, jsonData, addTag, setAddTag }: any) {
@@ -11,7 +12,9 @@ export function TagsModal({ tags, addTagToTender, closeModal, popupTagsPosition,
     console.log(tags);
     console.log(regNum);
 
-    let newTags = [...tags, { id: -1, tag_color: 'white', tag_name: 'Удалить метку' }]
+    const [newTags, setNewTags] = React.useState<any>([...tags, { id: -1, tag_color: 'white', tag_name: 'Удалить метку' }])
+
+
 
     const deleteTag = async (id: any) => {
         try {
@@ -54,6 +57,8 @@ export function TagsModal({ tags, addTagToTender, closeModal, popupTagsPosition,
                 }}
             >
                 {
+                    newTags.length != 0
+                    &&
                     newTags.map((tag: any) => {
 
                         return (
@@ -64,14 +69,15 @@ export function TagsModal({ tags, addTagToTender, closeModal, popupTagsPosition,
                                         <div key={tag.id} style={{ display: 'flex', width: 'fit-content', justifyContent: 'start', alignItems: 'center', cursor: 'pointer', fontWeight: addTag.id == tag.id ? 'bold' : '' }}
                                             onClick={async () => {
                                                 await deleteTag(regNum)
-                                                setAddTag()
+                                                setAddTag({ id: -1, tag_color: 'white', tag_name: 'Удалить метку' })
                                             }}
                                         >
+                                            <FaMinus/>
                                             <p style={{ padding: '10px' }}>{tag.tag_name}</p>
                                         </div>
 
                                         :
-                                        
+
 
                                         <div key={tag.id} style={{ display: 'flex', width: 'fit-content', justifyContent: 'start', alignItems: 'center', cursor: 'pointer', fontWeight: addTag.id == tag.id ? 'bold' : '' }}
                                             onClick={async () => {
