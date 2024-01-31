@@ -1,0 +1,49 @@
+.AdvancedSearch-container {
+    width: 100%;
+    display: flex;
+
+
+}
+
+.AdvancedSearch-content {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.AdvancedSearch-inputForm {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    text-wrap: nowrap;
+    padding-bottom: 10px;
+}
+
+.AdvancedSearch-input {
+    width: 80%;
+    height: 30px;
+    padding: 3px;
+}
+
+.AdvancedSearch-form {
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+    height: fit-content;
+    margin: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+    border-radius: 3px;
+}
+
+.AdvancedSearch-inputname {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    text-align: center;
+}

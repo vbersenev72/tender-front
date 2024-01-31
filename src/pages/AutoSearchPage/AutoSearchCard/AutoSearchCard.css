@@ -1,0 +1,15 @@
+
+.AutoSearchCard-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+}
+
+.AutoSearchCard-content {
+    width: 85%;
+}
+
+.AutoSearchCard-preview {
+    margin-bottom: 50px;
+}
