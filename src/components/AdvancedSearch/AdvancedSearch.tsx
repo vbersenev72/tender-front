@@ -1,6 +1,12 @@
 import * as React from 'react';
 import './AdvancedSearch.css'
 import Select from 'react-select'
+import { TailSpin } from 'react-loader-spinner';
+import { LoaderTest } from '../../styles';
+import { Checkbox, FormControlLabel } from '@mui/material';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 
 export interface IAdvancedSearchProps {
 }
@@ -26,7 +32,6 @@ export default function AdvancedSearch(props: IAdvancedSearchProps) {
         { value: 'Выбор1', label: 'Выбор 3' },
         { value: 'Выбор1', label: 'Выбор 4' },
     ]
-
 
 
 
@@ -87,12 +92,71 @@ export default function AdvancedSearch(props: IAdvancedSearchProps) {
             </div>
             <div className='AdvancedSearch-content'>
                 <form className='AdvancedSearch-form'>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
+                    <div className='AdvancedSearch-inputForm'>
+                        <p className='AdvancedSearch-inputname'>Заказчик или организатор</p>
+                        <input type="text" className='AdvancedSearch-input' placeholder='Наименование заказчика или организатора' />
+                    </div>
+
+                    <div className='AdvancedSearch-inputForm'>
+                        <p className='AdvancedSearch-inputname'>ИНН</p>
+                        <input type="text" className='AdvancedSearch-input' placeholder='Разделённые пробелами ИНН заказчика или организатора' />
+                    </div>
+
+                    <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <div className='AdvancedSearch-inputForm'>
+                                <p className='AdvancedSearch-inputname'>Цена котракта от</p>
+                                <input type="text" className='AdvancedSearch-input' placeholder='Минимальная цена' />
+                            </div>
+                            <div className='AdvancedSearch-inputForm'>
+                                <p className='AdvancedSearch-inputname'>до</p>
+                                <input type="text" className='AdvancedSearch-input' placeholder='Максимальная цена' />
+                            </div>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                            <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Включая тендеры без цены" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <div className='AdvancedSearch-inputForm'>
+                                <p className='AdvancedSearch-inputname'>Дата начала от</p>
+                                <DatePicker className='AdvancedSearch-input' />
+                            </div>
+                            <div className='AdvancedSearch-inputForm'>
+                                <p className='AdvancedSearch-inputname'>до</p>
+                                <DatePicker className='AdvancedSearch-input' />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <div className='AdvancedSearch-inputForm'>
+                                <p className='AdvancedSearch-inputname'>Дата окончания от</p>
+                                <DatePicker className='AdvancedSearch-input'/>
+                            </div>
+                            <div className='AdvancedSearch-inputForm'>
+                                <p className='AdvancedSearch-inputname'>до</p>
+                                <DatePicker className='AdvancedSearch-input' />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <div className='AdvancedSearch-inputForm'>
+                                <p className='AdvancedSearch-inputname'>Дата публикации от</p>
+                                <DatePicker className='AdvancedSearch-input' />
+                            </div>
+                            <div className='AdvancedSearch-inputForm'>
+                                <p className='AdvancedSearch-inputname'>до</p>
+                                <DatePicker className='AdvancedSearch-input' />
+                            </div>
+                        </div>
+                    </div>
+
                     <div></div>
                     <div></div>
                     <div></div>
