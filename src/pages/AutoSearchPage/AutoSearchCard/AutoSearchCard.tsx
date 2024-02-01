@@ -7,6 +7,7 @@ import { TailSpin } from 'react-loader-spinner';
 import { LoaderTest } from '../../../styles';
 import { showErrorMessage, showSuccesMessage } from '../../../functions/Message';
 import axios from 'axios';
+import { RiFileExcel2Line } from 'react-icons/ri';
 
 export interface IAutoSearchCardProps {
 }
@@ -53,6 +54,9 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
   const [tenders, setTenders] = useState<any>([])
   const [beforeTenders, setBeforeTenders] = useState<any>([])
 
+
+
+  const [count, setCount] = useState('')
   // sort by
   const [sortByDateAdded, setSortByDateAdded] = useState(true)
   const [sortByDateStart, setSortByDateStart] = useState(false)
@@ -189,6 +193,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
 
   };
 
+
   React.useEffect(() => {
     const getTenders = async () => {
       try {
@@ -200,7 +205,15 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
           }
         })
 
+        let countTenders = await axios.get(`${process.env.REACT_APP_API}/api/autosearch/count/${id}`, {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+
+
         const tendersList = response.data.message
+        setCount(countTenders.data.message)
         setTenders([...tendersList])
         setBeforeTenders([...tendersList])
 
@@ -227,8 +240,8 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
           <div className='AutoSearchCard-container'>
             <div className="AutoSearchCard-content">
               <div className="AutoSearchCard-preview">
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', fontSize: '30px', width: 'fit-content' }}>
-                  <p>Параметры автопоиска</p>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', fontSize: '26px', width: 'fit-content', }}>
+                  <p style={{lineHeight: '25.23px'}}>Параметры автопоиска</p>
                   {
                     showAdvancedSearch
                       ?
@@ -272,11 +285,99 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                         <div className='AdvancedSearchButton' onClick={clearAllFields}><p>Сбросить</p></div>
                       </div>
                     </div>
-
-
-
                   </>
                 }
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', fontSize: '30px', width: 'fit-content' }}>
+                  <br />
+                  <br />
+                  <br />
+                  <p>Результаты автопоиска</p>
+                  <p style={{ fontSize: '16px', color: '#2F3D4A', marginLeft: '10px', paddingTop: '5px' }}>Найдено {count} тендеров</p>
+                </div>
+
+                <div className="Mytenders-sort">
+                  <div className='Mytenders-sort-list'>
+                    <div style={{ color: 'gray', paddingLeft: '0px', display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: '15px' }}><p>Сортировать по</p></div>
+
+                    <div className="sort-property" onClick={() => {
+                      setSortByDateAdded(false)
+                      setSortByDateStart(true)
+                      setSortByPrice(false)
+                      setSortByDateFinished(false)
+                      setSortByDatePublic(false)
+                      sortByDateStartTenders()
+
+                    }}>
+                      {
+                        !sortByDateStart
+                          ?
+                          <p>Дата начала подачи заявок</p>
+                          :
+                          <p style={{ fontWeight: 'bold' }}>Дата начала подачи заявок</p>
+                      }
+                    </div>
+
+                    <div className="sort-property" onClick={() => {
+                      setSortByDateAdded(false)
+                      setSortByDateStart(false)
+                      setSortByPrice(true)
+                      setSortByDateFinished(false)
+                      setSortByDatePublic(false)
+                      sortByPriceTenders()
+
+                    }}>
+                      {
+                        !sortByPrice
+                          ?
+                          <p>Цена</p>
+                          :
+                          <p style={{ fontWeight: 'bold' }}>Цена</p>
+                      }
+                    </div>
+
+                    <div className="sort-property" onClick={() => {
+                      setSortByDateAdded(false)
+                      setSortByDateStart(false)
+                      setSortByPrice(false)
+                      setSortByDateFinished(true)
+                      setSortByDatePublic(false)
+
+                      sortByDateFinishedTenders()
+
+                    }}>
+                      {
+                        !sortByDateFinished
+                          ?
+                          <p>Дата окончания</p>
+                          :
+                          <p style={{ fontWeight: 'bold' }}>Дата окончания</p>
+                      }
+                    </div>
+
+                    <div className="sort-property" onClick={() => {
+                      setSortByDateAdded(false)
+                      setSortByDateStart(false)
+                      setSortByPrice(false)
+                      setSortByDateFinished(false)
+                      setSortByDatePublic(true)
+
+                      sortByDatePublicTenders()
+
+                    }}>
+                      {
+                        !sortByDatePublic
+                          ?
+                          <p>Дата публикации</p>
+                          :
+                          <p style={{ fontWeight: 'bold' }}>Дата публикации</p>
+                      }
+                    </div>
+
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }}>
+                    <RiFileExcel2Line size={30} color='#3294F4' />
+                  </div>
+                </div>
 
 
 
