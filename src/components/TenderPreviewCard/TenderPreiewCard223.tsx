@@ -23,7 +23,7 @@ import { TagsModal } from "../TagsModal/TagsModal";
 
 
 
-export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, tag }: any) => {
+export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender }: any) => {
 
     const [isMyTender, setIsMyTender] = useState(myTender === true)
 
@@ -33,9 +33,68 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, tag }: any) 
 
     const [showTagsPopup, setShowTagsPopup] = useState(false);
     const [popupTagsPosition, setPopupTagsPosition] = useState({ x: 0, y: 0 });
-    const [markTag, setMarkTag] = useState<any>(tag)
-    console.log(markTag);
+    const [markTag, setMarkTag] = useState<any>()
 
+    const regNum: any = jsonData?.commonInfo?.purchaseNumber ? jsonData?.commonInfo?.purchaseNumber : jsonData?.registrationNumber
+
+    const getTagForRegNum = async () => {
+
+        let result: any = []
+
+        let tags: any = localStorage.getItem('tags')
+        tags = JSON.parse(tags)
+
+        for (let i = 0; i < tags.length; i++) {
+            const tag = tags[i];
+
+            try {
+
+                const response: any = await axios.post(`${process.env.REACT_APP_API}/api/tags/gettenderslist`, {
+                    idTag: tag.id
+                }, {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                })
+
+                const tenders = response.data.message
+
+                result.push(...tenders)
+
+
+            } catch (error) {
+                showErrorMessage('Произошла ошибка, попробуйте позже')
+            }
+
+        }
+
+        for (let i = 0; i < result.length; i++) {
+            try {
+                const tender = result[i];
+                console.log(tender.reg_num == regNum);
+
+                if (tender.reg_num == regNum) {
+                    const findTag = await axios.get(`${process.env.REACT_APP_API}/api/tags/${tender.tag_id}`, {
+                        headers: {
+                            authorization: `Bearer ${localStorage.getItem('token')}`
+                        }
+                    })
+
+                    // console.log(findTag.data.message);
+                    // console.log(tender.reg_num + ' + '+regNum);
+                    // console.log('tender data > '+JSON.stringify(tender));
+
+
+                    setMarkTag(findTag.data.message)
+                    return findTag.data.message
+                }
+            } catch (error) {
+                showErrorMessage('Произошла ошибка, попробуйте позже')
+            }
+
+        }
+        return
+    }
 
 
     const addMyTenders = async (id: any) => {
@@ -139,6 +198,11 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, tag }: any) 
     const closeModal = () => {
         setShowTagsPopup(false)
     }
+
+    useEffect(() => {
+        getTagForRegNum().then((data:any)=>console.log(data))
+    }, [])
+
 
 
     return (
@@ -279,7 +343,7 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, tag }: any) 
                                 </div>
                         }
                         {
-                            markTag.id == -1
+                            (!markTag || markTag.id == -1)
                                 ?
                                 <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }} onClick={addTagWindow}>
                                     <PiTagSimpleLight size={20} color="dodgerblue" />

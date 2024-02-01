@@ -41,6 +41,8 @@ export function MyTendersPage(props: any) {
   const [sortByDateFinished, setSortByDateFinished] = useState(false)
   const [sortByDatePublic, setSortByDatePublic] = useState(false)
 
+  const [getTagForRegNumList, setGetTagForRegNumList] = useState<any>([])
+
   const getMyTenders = async () => {
     try {
       setLoading(true)
@@ -291,6 +293,8 @@ export function MyTendersPage(props: any) {
     setTenders(newTendersArray)
   }
 
+
+
   useEffect(() => {
     getMyTenders()
     sortByDateAddedTenders()
@@ -499,8 +503,8 @@ export function MyTendersPage(props: any) {
                   .map((item: any, index: any) => (
 
                     item ?
-                      item?.fz === 'fz223' ? (<TenderPreiewCard223 key={index} jsonData={item} myTender={true} auth={true} />) :
-                        (<TenderPreiewCard44 key={index} jsonData={item} myTender={true} auth={true} />)
+                      item?.fz === 'fz223' ? (<TenderPreiewCard223 key={index} jsonData={item} myTender={true} auth={true}/>) :
+                        (<TenderPreiewCard44 key={index} jsonData={item} myTender={true} auth={true}  />)
                       : null
 
                   ))}

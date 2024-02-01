@@ -11,7 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 export interface IAdvancedSearchProps {
 }
 
-export default function AdvancedSearch(props: IAdvancedSearchProps) {
+export default function AdvancedSearch(props: any) {
 
     const regionOptions =
         [
@@ -135,7 +135,7 @@ export default function AdvancedSearch(props: IAdvancedSearchProps) {
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>Дата окончания от</p>
-                                <DatePicker className='AdvancedSearch-input'/>
+                                <DatePicker className='AdvancedSearch-input' />
                             </div>
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>до</p>
@@ -157,12 +157,55 @@ export default function AdvancedSearch(props: IAdvancedSearchProps) {
                         </div>
                     </div>
 
-                    <div></div>
-                    <div></div>
-                    <div></div>
+                    <div>
+                        <div className='AdvancedSearch-inputForm'>
+                            <p className='AdvancedSearch-inputname'>Этап закупки</p>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}>
+                                <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Подача заявок" />
+                                <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Закупка отменена" />
+                                <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Работа комиссии" />
+                                <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Закупка приостановлена" />
+                                <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Закупка завершена" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className='AdvancedSearch-inputForm'>
+                            <p className='AdvancedSearch-inputname'>Способ определения поставщика</p>
+                            <div style={{ width: '100%' }}>
+                                <Select options={okpd2Options} placeholder='Не выбрано' />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <div className='AdvancedSearch-inputForm'>
+                            <p className='AdvancedSearch-inputname'>Законы</p>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}>
+                                <FormControlLabel control={<Checkbox defaultChecked={false} />} label="44-ФЗ" />
+                                <FormControlLabel control={<Checkbox defaultChecked={false} />} label="223-ФЗ" />
+                                <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Коммерческие" />
+                            </div>
+                        </div>
+                    </div>
+
                 </form>
                 <form className='AdvancedSearch-form'>
-                    <div></div>
+                    <div>
+                        <div>
+
+                            <div className='AdvancedSearch-inputForm'>
+                                <p className='AdvancedSearch-inputname'>Источник</p>
+                                <input type="text" className='AdvancedSearch-input' placeholder='Например: zakupki' />
+                            </div>
+
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Исключить источник" />
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
