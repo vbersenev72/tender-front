@@ -17,10 +17,11 @@ import { showErrorMessage, showSuccesMessage } from "../../functions/Message";
 import axios from "axios";
 import React from "react";
 import { TagsModal } from "../TagsModal/TagsModal";
+import { IoEye } from "react-icons/io5";
 
 
 
-export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, tag }: any) => {
+export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButton }: any) => {
 
     const [isMyTender, setIsMyTender] = useState(myTender === true)
 
@@ -28,7 +29,9 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, tag }: any) =
 
     const [showTagsPopup, setShowTagsPopup] = useState(false);
     const [popupTagsPosition, setPopupTagsPosition] = useState({ x: 0, y: 0 });
-    const [markTag, setMarkTag] = useState<any>(tag)
+    const [markTag, setMarkTag] = useState<any>()
+    const [readButton, setReadButton] = useState((showReadButton || showReadButton == true) ? true : false )
+
     const regNum: any = jsonData?.commonInfo?.purchaseNumber ? jsonData?.commonInfo?.purchaseNumber : jsonData?.registrationNumber
 
     const getTagForRegNum = async () => {
@@ -192,8 +195,25 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, tag }: any) =
         setShowTagsPopup(false)
     }
 
+    const ReadTender = async () => {
+        try {
+
+            const response = await axios.post(`${process.env.REACT_APP_API}/api/autosearch/read/${regNum}`, {}, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+
+            setReadButton(false)
+            return showSuccesMessage('Отмечено как просмотренное!')
+
+        } catch (error) {
+            showErrorMessage('Что то пошло не так, попробуйте позже')
+        }
+    }
+
     useEffect(() => {
-        getTagForRegNum().then((data:any)=>console.log(data))
+        getTagForRegNum().then((data: any) => console.log(data))
     }, [])
 
 
@@ -249,8 +269,15 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, tag }: any) =
                             </FlexTextColumn>
                         </FlexTextColumn>
                         <FlexTextColumn style={{ width: '30%', paddingLeft: '15px' }}>
-                            <FlexTextRow style={{ width: '100%' }}>
-                                <TextGray14pxRegular >Начальная цена</TextGray14pxRegular>
+                            <FlexTextRow style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <TextGray14pxRegular style={{ marginRight: '20px' }} >Начальная цена</TextGray14pxRegular>
+                                {
+                                    readButton
+                                    &&
+                                    <div style={{ top: '0', right: '0', cursor: 'pointer' }} onClick={ReadTender}>
+                                        <IoEye color="dodgerblue" size={28} />
+                                    </div>
+                                }
                             </FlexTextRow>
                             <FlexTextRow style={{ width: '100%' }}>
                                 <TextBlack22pxRegular>

@@ -19,11 +19,12 @@ import { PiTagSimpleLight } from "react-icons/pi";
 import { CiCircleMinus } from "react-icons/ci";
 import axios from "axios";
 import { TagsModal } from "../TagsModal/TagsModal";
+import { IoEye } from "react-icons/io5";
 
 
 
 
-export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender }: any) => {
+export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButton }: any) => {
 
     const [isMyTender, setIsMyTender] = useState(myTender === true)
 
@@ -34,6 +35,7 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender }: any) => {
     const [showTagsPopup, setShowTagsPopup] = useState(false);
     const [popupTagsPosition, setPopupTagsPosition] = useState({ x: 0, y: 0 });
     const [markTag, setMarkTag] = useState<any>()
+    const [readButton, setReadButton] = useState((showReadButton || showReadButton == true) ? true : false )
 
     const regNum: any = jsonData?.commonInfo?.purchaseNumber ? jsonData?.commonInfo?.purchaseNumber : jsonData?.registrationNumber
 
@@ -199,8 +201,26 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender }: any) => {
         setShowTagsPopup(false)
     }
 
+    const ReadTender = async () => {
+        try {
+
+            const response = await axios.post(`${process.env.REACT_APP_API}/api/autosearch/read/${regNum}`, {}, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+
+            setReadButton(false)
+            return showSuccesMessage('Отмечено как просмотренное!')
+
+        } catch (error) {
+            showErrorMessage('Что то пошло не так, попробуйте позже')
+        }
+    }
+
+
     useEffect(() => {
-        getTagForRegNum().then((data:any)=>console.log(data))
+        getTagForRegNum().then((data: any) => console.log(data))
     }, [])
 
 
@@ -272,8 +292,15 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender }: any) => {
                             </FlexTextColumn>
                         </FlexTextColumn>
                         <FlexTextColumn style={{ width: '30%', paddingLeft: '15px' }}>
-                            <FlexTextRow style={{ width: '100%' }}>
+                            <FlexTextRow style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <TextGray14pxRegular style={{ marginRight: '20px' }} >Начальная цена</TextGray14pxRegular>
+                                {
+                                    readButton
+                                    &&
+                                    <div style={{ top: '0', right: '0', cursor: 'pointer' }} onClick={ReadTender}>
+                                        <IoEye color="dodgerblue" size={28} />
+                                    </div>
+                                }
                             </FlexTextRow>
                             <FlexTextRow style={{ width: '100%' }}>
                                 <TextBlack22pxRegular>

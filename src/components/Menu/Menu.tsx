@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { MenuContainer, MenuItem } from './styles'
 import { TextGray14pxRegular } from "../../constants/fonts";
 import { ReactComponent as Finder } from '../../assets/icons/finder.svg'
@@ -17,6 +17,7 @@ import { SlArrowDown } from "react-icons/sl";
 import { SlArrowUp } from "react-icons/sl";
 import { CiSquarePlus } from "react-icons/ci";
 import { FiPlusSquare } from "react-icons/fi";
+import axios from 'axios';
 
 export const Menu = ({ auth }: any) => {
 
@@ -25,10 +26,10 @@ export const Menu = ({ auth }: any) => {
 
     const [showTagsArray, setShowTagsArray] = useState(false)
     const [showAutoSearchesArray, setShowAutoSearchesArray] = useState(false)
-
+    const [newAutoSearches, setNewAutoSearches] = useState<any>([])
 
     let tagsFromLs: any = localStorage.getItem('tags')
-    let autoSearchesFromLs:any = localStorage.getItem('autosearches')
+    let autoSearchesFromLs: any = localStorage.getItem('autosearches')
 
     const tags = tagsFromLs ? JSON.parse(tagsFromLs) : []
     const autoSearches = autoSearchesFromLs ? JSON.parse(autoSearchesFromLs) : []
@@ -39,6 +40,48 @@ export const Menu = ({ auth }: any) => {
         setSecondContainerVisible(!isSecondContainerVisible);
     };
 
+    const getAutoSearchersCount = async () => {
+        try {
+
+            // let newAutoSearches = autoSearches.map((autoSearch: any) => {
+            //     let countTenders = axios.get(`${process.env.REACT_APP_API}/api/autosearch/count/${autoSearch.id}`, {
+            //         headers: {
+            //             authorization: `Bearer ${localStorage.getItem('token')}`
+            //         }
+            //     }).then((data: any) => data.message)
+
+            //     return { ...autoSearch, count: countTenders }
+            // })
+
+            let newAutoSearches: any = []
+
+            for (let i = 0; i < autoSearches.length; i++) {
+                const autoSearch = autoSearches[i];
+
+                let countTenders = await axios.get(`${process.env.REACT_APP_API}/api/autosearch/count/${autoSearch.id}`, {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                })
+
+                newAutoSearches.push({ ...autoSearch, count: countTenders.data.message })
+
+            }
+
+            console.log(newAutoSearches);
+
+            setNewAutoSearches([...newAutoSearches])
+
+
+        } catch (error) {
+            showErrorMessage('Что то пошло не так!')
+        }
+    }
+
+
+    useEffect(() => {
+        getAutoSearchersCount()
+    }, [])
 
     return (
         <MenuContainer onClick={handleClick} isShow={isSecondContainerVisible}>
@@ -101,7 +144,7 @@ export const Menu = ({ auth }: any) => {
                             }
                         }}>
 
-                            <ReFinder/>
+                            <ReFinder />
                             {
                                 (isSecondContainerVisible) && (
                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
@@ -116,12 +159,12 @@ export const Menu = ({ auth }: any) => {
 
                         <div hidden={!isSecondContainerVisible}>
                             {
-                                autoSearches.map((autoSearch: any) => {
+                                newAutoSearches.map((autoSearch: any) => {
                                     return (
-                                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', cursor: 'pointer', justifyContent:' space-between' }} onClick={() => window.location.href = (`/autosearch/${autoSearch.id}`)}>
+                                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', cursor: 'pointer', justifyContent: ' space-between' }} onClick={() => window.location.href = (`/autosearch/${autoSearch.id}`)}>
 
                                             <p style={{ fontSize: '14px', color: '#646F80' }}>{autoSearch.name}</p>
-                                            <p style={{color: 'white'}}>{5}</p>
+                                            <p style={{ color: 'white' }}>{autoSearch.count}</p>
                                         </div>
                                     )
                                 })

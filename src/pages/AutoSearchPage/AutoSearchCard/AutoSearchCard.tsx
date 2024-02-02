@@ -8,6 +8,7 @@ import { LoaderTest } from '../../../styles';
 import { showErrorMessage, showSuccesMessage } from '../../../functions/Message';
 import axios from 'axios';
 import { RiFileExcel2Line } from 'react-icons/ri';
+import { TenderPreiewCard223, TenderPreiewCard44 } from '../../../components/TenderPreviewCard';
 
 export interface IAutoSearchCardProps {
 }
@@ -241,7 +242,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
             <div className="AutoSearchCard-content">
               <div className="AutoSearchCard-preview">
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', fontSize: '26px', width: 'fit-content', }}>
-                  <p style={{lineHeight: '25.23px'}}>Параметры автопоиска</p>
+                  <p style={{ lineHeight: '25.23px' }}>Параметры автопоиска</p>
                   {
                     showAdvancedSearch
                       ?
@@ -376,6 +377,32 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }}>
                     <RiFileExcel2Line size={30} color='#3294F4' />
+                  </div>
+                </div>
+                <br />
+
+                <div className='MyTendersList-container'>
+                  <div className="MyTendersList-content">
+                    {tenders
+                      .map((item: any, index: any) => (
+
+                        item ?
+                          item?.fz === 'fz223' ? (<TenderPreiewCard223 key={index} jsonData={item} auth={true} showReadButton={true} />) :
+                            (<TenderPreiewCard44 key={index} jsonData={item} auth={true} showReadButton={true} />)
+                          : null
+
+                      ))}
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+                    <button onClick={() => handlePageChange((currentPage - 1))} disabled={currentPage === 1}>
+                      Назад
+                    </button>
+                    <span style={{ margin: '0 10px' }}>Страница {currentPage}</span>
+                    <button onClick={() => {
+                      handlePageChange((currentPage + 1))
+                    }}>
+                      Вперед
+                    </button>
                   </div>
                 </div>
 
