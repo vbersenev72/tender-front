@@ -9,6 +9,7 @@ import { showErrorMessage, showSuccesMessage } from '../../../functions/Message'
 import axios from 'axios';
 import { RiFileExcel2Line } from 'react-icons/ri';
 import { TenderPreiewCard223, TenderPreiewCard44 } from '../../../components/TenderPreviewCard';
+import { createReport } from '../../../functions/createReport';
 
 export interface IAutoSearchCardProps {
 }
@@ -66,6 +67,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
   const [sortByDatePublic, setSortByDatePublic] = useState(false)
 
 
+
   const clearAllFields = () => {
     setTags('')
     setStopTags('')
@@ -91,9 +93,6 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
     showSuccesMessage('Все параметры сброшены!')
   }
 
-  const excelExport = () => {
-    showSuccesMessage('Ожидайте отчёт в течение 5 минут.')
-  }
 
   const saveAutoSearch = async () => {
     showSuccesMessage('Изменения сохранены!')
@@ -282,7 +281,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                       <div style={{ width: '50%', display: 'flex', justifyContent: 'space-around' }}>
                         <div className='AdvancedSearchButton' style={{ backgroundColor: 'dodgerblue', color: 'white' }}><p>Поиск</p></div>
                         <div className='AdvancedSearchButton' onClick={saveAutoSearch} ><p>Сохранить изменения</p></div>
-                        <div className='AdvancedSearchButton' onClick={excelExport}><p>Excel</p></div>
+                        <div className='AdvancedSearchButton' onClick={() => createReport([...tenders])}><p>Excel</p></div>
                         <div className='AdvancedSearchButton' onClick={clearAllFields}><p>Сбросить</p></div>
                       </div>
                     </div>
