@@ -88,9 +88,7 @@ export default function AdvancedSearch(props: any) {
 
                     <div className='AdvancedSearch-inputForm'  onClick={()=>setShowOkpd2Select(true)}>
                         <p className='AdvancedSearch-inputname'>ОКПД2</p>
-                        <div style={{ width: '100%' }}>
                         <input type="text" className='AdvancedSearch-input' placeholder='' value={okpd2Code}/>
-                        </div>
                     </div>
                 </form>
                 <form className='AdvancedSearch-form'>

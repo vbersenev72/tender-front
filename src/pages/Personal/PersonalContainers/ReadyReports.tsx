@@ -48,11 +48,11 @@ export function ReadyReports(props: IReadyReportsProps) {
             }
           })
 
-          const newReports = reports.filter((report: any) => report.id != id)
-          setReports([...newReports])
         }
 
       }
+      const newReports = reports.filter((report: any) => report.delete != true)
+      setReports([...newReports])
 
       showSuccesMessage('Отчеты удалены!')
 

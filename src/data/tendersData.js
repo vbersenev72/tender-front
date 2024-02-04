@@ -352,7 +352,7 @@ export const okpd2Nomenclature = [
     {
         symbol: 'K',
         code: 'K',
-        name: '	Услуги финансовые и страховые',
+        name: 'Услуги финансовые и страховые',
         child: [
             {
                 symbol: '1',
