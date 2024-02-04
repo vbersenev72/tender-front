@@ -9,6 +9,8 @@ export const createReport = async (tenders: any) => {
       if (tenderData.fz == 'fz44') return tenderData.commonInfo.purchaseNumber
     })
 
+    showSuccesMessage('Ожидайте отчёт в течение 2-ух минут')
+
     const createReport = await axios.post(`${process.env.REACT_APP_API}/api/report/create`, {
       tenders: [...newTenders]
     }, {
@@ -17,7 +19,7 @@ export const createReport = async (tenders: any) => {
       }
     })
 
-    showSuccesMessage('Ожидайте отчёт в течение 2-ух минут')
+    showSuccesMessage('Отчёт готов!')
 
   } catch (error) {
     showErrorMessage('Произошла ошибка, попробуйте позже')

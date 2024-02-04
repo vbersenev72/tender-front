@@ -14,6 +14,8 @@ export function TagsModal({ tags, addTagToTender, closeModal, popupTagsPosition,
 
     const [newTags, setNewTags] = React.useState<any>([...tags, { id: -1, tag_color: 'white', tag_name: 'Удалить метку' }])
 
+    console.log(newTags);
+
 
 
     const deleteTag = async (id: any) => {
@@ -66,20 +68,20 @@ export function TagsModal({ tags, addTagToTender, closeModal, popupTagsPosition,
                                 {
                                     (tag.id == -1)
                                         ?
-                                        <div key={tag.id} style={{ display: 'flex', width: 'fit-content', justifyContent: 'start', alignItems: 'center', cursor: 'pointer', fontWeight: addTag.id == tag.id ? 'bold' : '' }}
+                                        <div key={tag.id} style={{ display: 'flex', width: 'fit-content', justifyContent: 'start', alignItems: 'center', cursor: 'pointer', }}
                                             onClick={async () => {
                                                 await deleteTag(regNum)
                                                 setAddTag({ id: -1, tag_color: 'white', tag_name: 'Удалить метку' })
                                             }}
                                         >
-                                            <FaMinus/>
+                                            <FaMinus />
                                             <p style={{ padding: '10px' }}>{tag.tag_name}</p>
                                         </div>
 
                                         :
 
 
-                                        <div key={tag.id} style={{ display: 'flex', width: 'fit-content', justifyContent: 'start', alignItems: 'center', cursor: 'pointer', fontWeight: addTag.id == tag.id ? 'bold' : '' }}
+                                        <div key={tag.id} style={{ display: 'flex', width: 'fit-content', justifyContent: 'start', alignItems: 'center', cursor: 'pointer' }}
                                             onClick={async () => {
                                                 await addTagToTender(regNum, tag.id)
                                                 setAddTag(tag)
