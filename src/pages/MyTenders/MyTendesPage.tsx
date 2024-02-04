@@ -12,6 +12,7 @@ import { MyTendersList } from '../../components/MyTendersComponents/MyTendersLis
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { TenderPreiewCard223, TenderPreiewCard44 } from '../../components/TenderPreviewCard';
+import { createReport } from '../../functions/createReport';
 
 
 export interface IMyTendersPageProps {
@@ -485,7 +486,7 @@ export function MyTendersPage(props: any) {
               </div>
 
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={() => createReport(beforeTenders)}>
               <RiFileExcel2Line size={30} color='#3294F4' />
             </div>
           </div>
@@ -503,8 +504,8 @@ export function MyTendersPage(props: any) {
                   .map((item: any, index: any) => (
 
                     item ?
-                      item?.fz === 'fz223' ? (<TenderPreiewCard223 key={index} jsonData={item} myTender={true} auth={true}/>) :
-                        (<TenderPreiewCard44 key={index} jsonData={item} myTender={true} auth={true}  />)
+                      item?.fz === 'fz223' ? (<TenderPreiewCard223 key={index} jsonData={item} myTender={true} auth={true} />) :
+                        (<TenderPreiewCard44 key={index} jsonData={item} myTender={true} auth={true} />)
                       : null
 
                   ))}

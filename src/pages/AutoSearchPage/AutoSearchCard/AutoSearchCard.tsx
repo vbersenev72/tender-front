@@ -375,7 +375,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                     </div>
 
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }}>
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={()=>createReport(tenders)}>
                     <RiFileExcel2Line size={30} color='#3294F4' />
                   </div>
                 </div>
