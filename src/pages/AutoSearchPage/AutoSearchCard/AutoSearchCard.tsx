@@ -10,6 +10,7 @@ import axios from 'axios';
 import { RiFileExcel2Line } from 'react-icons/ri';
 import { TenderPreiewCard223, TenderPreiewCard44 } from '../../../components/TenderPreviewCard';
 import { createReport } from '../../../functions/createReport';
+import { Okpd2Select } from '../../../components/OKPD2Select/Okpd2Select';
 
 export interface IAutoSearchCardProps {
 }
@@ -404,8 +405,6 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                     </button>
                   </div>
                 </div>
-
-
 
               </div>
             </div>

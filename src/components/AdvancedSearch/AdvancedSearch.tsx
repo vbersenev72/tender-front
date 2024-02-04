@@ -5,13 +5,20 @@ import { TailSpin } from 'react-loader-spinner';
 import { LoaderTest } from '../../styles';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import DatePicker from "react-datepicker";
+import { Okpd2Select } from '../OKPD2Select/Okpd2Select';
+
 import "react-datepicker/dist/react-datepicker.css";
+
 
 
 export interface IAdvancedSearchProps {
 }
 
 export default function AdvancedSearch(props: any) {
+
+    const [showOkpd2Select, setShowOkpd2Select] = React.useState(false)
+    const [okpd2Code, setOkpd2Code] = React.useState('')
+
 
     const regionOptions =
         [
@@ -37,6 +44,9 @@ export default function AdvancedSearch(props: any) {
 
     return (
         <div className='AdvancedSearch-container'>
+            {
+                showOkpd2Select && <Okpd2Select closeModal={()=>setShowOkpd2Select(false)} setOkpd2Code={setOkpd2Code} okpd2Code={okpd2Code}/>
+            }
             <div className='AdvancedSearch-content'>
                 <form className='AdvancedSearch-form'>
 
@@ -76,10 +86,10 @@ export default function AdvancedSearch(props: any) {
                         </div>
                     </div>
 
-                    <div className='AdvancedSearch-inputForm'>
+                    <div className='AdvancedSearch-inputForm'  onClick={()=>setShowOkpd2Select(true)}>
                         <p className='AdvancedSearch-inputname'>ОКПД2</p>
                         <div style={{ width: '100%' }}>
-                            <Select options={okpd2Options} placeholder='Не выбрано' />
+                        <input type="text" className='AdvancedSearch-input' placeholder='' value={okpd2Code}/>
                         </div>
                     </div>
                 </form>
