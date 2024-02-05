@@ -13,6 +13,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { TenderPreiewCard223, TenderPreiewCard44 } from '../../components/TenderPreviewCard';
 import { createReport } from '../../functions/createReport';
+import { createReportMyTender } from '../../functions/createReportMyTenders';
 
 
 export interface IMyTendersPageProps {
@@ -486,7 +487,7 @@ export function MyTendersPage(props: any) {
               </div>
 
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={() => createReport(beforeTenders)}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={() => createReportMyTender()}>
               <RiFileExcel2Line size={30} color='#3294F4' />
             </div>
           </div>

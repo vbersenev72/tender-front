@@ -8,6 +8,7 @@ import { LoaderTest } from '../../../styles';
 import { TailSpin } from 'react-loader-spinner';
 import { RiFileExcel2Line } from 'react-icons/ri';
 import './TagCard.css'
+import { createReportTag } from '../../../functions/createReportTags';
 
 
 export interface ITagCardProps {
@@ -281,7 +282,7 @@ export function TagCard(props: ITagCardProps) {
               </div>
 
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={()=>createReportTag(id)}>
               <RiFileExcel2Line size={30} color='#3294F4' />
             </div>
           </div>

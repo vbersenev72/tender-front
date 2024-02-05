@@ -96,30 +96,8 @@ export function AutoSearchPage(props: IAutoSearchPageProps) {
         return showErrorMessage('Имя автопоиска не может быть пустым')
       }
 
-      const response = await axios.post(`${process.env.REACT_APP_API}/api/autosearch/edit`, {
+      const response = await axios.post(`${process.env.REACT_APP_API}/api/autosearch/editname`, {
         name: selectAutoSearchEditName,
-        tags: '',
-        stopTags: '',
-        publicDateFrom: '',
-        publicDateTo: '',
-        startDateFrom: '',
-        startDateTo: '',
-        endDateFrom: '',
-        endDateTo: '',
-        fz: '',
-        region: "",
-        tenderNum: "",
-        customerName: '',
-        stopCustomerName: '',
-        inn: '',
-        priceFrom: '',
-        priceTo: '',
-        enablePrice: '',
-        purchaseStage: '',
-        methodDeterminingSupplier: '',
-        source: '',
-        enableSource: '',
-        okpd2: '',
         autoSearchId: id
       }, {
         headers: {

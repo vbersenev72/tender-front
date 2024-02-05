@@ -10,6 +10,7 @@ import axios from 'axios';
 import { RiFileExcel2Line } from 'react-icons/ri';
 import { TenderPreiewCard223, TenderPreiewCard44 } from '../../../components/TenderPreviewCard';
 import { createReport } from '../../../functions/createReport';
+import { createReportAutoSearch } from '../../../functions/createReportAutoSearch';
 import { Okpd2Select } from '../../../components/OKPD2Select/Okpd2Select';
 
 export interface IAutoSearchCardProps {
@@ -282,7 +283,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                       <div style={{ width: '50%', display: 'flex', justifyContent: 'space-around' }}>
                         <div className='AdvancedSearchButton' style={{ backgroundColor: 'dodgerblue', color: 'white' }}><p>Поиск</p></div>
                         <div className='AdvancedSearchButton' onClick={saveAutoSearch} ><p>Сохранить изменения</p></div>
-                        <div className='AdvancedSearchButton' onClick={() => createReport([...tenders])}><p>Excel</p></div>
+                        <div className='AdvancedSearchButton' onClick={() => createReportAutoSearch(id)}><p>Excel</p></div>
                         <div className='AdvancedSearchButton' onClick={clearAllFields}><p>Сбросить</p></div>
                       </div>
                     </div>
@@ -375,7 +376,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                     </div>
 
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={()=>createReport(tenders)}>
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={()=>createReportAutoSearch(id)}>
                     <RiFileExcel2Line size={30} color='#3294F4' />
                   </div>
                 </div>

@@ -45,7 +45,7 @@ export const TenderCard = () => {
                      </LoaderTest>
                           :
                                 tender?.tender[0]?.fz === 'fz44' ?
-                                                    <TenderCard44 tender={tender} events={events}/>
+                                                    <TenderCard44 tender={tender}/>
                                      :
                                                     <TenderCard223 tender={tender}/>
                      }
