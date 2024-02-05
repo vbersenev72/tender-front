@@ -151,7 +151,9 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
             const tags: any = JSON.parse(localStorage.getItem('tags') as any)
             if (!tags || tags.length == 0) return showErrorMessage('Нет активных меток')
 
-
+            if (!auth) {
+                return showErrorMessage('Для добавления метки необходимо авторизоваться!')
+            }
 
             const { pageX, pageY } = event;
             setPopupTagsPosition({ x: pageX, y: pageY });
