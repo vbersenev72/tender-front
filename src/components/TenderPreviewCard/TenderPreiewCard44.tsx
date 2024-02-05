@@ -60,7 +60,7 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
 
 
             } catch (error) {
-                showErrorMessage('Произошла ошибка, попробуйте позже')
+
             }
 
         }
@@ -86,7 +86,7 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
                     return findTag.data.message
                 }
             } catch (error) {
-                showErrorMessage('Произошла ошибка, попробуйте позже')
+               
             }
 
         }
