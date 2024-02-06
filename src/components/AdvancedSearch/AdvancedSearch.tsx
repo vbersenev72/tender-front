@@ -14,7 +14,30 @@ import "react-datepicker/dist/react-datepicker.css";
 export interface IAdvancedSearchProps {
 }
 
-export default function AdvancedSearch(props: any) {
+export default function AdvancedSearch(
+    {
+        tags, setTags,
+        stopTags, setStopTags,
+        publicDateFrom, setPublicDateFrom,
+        publicDateTo, setPublicDateTo,
+        startDateFrom, setStartDateFrom,
+        startDateTo, setStartDateTo,
+        endDateFrom, setEndDateFrom,
+        endDateTo, setEndDateTo,
+        fz, setFz,
+        region, setRegion,
+        tenderNum, setTenderNum,
+        customerName, setCustomerName,
+        stopCustomerName, setStopCustomerName,
+        inn, setInn,
+        priceFrom, setPriceFrom,
+        priceTo, setPriceTo,
+        enablePrice, setEnablePrice,
+        source, setSource,
+        enableSource, setEnableSource,
+        okpd2, setOkpd2
+    }: any
+) {
 
     const [showOkpd2Select, setShowOkpd2Select] = React.useState(false)
     const [okpd2Code, setOkpd2Code] = React.useState('')
@@ -38,6 +61,7 @@ export default function AdvancedSearch(props: any) {
         { value: 'Выбор1', label: 'Выбор 2' },
         { value: 'Выбор1', label: 'Выбор 3' },
         { value: 'Выбор1', label: 'Выбор 4' },
+
     ]
 
 
@@ -45,19 +69,19 @@ export default function AdvancedSearch(props: any) {
     return (
         <div className='AdvancedSearch-container'>
             {
-                showOkpd2Select && <Okpd2Select closeModal={()=>setShowOkpd2Select(false)} setOkpd2Code={setOkpd2Code} okpd2Code={okpd2Code}/>
+                showOkpd2Select && <Okpd2Select closeModal={() => setShowOkpd2Select(false)} setOkpd2Code={setOkpd2Code} okpd2Code={okpd2Code} />
             }
             <div className='AdvancedSearch-content'>
                 <form className='AdvancedSearch-form'>
 
                     <div className='AdvancedSearch-inputForm'>
                         <p className='AdvancedSearch-inputname'>Ключевые слова</p>
-                        <input type="text" className='AdvancedSearch-input' placeholder='Введите слова по которым вы хотите найти тендеры' />
+                        <input type="text" className='AdvancedSearch-input' value={tags} placeholder='Введите слова по которым вы хотите найти тендеры' />
                     </div>
 
                     <div className='AdvancedSearch-inputForm'>
                         <p className='AdvancedSearch-inputname'>Исключить слова</p>
-                        <input type="text" className='AdvancedSearch-input' placeholder='Слова, которые будут исключены из поиска' />
+                        <input type="text" className='AdvancedSearch-input' value={stopTags} placeholder='Слова, которые будут исключены из поиска' />
                     </div>
 
                     <div className='AdvancedSearch-inputForm'>
@@ -86,9 +110,9 @@ export default function AdvancedSearch(props: any) {
                         </div>
                     </div>
 
-                    <div className='AdvancedSearch-inputForm'  onClick={()=>setShowOkpd2Select(true)}>
+                    <div className='AdvancedSearch-inputForm' onClick={() => setShowOkpd2Select(true)}>
                         <p className='AdvancedSearch-inputname'>ОКПД2</p>
-                        <input type="text" className='AdvancedSearch-input' placeholder='' value={okpd2Code}/>
+                        <input type="text" className='AdvancedSearch-input' placeholder='' value={okpd2Code} />
                     </div>
                 </form>
                 <form className='AdvancedSearch-form'>

@@ -84,58 +84,22 @@ export const Menu = ({ auth }: any) => {
     }, [])
 
     return (
-        <MenuContainer onClick={handleClick} isShow={isSecondContainerVisible}>
-            <MenuItem isShow={isSecondContainerVisible}>
-                <Finder />
-                {isSecondContainerVisible && (
-                    <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }} href="/">Поиск</a></TextGray14pxRegular>
-                )}
-            </MenuItem>
-            {
-                !showAutoSearchesArray
+            <MenuContainer onClick={handleClick} isShow={isSecondContainerVisible}>
+                <MenuItem isShow={isSecondContainerVisible}>
+                    <Finder />
+                    {isSecondContainerVisible && (
+                        <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }} href="/">Поиск</a></TextGray14pxRegular>
+                    )}
+                </MenuItem>
+                {
+                    !showAutoSearchesArray
 
-                    ?
-
-                    <MenuItem style={{ paddingTop: '10px', paddingBottom: '10px', paddingLeft: '15%', paddingRight: '3%' }} isShow={isSecondContainerVisible} onClick={(e: any) => {
-                        if (auth == true) {
-                            e.stopPropagation()
-                            return setShowAutoSearchesArray(true)
-
-                        } else {
-                            console.log(auth);
-
-                            return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
-                        }
-                    }}>
-
-                        <ReFinder width={21} height={21} />
-                        {(isSecondContainerVisible) && (
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '190px' }}>
-                                <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }}>Автопоиск</a></TextGray14pxRegular>
-                                <div style={{ display: 'flex', alignItems: 'center', }}>
-                                    <SlArrowDown color='white' size={15} />
-                                </div>
-                            </div>
-                        )}
-
-                    </MenuItem>
-
-                    :
-
-                    <div
-                        style={{
-                            width: '100%',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            flexDirection: 'column',
-                            alignItems: 'center'
-                        }}
-                    >
+                        ?
 
                         <MenuItem style={{ paddingTop: '10px', paddingBottom: '10px', paddingLeft: '15%', paddingRight: '3%' }} isShow={isSecondContainerVisible} onClick={(e: any) => {
                             if (auth == true) {
                                 e.stopPropagation()
-                                return setShowAutoSearchesArray(false)
+                                return setShowAutoSearchesArray(true)
 
                             } else {
                                 console.log(auth);
@@ -144,98 +108,98 @@ export const Menu = ({ auth }: any) => {
                             }
                         }}>
 
-                            <ReFinder />
-                            {
-                                (isSecondContainerVisible) && (
-                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                                        <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }}>Автопоиск</a></TextGray14pxRegular>
-                                        <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => setShowTagsArray(true)}>
-                                            <SlArrowUp color='white' size={15} />
-                                        </div>
+                            <ReFinder width={21} height={21} />
+                            {(isSecondContainerVisible) && (
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '190px' }}>
+                                    <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }}>Автопоиск</a></TextGray14pxRegular>
+                                    <div style={{ display: 'flex', alignItems: 'center', }}>
+                                        <SlArrowDown color='white' size={15} />
                                     </div>
-                                )
-                            }
+                                </div>
+                            )}
+
                         </MenuItem>
 
-                        <div hidden={!isSecondContainerVisible}>
-                            {
-                                newAutoSearches.map((autoSearch: any) => {
-                                    return (
-                                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', cursor: 'pointer', justifyContent: ' space-between' }} onClick={() => window.location.href = (`/autosearch/${autoSearch.id}`)}>
+                        :
 
-                                            <p style={{ fontSize: '14px', color: '#646F80' }}>{autoSearch.name}</p>
-                                            <p style={{ color: 'white' }}>{autoSearch.count}</p>
+                        <div
+                            style={{
+                                width: '100%',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                flexDirection: 'column',
+                                alignItems: 'center'
+                            }}
+                        >
+
+                            <MenuItem style={{ paddingTop: '10px', paddingBottom: '10px', paddingLeft: '15%', paddingRight: '3%' }} isShow={isSecondContainerVisible} onClick={(e: any) => {
+                                if (auth == true) {
+                                    e.stopPropagation()
+                                    return setShowAutoSearchesArray(false)
+
+                                } else {
+                                    console.log(auth);
+
+                                    return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                                }
+                            }}>
+
+                                <ReFinder />
+                                {
+                                    (isSecondContainerVisible) && (
+                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                                            <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }}>Автопоиск</a></TextGray14pxRegular>
+                                            <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => setShowTagsArray(true)}>
+                                                <SlArrowUp color='white' size={15} />
+                                            </div>
                                         </div>
                                     )
-                                })
-                            }
-                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', cursor: 'pointer', }} onClick={() => window.location.href = (`/autosearch`)}>
-                                <div style={{ height: '20px', width: '20px', borderRadius: '5px', marginRight: '4px', }}><FiPlusSquare size='18px' color='white' /></div>
-                                <p style={{ fontSize: '14px', color: 'white' }}>Управление автопоисками</p>
-                            </div>
-                        </div>
-                    </div>
+                                }
+                            </MenuItem>
 
-            }
-            <MenuItem isShow={isSecondContainerVisible} onClick={() => {
-                if (auth == true) {
-                    return navigate('/mytenders')
-                } else {
-                    console.log(auth);
+                            <div hidden={!isSecondContainerVisible}>
+                                {
+                                    newAutoSearches.map((autoSearch: any) => {
+                                        return (
+                                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', cursor: 'pointer', justifyContent: ' space-between' }} onClick={() => window.location.href = (`/autosearch/${autoSearch.id}`)}>
 
-                    return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
-                }
-            }}>
-                <TendIcon />
-                {isSecondContainerVisible && (
-                    <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }} >Мои Тендеры</a></TextGray14pxRegular>
-                )}
-            </MenuItem>
-            {
-                !showTagsArray
-
-                    ?
-
-                    <MenuItem style={{ paddingTop: '10px', paddingBottom: '10px', paddingLeft: '15%', paddingRight: '3%' }} isShow={isSecondContainerVisible} onClick={(e: any) => {
-                        if (auth == true) {
-                            e.stopPropagation()
-                            return setShowTagsArray(true)
-
-                        } else {
-                            console.log(auth);
-
-                            return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
-                        }
-                    }}>
-
-                        <Keeps width={21} height={21} />
-                        {(isSecondContainerVisible) && (
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '190px' }}>
-                                <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }}>Метки</a></TextGray14pxRegular>
-                                <div style={{ display: 'flex', alignItems: 'center', }}>
-                                    <SlArrowDown color='white' size={15} />
+                                                <p style={{ fontSize: '14px', color: '#646F80' }}>{autoSearch.name}</p>
+                                                <p style={{ color: 'white' }}>{autoSearch.count}</p>
+                                            </div>
+                                        )
+                                    })
+                                }
+                                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', cursor: 'pointer', }} onClick={() => window.location.href = (`/autosearch`)}>
+                                    <div style={{ height: '20px', width: '20px', borderRadius: '5px', marginRight: '4px', }}><FiPlusSquare size='18px' color='white' /></div>
+                                    <p style={{ fontSize: '14px', color: 'white' }}>Управление автопоисками</p>
                                 </div>
                             </div>
-                        )}
+                        </div>
 
-                    </MenuItem>
+                }
+                <MenuItem isShow={isSecondContainerVisible} onClick={() => {
+                    if (auth == true) {
+                        return navigate('/mytenders')
+                    } else {
+                        console.log(auth);
 
-                    :
+                        return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                    }
+                }}>
+                    <TendIcon />
+                    {isSecondContainerVisible && (
+                        <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }} >Мои Тендеры</a></TextGray14pxRegular>
+                    )}
+                </MenuItem>
+                {
+                    !showTagsArray
 
-                    <div
-                        style={{
-                            width: '100%',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            flexDirection: 'column',
-                            alignItems: 'center'
-                        }}
-                    >
+                        ?
 
                         <MenuItem style={{ paddingTop: '10px', paddingBottom: '10px', paddingLeft: '15%', paddingRight: '3%' }} isShow={isSecondContainerVisible} onClick={(e: any) => {
                             if (auth == true) {
                                 e.stopPropagation()
-                                return setShowTagsArray(false)
+                                return setShowTagsArray(true)
 
                             } else {
                                 console.log(auth);
@@ -244,91 +208,127 @@ export const Menu = ({ auth }: any) => {
                             }
                         }}>
 
-                            <Keeps />
-                            {
-                                (isSecondContainerVisible) && (
-                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                                        <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }}>Метки</a></TextGray14pxRegular>
-                                        <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => setShowTagsArray(true)}>
-                                            <SlArrowUp color='white' size={15} />
-                                        </div>
+                            <Keeps width={21} height={21} />
+                            {(isSecondContainerVisible) && (
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '190px' }}>
+                                    <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }}>Метки</a></TextGray14pxRegular>
+                                    <div style={{ display: 'flex', alignItems: 'center', }}>
+                                        <SlArrowDown color='white' size={15} />
                                     </div>
-                                )
-                            }
+                                </div>
+                            )}
+
                         </MenuItem>
 
-                        <div hidden={!isSecondContainerVisible}>
-                            {
-                                tags.map((tag: any) => {
-                                    return (
-                                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', cursor: 'pointer' }} onClick={() => window.location.href = (`/tags/${tag.id}`)}>
-                                            <div style={{ height: '16px', width: '16px', backgroundColor: tag.tag_color, borderRadius: '5px', marginRight: '8px' }} />
-                                            <p style={{ fontSize: '14px', color: 'white' }}>{tag.tag_name}</p>
+                        :
+
+                        <div
+                            style={{
+                                width: '100%',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                flexDirection: 'column',
+                                alignItems: 'center'
+                            }}
+                        >
+
+                            <MenuItem style={{ paddingTop: '10px', paddingBottom: '10px', paddingLeft: '15%', paddingRight: '3%' }} isShow={isSecondContainerVisible} onClick={(e: any) => {
+                                if (auth == true) {
+                                    e.stopPropagation()
+                                    return setShowTagsArray(false)
+
+                                } else {
+                                    console.log(auth);
+
+                                    return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                                }
+                            }}>
+
+                                <Keeps />
+                                {
+                                    (isSecondContainerVisible) && (
+                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                                            <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }}>Метки</a></TextGray14pxRegular>
+                                            <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => setShowTagsArray(true)}>
+                                                <SlArrowUp color='white' size={15} />
+                                            </div>
                                         </div>
                                     )
-                                })
-                            }
-                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', cursor: 'pointer', }} onClick={() => window.location.href = (`/tags`)}>
-                                <div style={{ height: '20px', width: '20px', borderRadius: '5px', marginRight: '4px', }}><FiPlusSquare size='18px' color='white' /></div>
-                                <p style={{ fontSize: '14px', color: 'white' }}>Управление метками</p>
+                                }
+                            </MenuItem>
+
+                            <div hidden={!isSecondContainerVisible}>
+                                {
+                                    tags.map((tag: any) => {
+                                        return (
+                                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', cursor: 'pointer' }} onClick={() => window.location.href = (`/tags/${tag.id}`)}>
+                                                <div style={{ height: '16px', width: '16px', backgroundColor: tag.tag_color, borderRadius: '5px', marginRight: '8px' }} />
+                                                <p style={{ fontSize: '14px', color: 'white' }}>{tag.tag_name}</p>
+                                            </div>
+                                        )
+                                    })
+                                }
+                                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', cursor: 'pointer', }} onClick={() => window.location.href = (`/tags`)}>
+                                    <div style={{ height: '20px', width: '20px', borderRadius: '5px', marginRight: '4px', }}><FiPlusSquare size='18px' color='white' /></div>
+                                    <p style={{ fontSize: '14px', color: 'white' }}>Управление метками</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-            }
-
-            <MenuItem isShow={isSecondContainerVisible} onClick={() => {
-                if (auth == true) {
-                    return navigate('/analitics')
-                } else {
-                    console.log(auth);
-
-                    return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
                 }
-            }}>
-                <StatIcon />
-                {isSecondContainerVisible && (
-                    <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }} >Аналитика</a></TextGray14pxRegular>
-                )}
-            </MenuItem>
-            <MenuItem isShow={isSecondContainerVisible} onClick={() => {
-                if (auth == true) {
-                    return navigate('/plans')
-                } else {
-                    console.log(auth);
 
-                    return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
-                }
-            }}>
-                <Plans />
-                {isSecondContainerVisible && (
-                    <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }}>Планы</a></TextGray14pxRegular>
-                )}
-            </MenuItem>
-            <MenuItem isShow={isSecondContainerVisible} onClick={() => {
-                if (auth == true) {
-                    return navigate('/personal')
-                } else {
-                    console.log(auth);
+                <MenuItem isShow={isSecondContainerVisible} onClick={() => {
+                    if (auth == true) {
+                        return navigate('/analitics')
+                    } else {
+                        console.log(auth);
 
-                    return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
-                }
-            }}>
-                <UserIcon />
-                {isSecondContainerVisible && (
-                    <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }} >Личный кабинет</a></TextGray14pxRegular>
-                )}
-            </MenuItem>
-            {isSecondContainerVisible ? (
-                <MenuItem isShow={isSecondContainerVisible} style={{ border: 'none', cursor: 'pointer' }} onClick={handleClick}>
-                    <ArrowBack />
-                    <TextGray14pxRegular>Свернуть</TextGray14pxRegular>
+                        return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                    }
+                }}>
+                    <StatIcon />
+                    {isSecondContainerVisible && (
+                        <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }} >Аналитика</a></TextGray14pxRegular>
+                    )}
                 </MenuItem>
-            ) :
-                <MenuItem isShow={isSecondContainerVisible} style={{ border: 'none', cursor: 'pointer' }} onClick={handleClick}>
-                    <ArrowBack onClick={handleClick} style={{ transform: 'rotate(180deg)' }} />
+                <MenuItem isShow={isSecondContainerVisible} onClick={() => {
+                    if (auth == true) {
+                        return navigate('/plans')
+                    } else {
+                        console.log(auth);
+
+                        return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                    }
+                }}>
+                    <Plans />
+                    {isSecondContainerVisible && (
+                        <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }}>Планы</a></TextGray14pxRegular>
+                    )}
                 </MenuItem>
-            }
-        </MenuContainer>
+                <MenuItem isShow={isSecondContainerVisible} onClick={() => {
+                    if (auth == true) {
+                        return navigate('/personal')
+                    } else {
+                        console.log(auth);
+
+                        return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                    }
+                }}>
+                    <UserIcon />
+                    {isSecondContainerVisible && (
+                        <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }} >Личный кабинет</a></TextGray14pxRegular>
+                    )}
+                </MenuItem>
+                {isSecondContainerVisible ? (
+                    <MenuItem isShow={isSecondContainerVisible} style={{ border: 'none', cursor: 'pointer' }} onClick={handleClick}>
+                        <ArrowBack />
+                        <TextGray14pxRegular>Свернуть</TextGray14pxRegular>
+                    </MenuItem>
+                ) :
+                    <MenuItem isShow={isSecondContainerVisible} style={{ border: 'none', cursor: 'pointer' }} onClick={handleClick}>
+                        <ArrowBack onClick={handleClick} style={{ transform: 'rotate(180deg)' }} />
+                    </MenuItem>
+                }
+            </MenuContainer>
     );
 }
