@@ -6,6 +6,7 @@ import { LoaderTest } from '../../styles';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import DatePicker from "react-datepicker";
 import { Okpd2Select } from '../OKPD2Select/Okpd2Select';
+import { RegionSelect } from '../RegionSelect/RegionSelect';
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -42,6 +43,8 @@ export default function AdvancedSearch(
     const [showOkpd2Select, setShowOkpd2Select] = React.useState(false)
     const [okpd2Code, setOkpd2Code] = React.useState('')
 
+    const [showRegionSelect, setShowRegionSelect] = React.useState(false)
+    const [regionCustomer, setRegionCustomer] = React.useState([])
 
     const regionOptions =
         [
@@ -71,6 +74,10 @@ export default function AdvancedSearch(
             {
                 showOkpd2Select && <Okpd2Select closeModal={() => setShowOkpd2Select(false)} setOkpd2Code={setOkpd2Code} okpd2Code={okpd2Code} />
             }
+            {
+                regionCustomer && <RegionSelect closeModal={()=>setShowRegionSelect(false)} setRegion={setRegionCustomer} regionCustomer={regionCustomer} />
+            }
+
             <div className='AdvancedSearch-content'>
                 <form className='AdvancedSearch-form'>
 
