@@ -75,7 +75,7 @@ export default function AdvancedSearch(
                 showOkpd2Select && <Okpd2Select closeModal={() => setShowOkpd2Select(false)} setOkpd2Code={setOkpd2Code} okpd2Code={okpd2Code} />
             }
             {
-                regionCustomer && <RegionSelect closeModal={()=>setShowRegionSelect(false)} setRegion={setRegionCustomer} regionCustomer={regionCustomer} />
+                showRegionSelect && <RegionSelect closeModal={() => setShowRegionSelect(false)} setRegion={setRegionCustomer} regionCustomer={regionCustomer} />
             }
 
             <div className='AdvancedSearch-content'>
@@ -104,16 +104,16 @@ export default function AdvancedSearch(
                 </form>
                 <form className='AdvancedSearch-form'>
                     <div className='AdvancedSearch-inputForm'>
-                        <p className='AdvancedSearch-inputname'>Регион заказчика</p>
+                        <p className='AdvancedSearch-inputname' onClick={()=>setShowRegionSelect(true)}>Регион заказчика</p>
                         <div style={{ width: '100%' }}>
-                            <Select options={regionOptions} placeholder='Не выбрано' />
+                            <input type="text" className='AdvancedSearch-input' placeholder='' value={regionCustomer} />
                         </div>
                     </div>
 
-                    <div className='AdvancedSearch-inputForm'>
+                    <div className='AdvancedSearch-inputForm' onClick={()=>setShowRegionSelect(true)}>
                         <p className='AdvancedSearch-inputname'>Регион доставки</p>
                         <div style={{ width: '100%' }}>
-                            <Select options={regionOptions} placeholder='Не выбрано' />
+                            <input type="text" className='AdvancedSearch-input' placeholder='' value={regionCustomer} />
                         </div>
                     </div>
 

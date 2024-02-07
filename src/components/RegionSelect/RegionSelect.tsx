@@ -1,6 +1,6 @@
 import * as React from 'react';
-import './Okpd2Select.css'
-import { okpd2Nomenclature } from '../../data/tendersData.js';
+
+import { regionsList } from '../../data/tendersData.js';
 import { GoTriangleRight, GoTriangleUp } from "react-icons/go";
 import { GoTriangleDown } from "react-icons/go";
 import { Checkbox } from '@mui/material';
@@ -8,7 +8,7 @@ import { Checkbox } from '@mui/material';
 export function RegionSelect({ closeModal, setRegion, regionCustomer }: any) {
 
     const [findText, setFindText] = React.useState('')
-    const [nomenclature, setNomenclature] = React.useState([...okpd2Nomenclature])
+    const [regions, setRegions]= React.useState([...regionsList])
     const [selectCheckBox, setSelectCheckBox] = React.useState('')
     const [showAllElements, setShowAllElements] = React.useState('')
 
@@ -18,26 +18,26 @@ export function RegionSelect({ closeModal, setRegion, regionCustomer }: any) {
         setFindText('')
         setRegion([])
         setSelectCheckBox('')
-        setNomenclature([...okpd2Nomenclature])
+        setRegions([...regions])
     }
 
     const clickCheckBox = (element: any) => {
-        setSelectCheckBox(element.name)
-        setRegion(element.name)
+        setSelectCheckBox(element.name[0])
+        setRegion(element.name[0])
     }
 
-    const clickOnTriangle = (code: any) => {
-        setShowAllElements(code)
+    const clickOnTriangle = (name: any) => {
+        setShowAllElements(name[0])
     }
 
     const findByText = () => {
 
         if (findText == '') {
-            return setNomenclature([...okpd2Nomenclature])
+            return setRegions([...regions])
         }
-        const filteredData = okpd2Nomenclature.filter(item => item.name.toLowerCase().includes(findText.toLowerCase()));
+        const filteredData = regionsList.filter(item => item.name[0].toLowerCase().includes(findText.toLowerCase()));
 
-        setNomenclature([...filteredData])
+        setRegions([...filteredData])
 
     }
 
@@ -63,11 +63,11 @@ export function RegionSelect({ closeModal, setRegion, regionCustomer }: any) {
 
                 <div className='okpd2-select-nomenclature'>
                     {
-                        nomenclature.map((element: any) => {
+                        regions.map((element: any) => {
                             return (
                                 <>
                                     {
-                                        showAllElements == element.code
+                                        showAllElements == element.name[0]
                                             ?
                                             <div>
                                                 <div style={{
@@ -78,9 +78,9 @@ export function RegionSelect({ closeModal, setRegion, regionCustomer }: any) {
                                                     <div style={{ display: 'grid', grid: 'center' }} onClick={() => clickOnTriangle('')}>
                                                         <GoTriangleDown size={24} />
                                                     </div>
-                                                    <Checkbox checked={selectCheckBox == element.code || element.name == regionCustomer} onChange={() => clickCheckBox(element)} />
-                                                    <h4 style={{ marginRight: '10px' }}>{element.symbol}</h4>
-                                                    <p>{element.name}</p>
+                                                    <Checkbox checked={selectCheckBox[0] == element.name[0] || element.name[0] == regionCustomer} onChange={() => clickCheckBox(element)} />
+                                                    <h4 style={{ marginRight: '10px' }}>{element.name[0]}</h4>
+                                                    <p>{element.name[0]}</p>
                                                 </div>
 
                                                 <div style={{ marginLeft: '40px' }}>
@@ -93,9 +93,9 @@ export function RegionSelect({ closeModal, setRegion, regionCustomer }: any) {
                                                                     alignItems: 'center'
                                                                 }}>
 
-                                                                    <Checkbox checked={selectCheckBox == child.code || child.name == regionCustomer} onChange={() => clickCheckBox(child)} />
-                                                                    <h4 style={{ marginRight: '12px' }}>{child.symbol}</h4>
-                                                                    <p style={{ fontSize: '14px' }}>{child.name}</p>
+                                                                    <Checkbox checked={selectCheckBox == child.name[0] || child.name[0] == regionCustomer} onChange={() => clickCheckBox(child)} />
+                                                                    <h4 style={{ marginRight: '12px' }}>{child.name[0]}</h4>
+                                                                    <p style={{ fontSize: '14px' }}>{child.name[0]}</p>
                                                                 </div>
                                                             )
                                                         })
@@ -108,12 +108,12 @@ export function RegionSelect({ closeModal, setRegion, regionCustomer }: any) {
                                                 justifyContent: 'flex-start',
                                                 alignItems: 'center'
                                             }}>
-                                                <div style={{ display: 'grid', grid: 'center' }} onClick={() => clickOnTriangle(element.code)}>
+                                                <div style={{ display: 'grid', grid: 'center' }} onClick={() => clickOnTriangle(element.name)}>
                                                     <GoTriangleRight size={24} />
                                                 </div>
-                                                <Checkbox checked={selectCheckBox == element.code || element.name == regionCustomer} onChange={() => clickCheckBox(element)} />
-                                                <h4 style={{ marginRight: '10px' }}>{element.symbol}</h4>
-                                                <p>{element.name}</p>
+                                                <Checkbox checked={selectCheckBox == element.name[0] || element.name[0] == regionCustomer} onChange={() => clickCheckBox(element)} />
+                                                <h4 style={{ marginRight: '10px' }}>{element.name[0]}</h4>
+                                                <p>{element.name[0]}</p>
                                             </div>
 
                                     }
