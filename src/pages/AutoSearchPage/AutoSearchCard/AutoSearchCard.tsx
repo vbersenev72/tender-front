@@ -43,7 +43,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
   const [enablePrice, setEnablePrice] = React.useState('')
   const [source, setSource] = React.useState('')
   const [enableSource, setEnableSource] = React.useState('')
-  const [okpd2, setOkpd2] = React.useState('')
+  const [okpd2, setOkpd2] = React.useState<any>('')
 
   // show by
   const [showAll, setShowAll] = useState(true)
@@ -97,30 +97,102 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
 
 
   const saveAutoSearch = async () => {
-    console.log(
-      tags, '\n',
-      stopTags, '\n',
-      publicDateFrom, '\n',
-      publicDateTo, '\n',
-      startDateFrom, '\n',
-      startDateTo, '\n',
-      endDateFrom, '\n',
-      endDateTo, '\n',
-      fz, '\n',
-      region, '\n',
-      tenderNum, '\n',
-      customerName, '\n',
-      stopCustomerName, '\n',
-      inn, '\n',
-      priceFrom, '\n',
-      priceTo, '\n',
-      enablePrice, '\n',
-      source, '\n',
-      enableSource, '\n',
-      okpd2, '\n',
-    )
+    // console.log(
+    //   tags, '\n',
+    //   stopTags, '\n',
+    //   publicDateFrom, '\n',
+    //   publicDateTo, '\n',
+    //   startDateFrom, '\n',
+    //   startDateTo, '\n',
+    //   endDateFrom, '\n',
+    //   endDateTo, '\n',
+    //   fz, '\n',
+    //   region, '\n',
+    //   tenderNum, '\n',
+    //   customerName, '\n',
+    //   stopCustomerName, '\n',
+    //   inn, '\n',
+    //   priceFrom, '\n',
+    //   priceTo, '\n',
+    //   enablePrice, '\n',
+    //   source, '\n',
+    //   enableSource, '\n',
+    //   okpd2, '\n',
+    // )
+
+    const saveAutosearchParams = await axios.post(`${process.env.REACT_APP_API}/api/autosearch/edit`, {
+      tags: tags,
+      stopTags: stopTags,
+      publicDateFrom: publicDateFrom,
+      publicDateTo: publicDateTo,
+      startDateFrom: startDateFrom,
+      startDateTo: startDateTo,
+      endDateFrom: endDateFrom,
+      endDateTo: endDateTo,
+      fz: fz,
+      region: region.value,
+      tenderNum: tenderNum,
+      customerName: customerName,
+      stopCustomerName: stopCustomerName,
+      inn: inn,
+      priceFrom: priceFrom,
+      priceTo: priceTo,
+      enablePrice: enablePrice,
+      purchaseStage: '',
+      methodDeterminingSupplier: '',
+      source: source,
+      enableSource: enableSource,
+      okpd2: okpd2.code,
+      autoSearchId: id
+    }, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
 
     showSuccesMessage('Изменения сохранены!')
+  }
+
+  const getAutoSearchFields = async () => {
+    try {
+      setLoading(true)
+      const response: any = await axios.get(`${process.env.REACT_APP_API}/api/autosearch/${id}`, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+
+      console.log(response.data.message);
+      const data = response.data.message
+
+      setCustomerName(data.customerName)
+      setEnablePrice(data.enablePrice)
+      setEnableSource(data.enableSource)
+      setEndDateFrom(data.endDateFrom)
+      setEndDateTo(data.endDateTo)
+      setFz(data.fz)
+      setInn(data.inn)
+      setOkpd2(data.okpd2)
+      setPriceFrom(data.priceFrom)
+      setPriceTo(data.priceTo)
+      setPublicDateFrom(data.publicDateFrom)
+      setPublicDateTo(data.publicDateTo)
+      setRegion(data.region)
+      setSource(data.source)
+      setStartDateFrom(data.startDateFrom)
+      setStartDateTo(data.startDateTo)
+      setStopCustomerName(data.stopCustomerName)
+      setStopTags(data.stopTags)
+      setTags(data.tags)
+      setTenderNum(data.tenderNum)
+
+
+      setLoading(false)
+
+    } catch (error) {
+      console.log(error);
+      showErrorMessage('Что то пошло не так')
+    }
   }
 
   const sortByPriceTenders = () => {
@@ -249,6 +321,8 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
       }
     }
 
+    getAutoSearchFields()
+
     getTenders()
 
   }, [currentPage])
@@ -282,25 +356,25 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                   <>
                     <AdvancedSearch
 
-                    tags={tags} setTags={setTags}
-                    stopTags={stopTags} setStopTags={setStopTags}
-                    publicDateFrom={publicDateFrom} setPublicDateFrom={setPublicDateFrom}
-                    publicDateTo={publicDateTo} setPublicDateTo={setPublicDateTo}
-                    startDateFrom={startDateFrom} setStartDateFrom={setStartDateFrom}
-                    startDateTo={startDateTo} setStartDateTo={setStartDateTo}
-                    endDateFrom={endDateFrom} setEndDateFrom={setEndDateFrom}
-                    endDateTo={endDateTo} setEndDateTo={setEndDateTo}
-                    fz={fz} setFz={setFz}
-                    region={region} setRegion={setRegion}
-                    tenderNum={tenderNum} setTenderNum={setTenderNum}
-                    customerName={customerName} setCustomerName={setCustomerName}
-                    inn={inn} setInn={setInn}
-                    priceFrom={priceFrom} setPriceFrom={setPriceFrom}
-                    priceTo={priceTo} setPriceTo={setPriceTo}
-                    enablePrice={enablePrice} setEnablePrice={setEnablePrice}
-                    source={source} setSource={setSource}
-                    enableSource={enableSource} setEnableSource={setEnableSource}
-                    okpd2={okpd2} setOkpd2={setOkpd2}
+                      tags={tags} setTags={setTags}
+                      stopTags={stopTags} setStopTags={setStopTags}
+                      publicDateFrom={publicDateFrom} setPublicDateFrom={setPublicDateFrom}
+                      publicDateTo={publicDateTo} setPublicDateTo={setPublicDateTo}
+                      startDateFrom={startDateFrom} setStartDateFrom={setStartDateFrom}
+                      startDateTo={startDateTo} setStartDateTo={setStartDateTo}
+                      endDateFrom={endDateFrom} setEndDateFrom={setEndDateFrom}
+                      endDateTo={endDateTo} setEndDateTo={setEndDateTo}
+                      fz={fz} setFz={setFz}
+                      region={region} setRegion={setRegion}
+                      tenderNum={tenderNum} setTenderNum={setTenderNum}
+                      customerName={customerName} setCustomerName={setCustomerName}
+                      inn={inn} setInn={setInn}
+                      priceFrom={priceFrom} setPriceFrom={setPriceFrom}
+                      priceTo={priceTo} setPriceTo={setPriceTo}
+                      enablePrice={enablePrice} setEnablePrice={setEnablePrice}
+                      source={source} setSource={setSource}
+                      enableSource={enableSource} setEnableSource={setEnableSource}
+                      okpd2={okpd2} setOkpd2={setOkpd2}
 
                     />
                     <div style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', width: '100%' }}>
@@ -400,7 +474,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                     </div>
 
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={()=>createReportAutoSearch(id)}>
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={() => createReportAutoSearch(id)}>
                     <RiFileExcel2Line size={30} color='#3294F4' />
                   </div>
                 </div>
