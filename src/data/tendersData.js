@@ -1,7 +1,7 @@
 export const okpd2Nomenclature = [
     {
         symbol: 'A',
-        code: 'A',
+        code: '01',
         name: 'Продукция сельского, лесного и рыбного хозяйства',
         child: [
             {
@@ -23,7 +23,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'B',
-        code: 'B',
+        code: '05',
         name: 'Продукция горнодобывающих производств',
         child: [
             {
@@ -55,7 +55,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'С',
-        code: 'С',
+        code: '10',
         name: 'Продукция обрабатывающих производств',
         child: [
             {
@@ -182,7 +182,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'D',
-        code: 'D',
+        code: '35',
         name: 'Электроэнергия, газ, пар и кондиционирование воздуха',
         child: [
             {
@@ -194,7 +194,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'E',
-        code: 'E',
+        code: '36',
         name: 'Водоснабжение; водоотведение, услуги по удалению и рекультивации отходов',
         child: [
             {
@@ -221,7 +221,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'F',
-        code: 'F',
+        code: '41',
         name: 'Сооружения и строительные работы',
         child: [
             {
@@ -243,7 +243,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'G',
-        code: 'G',
+        code: '45',
         name: 'Услуги по оптовой и розничной торговле; услуги по ремонту автотранспортных средств и мотоциклов',
         child: [
             {
@@ -265,7 +265,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'H',
-        code: 'H',
+        code: '49',
         name: 'Услуги транспорта и складского хозяйства',
         child: [
             {
@@ -297,7 +297,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'I',
-        code: 'I',
+        code: '55',
         name: 'Услуги гостиничного хозяйства и общественного питания',
         child: [
             {
@@ -314,7 +314,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'J',
-        code: 'J',
+        code: '58',
         name: 'Услуги в области информации и связи',
         child: [
             {
@@ -351,7 +351,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'K',
-        code: 'K',
+        code: '64',
         name: 'Услуги финансовые и страховые',
         child: [
             {
@@ -373,7 +373,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'L',
-        code: 'L',
+        code: '68',
         name: 'Услуги, связанные с недвижимым имуществом',
         child: [
             {
@@ -385,7 +385,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'M',
-        code: 'M',
+        code: '69',
         name: 'Услуги, связанные с научной, инженерно-технической и профессиональной деятельностью',
         child: [
             {
@@ -427,7 +427,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'N',
-        code: 'N',
+        code: '77',
         name: 'Услуги административные и вспомогательные',
         child: [
             {
@@ -460,7 +460,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'O',
-        code: 'O',
+        code: '84',
         name: 'Услуги в сфере государственного управления и обеспечения военной безопасности; услуги по обязательному социальному обеспечению',
         child: [
             {
@@ -472,7 +472,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'P',
-        code: 'P',
+        code: '85',
         name: 'Услуги в области образования',
         child: [
             {
@@ -484,7 +484,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'Q',
-        code: 'Q',
+        code: '86',
         name: 'Услуги в области здравоохранения и социальные услуги',
         child: [
             {
@@ -506,7 +506,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'R',
-        code: 'R',
+        code: '90',
         name: 'Услуги в области искусства, развлечений, отдыха и спорта',
         child: [
             {
@@ -533,7 +533,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'S',
-        code: 'S',
+        code: '94',
         name: 'Услуги общественных организаций; прочие услуги для населения',
         child: [
             {
@@ -555,7 +555,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'T',
-        code: 'T',
+        code: '97',
         name: 'Товары и услуги различные, производимые домашними хозяйствами для собственного потребления, включая услуги работодателя для домашнего персонала',
         child: [
             {
@@ -573,7 +573,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'U',
-        code: 'U',
+        code: '99',
         name: 'Услуги, предоставляемые экстерриториальными организациями и органами',
         child: [
             {

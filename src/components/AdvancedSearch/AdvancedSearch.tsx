@@ -9,6 +9,7 @@ import { Okpd2Select } from '../OKPD2Select/Okpd2Select';
 import { RegionSelect } from '../RegionSelect/RegionSelect';
 
 import "react-datepicker/dist/react-datepicker.css";
+import { okpd2Nomenclature } from '../../data/tendersData.js';
 
 
 
@@ -45,6 +46,8 @@ export default function AdvancedSearch(
     const [showOkpd2Select, setShowOkpd2Select] = React.useState(false)
 
     const [showRegionSelect, setShowRegionSelect] = React.useState(false)
+
+    const [okpd2Name, setOkpd2Name] = React.useState('')
 
     const changeRegion = (e: any) => {
         setRegion(e)
@@ -96,6 +99,23 @@ export default function AdvancedSearch(
         { value: 'Выбор1', label: 'Выбор 4' },
 
     ]
+
+    const getOkpd2ByCode = (code: any) => {
+        okpd2Nomenclature.forEach((okpdObj: any) => {
+            if (okpdObj.code == code) {
+                return okpdObj
+            }
+            okpdObj.child.forEach((okpdChildObj: any) => {
+                if (okpdChildObj.code == code) {
+                    return okpdChildObj
+                }
+            });
+        })
+    }
+
+    React.useEffect(() => {
+        
+    }, [])
 
 
 

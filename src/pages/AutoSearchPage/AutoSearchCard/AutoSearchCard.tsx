@@ -12,6 +12,7 @@ import { TenderPreiewCard223, TenderPreiewCard44 } from '../../../components/Ten
 import { createReport } from '../../../functions/createReport';
 import { createReportAutoSearch } from '../../../functions/createReportAutoSearch';
 import { Okpd2Select } from '../../../components/OKPD2Select/Okpd2Select';
+import { okpd2Nomenclature } from '../../../data/tendersData';
 
 export interface IAutoSearchCardProps {
 }
@@ -153,6 +154,27 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
     showSuccesMessage('Изменения сохранены!')
   }
 
+  const getOkpd2ByCode = (code: any) => {
+    for (let i = 0; i < okpd2Nomenclature.length; i++) {
+      const okpdObj = okpd2Nomenclature[i];
+
+      if (okpdObj.code == code) {
+        return okpdObj
+      }
+
+      for (let y = 0; y < okpdObj.child.length; y++) {
+        const okpdChildObj = okpdObj.child[y];
+
+        if (okpdChildObj.code == code) {
+          return okpdChildObj
+        }
+        
+      }
+
+    }
+   
+  }
+
   const getAutoSearchFields = async () => {
     try {
       setLoading(true)
@@ -165,6 +187,10 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
       console.log(response.data.message);
       const data = response.data.message
 
+      const getOkpd2: any = getOkpd2ByCode(data.okpd2)
+      console.log('getokpd2' + ' ' + JSON.stringify(getOkpd2));
+
+
       setCustomerName(data.customerName)
       setEnablePrice(data.enablePrice)
       setEnableSource(data.enableSource)
@@ -172,7 +198,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
       setEndDateTo(data.endDateTo)
       setFz(data.fz)
       setInn(data.inn)
-      setOkpd2(data.okpd2)
+      setOkpd2(getOkpd2.name)
       setPriceFrom(data.priceFrom)
       setPriceTo(data.priceTo)
       setPublicDateFrom(data.publicDateFrom)
