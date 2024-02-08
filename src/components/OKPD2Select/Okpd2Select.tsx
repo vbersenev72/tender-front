@@ -23,7 +23,7 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
 
     const clickCheckBox = (element: any) => {
         setSelectCheckBox(element.code)
-        setOkpd2Code(element.name)
+        setOkpd2Code(element)
     }
 
     const clickOnTriangle = (code: any) => {
@@ -78,7 +78,7 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
                                                     <div style={{ display: 'grid', grid: 'center' }} onClick={() => clickOnTriangle('')}>
                                                         <GoTriangleDown size={24} />
                                                     </div>
-                                                    <Checkbox checked={selectCheckBox == element.code || element.name == okpd2Code} onChange={() => clickCheckBox(element)} />
+                                                    <Checkbox checked={selectCheckBox == element.code || element.name == okpd2Code.name} onChange={() => clickCheckBox(element)} />
                                                     <h4 style={{ marginRight: '10px' }}>{element.symbol}</h4>
                                                     <p>{element.name}</p>
                                                 </div>
@@ -93,7 +93,7 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
                                                                     alignItems: 'center'
                                                                 }}>
 
-                                                                    <Checkbox checked={selectCheckBox == child.code || child.name == okpd2Code} onChange={() => clickCheckBox(child)} />
+                                                                    <Checkbox checked={selectCheckBox == child.code || child.name == okpd2Code.name} onChange={() => clickCheckBox(child)} />
                                                                     <h4 style={{ marginRight: '12px' }}>{child.symbol}</h4>
                                                                     <p style={{ fontSize: '14px' }}>{child.name}</p>
                                                                 </div>
@@ -111,7 +111,7 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
                                                 <div style={{ display: 'grid', grid: 'center' }} onClick={() => clickOnTriangle(element.code)}>
                                                     <GoTriangleRight size={24} />
                                                 </div>
-                                                <Checkbox checked={selectCheckBox == element.code || element.name == okpd2Code} onChange={() => clickCheckBox(element)} />
+                                                <Checkbox checked={selectCheckBox == element.code || element.name == okpd2Code.name} onChange={() => clickCheckBox(element)} />
                                                 <h4 style={{ marginRight: '10px' }}>{element.symbol}</h4>
                                                 <p>{element.name}</p>
                                             </div>

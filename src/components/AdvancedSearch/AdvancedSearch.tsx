@@ -40,11 +40,35 @@ export default function AdvancedSearch(
     }: any
 ) {
 
+
+
     const [showOkpd2Select, setShowOkpd2Select] = React.useState(false)
     const [okpd2Code, setOkpd2Code] = React.useState('')
 
     const [showRegionSelect, setShowRegionSelect] = React.useState(false)
-    const [regionCustomer, setRegionCustomer] = React.useState([])
+    const [regionCustomer, setRegionCustomer] = React.useState(region)
+
+    const changeRegion = (e: any) => {
+        setRegion(e)
+        setRegionCustomer(e)
+    }
+
+
+    const changeFz = (addfz: any) => {
+
+        let res = fz.split(' ')
+
+        if (res.includes(addfz)) {
+            res = res.filter((fz:any) => fz != addfz)
+        } else {
+            res.push(addfz)
+        }
+
+        res = res.join(' ')
+
+        setFz(res)
+
+    }
 
     const regionOptions =
         [
@@ -72,23 +96,22 @@ export default function AdvancedSearch(
     return (
         <div className='AdvancedSearch-container'>
             {
-                showOkpd2Select && <Okpd2Select closeModal={() => setShowOkpd2Select(false)} setOkpd2Code={setOkpd2Code} okpd2Code={okpd2Code} />
+                showOkpd2Select && <Okpd2Select closeModal={() => setShowOkpd2Select(false)} setOkpd2Code={setOkpd2} okpd2Code={okpd2Code} />
             }
             {
-                showRegionSelect && <RegionSelect closeModal={() => setShowRegionSelect(false)} setRegion={setRegionCustomer} regionCustomer={regionCustomer} />
+                showRegionSelect && <RegionSelect closeModal={() => setShowRegionSelect(false)} setRegionCustomer={changeRegion} regionCustomer={regionCustomer} value={'Регион заказчика'} />
             }
-
             <div className='AdvancedSearch-content'>
                 <form className='AdvancedSearch-form'>
 
                     <div className='AdvancedSearch-inputForm'>
                         <p className='AdvancedSearch-inputname'>Ключевые слова</p>
-                        <input type="text" className='AdvancedSearch-input' value={tags} placeholder='Введите слова по которым вы хотите найти тендеры' />
+                        <input type="text" className='AdvancedSearch-input' value={tags} placeholder='Введите слова по которым вы хотите найти тендеры' onChange={(e: any) => setTags(e.target.value)} />
                     </div>
 
                     <div className='AdvancedSearch-inputForm'>
                         <p className='AdvancedSearch-inputname'>Исключить слова</p>
-                        <input type="text" className='AdvancedSearch-input' value={stopTags} placeholder='Слова, которые будут исключены из поиска' />
+                        <input type="text" className='AdvancedSearch-input' value={stopTags} placeholder='Слова, которые будут исключены из поиска' onChange={(e: any) => setStopTags(e.target.value)} />
                     </div>
 
                     <div className='AdvancedSearch-inputForm'>
@@ -103,29 +126,22 @@ export default function AdvancedSearch(
 
                 </form>
                 <form className='AdvancedSearch-form'>
-                    <div className='AdvancedSearch-inputForm'>
-                        <p className='AdvancedSearch-inputname' onClick={()=>setShowRegionSelect(true)}>Регион заказчика</p>
-                        <div style={{ width: '100%' }}>
-                            <input type="text" className='AdvancedSearch-input' placeholder='' value={regionCustomer} />
-                        </div>
-                    </div>
-
-                    <div className='AdvancedSearch-inputForm' onClick={()=>setShowRegionSelect(true)}>
-                        <p className='AdvancedSearch-inputname'>Регион доставки</p>
-                        <div style={{ width: '100%' }}>
-                            <input type="text" className='AdvancedSearch-input' placeholder='' value={regionCustomer} />
+                    <div className='AdvancedSearch-inputForm' onClick={() => setShowRegionSelect(true)}>
+                        <p className='AdvancedSearch-inputname'>Регион заказчика</p>
+                        <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                            <input type="text" className='AdvancedSearch-input' placeholder='' value={region.name} />
                         </div>
                     </div>
 
                     <div className='AdvancedSearch-inputForm' onClick={() => setShowOkpd2Select(true)}>
                         <p className='AdvancedSearch-inputname'>ОКПД2</p>
-                        <input type="text" className='AdvancedSearch-input' placeholder='' value={okpd2Code} />
+                        <input type="text" className='AdvancedSearch-input' placeholder='' value={okpd2.name} />
                     </div>
                 </form>
                 <form className='AdvancedSearch-form'>
                     <div className='AdvancedSearch-inputForm'>
                         <p className='AdvancedSearch-inputname'>Номер тендера</p>
-                        <input type="text" className='AdvancedSearch-input' placeholder='Номер тендера (через пробел)' />
+                        <input type="text" className='AdvancedSearch-input' placeholder='Номер тендера (через пробел)' value={tenderNum} onChange={(e: any) => setTenderNum(e.target.value)} />
                     </div>
                 </form>
             </div>
@@ -133,27 +149,27 @@ export default function AdvancedSearch(
                 <form className='AdvancedSearch-form'>
                     <div className='AdvancedSearch-inputForm'>
                         <p className='AdvancedSearch-inputname'>Заказчик или организатор</p>
-                        <input type="text" className='AdvancedSearch-input' placeholder='Наименование заказчика или организатора' />
+                        <input type="text" className='AdvancedSearch-input' placeholder='Наименование заказчика или организатора' value={customerName} onChange={(e: any) => setCustomerName(e.target.value)} />
                     </div>
 
                     <div className='AdvancedSearch-inputForm'>
                         <p className='AdvancedSearch-inputname'>ИНН</p>
-                        <input type="text" className='AdvancedSearch-input' placeholder='Разделённые пробелами ИНН заказчика или организатора' />
+                        <input type="text" className='AdvancedSearch-input' placeholder='Разделённые пробелами ИНН заказчика или организатора' value={inn} onChange={(e: any) => setInn(e.target.value)} />
                     </div>
 
                     <div>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>Цена котракта от</p>
-                                <input type="text" className='AdvancedSearch-input' placeholder='Минимальная цена' />
+                                <input type="text" className='AdvancedSearch-input' placeholder='Минимальная цена' value={priceFrom} onChange={(e: any) => setPriceFrom(e.target.value)} />
                             </div>
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>до</p>
-                                <input type="text" className='AdvancedSearch-input' placeholder='Максимальная цена' />
+                                <input type="text" className='AdvancedSearch-input' placeholder='Максимальная цена' value={priceTo} onChange={(e: any) => setPriceTo(e.target.value)} />
                             </div>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
-                            <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Включая тендеры без цены" />
+                            <FormControlLabel control={<Checkbox defaultChecked={Boolean(enablePrice)} onChange={() => setEnablePrice(!Boolean(enablePrice))} />} label="Включая тендеры без цены" />
                         </div>
                     </div>
 
@@ -161,11 +177,11 @@ export default function AdvancedSearch(
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>Дата начала от</p>
-                                <DatePicker className='AdvancedSearch-input' />
+                                <DatePicker className='AdvancedSearch-input' value={(startDateFrom)} onChange={(e: any) => setStartDateFrom(e)} />
                             </div>
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>до</p>
-                                <DatePicker className='AdvancedSearch-input' />
+                                <DatePicker className='AdvancedSearch-input' value={startDateTo} onChange={(e: any) => setStartDateTo(e)} />
                             </div>
                         </div>
                     </div>
@@ -174,11 +190,11 @@ export default function AdvancedSearch(
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>Дата окончания от</p>
-                                <DatePicker className='AdvancedSearch-input' />
+                                <DatePicker className='AdvancedSearch-input' value={endDateFrom} onChange={(e: any) => setEndDateFrom(e)} />
                             </div>
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>до</p>
-                                <DatePicker className='AdvancedSearch-input' />
+                                <DatePicker className='AdvancedSearch-input' value={endDateTo} onChange={(e: any) => setEndDateTo(e)} />
                             </div>
                         </div>
                     </div>
@@ -187,11 +203,11 @@ export default function AdvancedSearch(
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>Дата публикации от</p>
-                                <DatePicker className='AdvancedSearch-input' />
+                                <DatePicker className='AdvancedSearch-input' value={publicDateFrom} onChange={(e: any) => setPublicDateFrom(e)} />
                             </div>
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>до</p>
-                                <DatePicker className='AdvancedSearch-input' />
+                                <DatePicker className='AdvancedSearch-input' value={publicDateTo} onChange={(e: any) => setPublicDateTo(e)} />
                             </div>
                         </div>
                     </div>
@@ -223,8 +239,8 @@ export default function AdvancedSearch(
                         <div className='AdvancedSearch-inputForm'>
                             <p className='AdvancedSearch-inputname'>Законы</p>
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}>
-                                <FormControlLabel control={<Checkbox defaultChecked={false} />} label="44-ФЗ" />
-                                <FormControlLabel control={<Checkbox defaultChecked={false} />} label="223-ФЗ" />
+                                <FormControlLabel control={<Checkbox defaultChecked={fz.split(' ').includes('fz44')} onChange={(e) => changeFz('fz44')} />} label="44-ФЗ" />
+                                <FormControlLabel control={<Checkbox defaultChecked={fz.split(' ').includes('fz223')} onChange={(e) => changeFz('fz223')} />} label="223-ФЗ" />
                                 <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Коммерческие" />
                             </div>
                         </div>
@@ -237,12 +253,13 @@ export default function AdvancedSearch(
 
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>Источник</p>
-                                <input type="text" className='AdvancedSearch-input' placeholder='Например: zakupki' />
+                                <input type="text" className='AdvancedSearch-input' placeholder='Например: zakupki' value={source} onChange={(e: any) => setSource(e.target.value)} />
                             </div>
 
                             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Исключить источник" />
+                                <FormControlLabel control={<Checkbox defaultChecked={Boolean(enableSource)} onChange={() => setEnableSource(!Boolean(enableSource))} />} label="Исключить источник" />
                             </div>
+
                         </div>
                     </div>
                 </form>

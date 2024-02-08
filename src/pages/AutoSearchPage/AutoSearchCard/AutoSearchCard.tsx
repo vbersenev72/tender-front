@@ -32,8 +32,8 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
   const [startDateTo, setStartDateTo] = React.useState('')
   const [endDateFrom, setEndDateFrom] = React.useState('')
   const [endDateTo, setEndDateTo] = React.useState('')
-  const [fz, setFz] = React.useState('')
-  const [region, setRegion] = React.useState('')
+  const [fz, setFz] = React.useState<any>('')
+  const [region, setRegion] = React.useState<any>('')
   const [tenderNum, setTenderNum] = React.useState('')
   const [customerName, setCustomerName] = React.useState('')
   const [stopCustomerName, setStopCustomerName] = React.useState('')
@@ -97,6 +97,29 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
 
 
   const saveAutoSearch = async () => {
+    console.log(
+      tags, '\n',
+      stopTags, '\n',
+      publicDateFrom, '\n',
+      publicDateTo, '\n',
+      startDateFrom, '\n',
+      startDateTo, '\n',
+      endDateFrom, '\n',
+      endDateTo, '\n',
+      fz, '\n',
+      region, '\n',
+      tenderNum, '\n',
+      customerName, '\n',
+      stopCustomerName, '\n',
+      inn, '\n',
+      priceFrom, '\n',
+      priceTo, '\n',
+      enablePrice, '\n',
+      source, '\n',
+      enableSource, '\n',
+      okpd2, '\n',
+    )
+
     showSuccesMessage('Изменения сохранены!')
   }
 
@@ -257,28 +280,29 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                   showAdvancedSearch
                   &&
                   <>
-                    <AdvancedSearch props={[
-                      tags, setTags,
-                      stopTags, setStopTags,
-                      publicDateFrom, setPublicDateFrom,
-                      publicDateTo, setPublicDateTo,
-                      startDateFrom, setStartDateFrom,
-                      startDateTo, setStartDateTo,
-                      endDateFrom, setEndDateFrom,
-                      endDateTo, setEndDateTo,
-                      fz, setFz,
-                      region, setRegion,
-                      tenderNum, setTenderNum,
-                      customerName, setCustomerName,
-                      stopCustomerName, setStopCustomerName,
-                      inn, setInn,
-                      priceFrom, setPriceFrom,
-                      priceTo, setPriceTo,
-                      enablePrice, setEnablePrice,
-                      source, setSource,
-                      enableSource, setEnableSource,
-                      okpd2, setOkpd2
-                    ]} />
+                    <AdvancedSearch
+
+                    tags={tags} setTags={setTags}
+                    stopTags={stopTags} setStopTags={setStopTags}
+                    publicDateFrom={publicDateFrom} setPublicDateFrom={setPublicDateFrom}
+                    publicDateTo={publicDateTo} setPublicDateTo={setPublicDateTo}
+                    startDateFrom={startDateFrom} setStartDateFrom={setStartDateFrom}
+                    startDateTo={startDateTo} setStartDateTo={setStartDateTo}
+                    endDateFrom={endDateFrom} setEndDateFrom={setEndDateFrom}
+                    endDateTo={endDateTo} setEndDateTo={setEndDateTo}
+                    fz={fz} setFz={setFz}
+                    region={region} setRegion={setRegion}
+                    tenderNum={tenderNum} setTenderNum={setTenderNum}
+                    customerName={customerName} setCustomerName={setCustomerName}
+                    inn={inn} setInn={setInn}
+                    priceFrom={priceFrom} setPriceFrom={setPriceFrom}
+                    priceTo={priceTo} setPriceTo={setPriceTo}
+                    enablePrice={enablePrice} setEnablePrice={setEnablePrice}
+                    source={source} setSource={setSource}
+                    enableSource={enableSource} setEnableSource={setEnableSource}
+                    okpd2={okpd2} setOkpd2={setOkpd2}
+
+                    />
                     <div style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', width: '100%' }}>
                       <div style={{ width: '50%', display: 'flex', justifyContent: 'space-around' }}>
                         <div className='AdvancedSearchButton' style={{ backgroundColor: 'dodgerblue', color: 'white' }}><p>Поиск</p></div>

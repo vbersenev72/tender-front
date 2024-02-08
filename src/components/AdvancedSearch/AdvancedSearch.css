@@ -1,12 +1,12 @@
 .AdvancedSearch-container {
     width: 100%;
     display: flex;
-
+    justify-content: center;
 
 }
 
 .AdvancedSearch-content {
-    width: auto;
+    width: 80%;
     display: flex;
     flex-direction: column;
     padding: 10px;
