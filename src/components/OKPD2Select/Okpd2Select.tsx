@@ -16,7 +16,7 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
 
     const clearText = () => {
         setFindText('')
-        setOkpd2Code('')
+        setOkpd2Code({})
         setSelectCheckBox('')
         setNomenclature([...okpd2Nomenclature])
     }
@@ -111,7 +111,7 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
                                                 <div style={{ display: 'grid', grid: 'center' }} onClick={() => clickOnTriangle(element.code)}>
                                                     <GoTriangleRight size={24} />
                                                 </div>
-                                                <Checkbox checked={selectCheckBox == element.code || element.name == okpd2Code.name} onChange={() => clickCheckBox(element)} />
+                                                <Checkbox checked={selectCheckBox == element?.code || element?.name == okpd2Code?.name} onChange={() => clickCheckBox(element)} />
                                                 <h4 style={{ marginRight: '10px' }}>{element.symbol}</h4>
                                                 <p>{element.name}</p>
                                             </div>

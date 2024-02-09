@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { useState, useEffect } from 'react';
 import { TenderCard } from "./pages/TenderCard/TenderCard";
 import { Header } from "./components/Header/Header";
@@ -19,10 +19,12 @@ import { TagsPage } from './pages/Tags/Tags/TagsPage';
 import { TagCard } from './pages/Tags/TagCard/TagCard';
 import { AutoSearchPage } from './pages/AutoSearchPage/AutoSearchPage';
 import { AutoSearchCard } from './pages/AutoSearchPage/AutoSearchCard/AutoSearchCard';
+import { MenuContext } from './MenuContext';
 
 function App() {
 
     const [auth, setAuth]: any = useState(false)
+    const { openMenu, setOpenMenu }: any = useContext(MenuContext);
 
     async function getAllTags() {
 
@@ -55,38 +57,38 @@ function App() {
 
     useEffect(() => {
         checkAuth().then((auth) => setAuth(auth))
-        getAllTags().then((tags) => localStorage.setItem('tags', tags)).catch(() => console.log('Не авторизован'))
-        getAllAutoSearches().then((autoSearches) => localStorage.setItem('autosearches', autoSearches)).catch(() => console.log('Не авторизован'))
+
     }, [])
 
     // @ts-ignore
     return (
         <Fragment>
             <ToastContainer />
-            <Header />
+            <div style={{width: openMenu ? '80%' : '', marginLeft: openMenu ? '15%' : ''}}><Header /> </div>
+            {/* <Header /> */}
             <Menu auth={auth} />
 
             {
                 auth
                     ?
                     <Routes>
-                        <Route path="/" element={<Catalog />} />
-                        <Route path="/contracts" element={<ContractsPage />} />
-                        <Route path="/tender/:id" element={<TenderCard />} />
-                        <Route path='/personal' element={<PersonalPage />} />
-                        <Route path="/auth" element={<AuthPage />} />
-                        <Route path="/mytenders" element={<MyTendersPage auth={auth} />} />
+                        <Route path="/" element={<div style={{width: openMenu ? '80%' : '', marginLeft: openMenu ? '15%' : ''}}><Catalog /> </div>} />
+                        <Route path="/contracts" element={<div style={{width: openMenu ? '80%' : '', marginLeft: openMenu ? '15%' : ''}}><ContractsPage /> </div>} />
+                        <Route path="/tender/:id" element={<div style={{width: openMenu ? '80%' : '', marginLeft: openMenu ? '15%' : ''}}><TenderCard /> </div>} />
+                        <Route path='/personal' element={<div style={{width: openMenu ? '80%' : '', marginLeft: openMenu ? '15%' : ''}}><PersonalPage /></div>} />
+                        <Route path="/auth" element={<div style={{width: openMenu ? '80%' : '', marginLeft: openMenu ? '15%' : ''}}><AuthPage /> </div>} />
+                        <Route path="/mytenders" element={<div style={{width: openMenu ? '80%' : '', marginLeft: openMenu ? '15%' : ''}}><MyTendersPage auth={auth} /> </div>} />
 
-                        <Route path='/tags' element={<TagsPage />} />
-                        <Route path='/tags/:id' element={<TagCard />} />
+                        <Route path='/tags' element={<div style={{width: openMenu ? '80%' : '', marginLeft: openMenu ? '15%' : ''}}><TagsPage /> </div>} />
+                        <Route path='/tags/:id' element={<div style={{width: openMenu ? '80%' : '', marginLeft: openMenu ? '15%' : ''}}> <TagCard /></div>} />
 
-                        <Route path='/autosearch' element={<AutoSearchPage />} />
-                        <Route path='/autosearch/:id' element={<AutoSearchCard />} />
+                        <Route path='/autosearch' element={<div style={{width: openMenu ? '80%' : '', marginLeft: openMenu ? '15%' : ''}}><AutoSearchPage /> </div>} />
+                        <Route path='/autosearch/:id' element={<div style={{width: openMenu ? '80%' : '', marginLeft: openMenu ? '15%' : ''}}><AutoSearchCard /> </div>} />
                     </Routes>
                     :
                     <Routes>
-                        <Route path="/" element={<Catalog />} />
-                        <Route path="/auth" element={<AuthPage />} />
+                        <Route path="/" element={<div style={{width: openMenu ? '80%' : '', marginLeft: openMenu ? '15%' : ''}}><Catalog /> </div>} />
+                        <Route path="/auth" element={<div style={{width: openMenu ? '80%' : '', marginLeft: openMenu ? '15%' : ''}}><AuthPage /> </div>} />
                     </Routes>
             }
 

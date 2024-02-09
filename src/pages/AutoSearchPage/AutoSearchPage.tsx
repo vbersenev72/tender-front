@@ -60,9 +60,9 @@ export function AutoSearchPage(props: IAutoSearchPageProps) {
 
       showSuccesMessage('Автопоиск создан!')
 
-      setTimeout(() => { }, 2000);
-
-      window.location.reload()
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000);
 
     } catch (error: any) {
       showErrorMessage(error.response.data.message)
@@ -80,7 +80,7 @@ export function AutoSearchPage(props: IAutoSearchPageProps) {
 
       showSuccesMessage('Автопоиск успешно удалён')
 
-      setTimeout(() => {}, 3000);
+      setTimeout(() => { }, 3000);
 
       window.location.reload()
 
@@ -109,7 +109,7 @@ export function AutoSearchPage(props: IAutoSearchPageProps) {
 
       showSuccesMessage('Имя изменено!')
 
-      setTimeout(() => {}, 3000);
+      setTimeout(() => { }, 3000);
 
       window.location.reload()
 

@@ -467,25 +467,6 @@ export function MyTendersPage(props: any) {
                 }
               </div>
 
-              <div className="sort-property" onClick={() => {
-                setSortByDateAdded(false)
-                setSortByDateStart(false)
-                setSortByPrice(false)
-                setSortByDateFinished(false)
-                setSortByDatePublic(true)
-
-                sortByDatePublicTenders()
-
-              }}>
-                {
-                  !sortByDatePublic
-                    ?
-                    <p>Дата публикации</p>
-                    :
-                    <p style={{ fontWeight: 'bold' }}>Дата публикации</p>
-                }
-              </div>
-
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={() => createReportMyTender()}>
               <RiFileExcel2Line size={30} color='#3294F4' />

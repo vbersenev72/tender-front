@@ -12,7 +12,7 @@ import { TenderPreiewCard223, TenderPreiewCard44 } from '../../../components/Ten
 import { createReport } from '../../../functions/createReport';
 import { createReportAutoSearch } from '../../../functions/createReportAutoSearch';
 import { Okpd2Select } from '../../../components/OKPD2Select/Okpd2Select';
-import { okpd2Nomenclature } from '../../../data/tendersData';
+import { okpd2Nomenclature, regionsList } from '../../../data/tendersData';
 
 export interface IAutoSearchCardProps {
 }
@@ -25,25 +25,25 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
   const [loading, setLoading] = useState(false)
 
   // Advanced Search data
-  const [tags, setTags] = React.useState('')
-  const [stopTags, setStopTags] = React.useState('')
-  const [publicDateFrom, setPublicDateFrom] = React.useState('')
-  const [publicDateTo, setPublicDateTo] = React.useState('')
-  const [startDateFrom, setStartDateFrom] = React.useState('')
-  const [startDateTo, setStartDateTo] = React.useState('')
-  const [endDateFrom, setEndDateFrom] = React.useState('')
-  const [endDateTo, setEndDateTo] = React.useState('')
+  const [tags, setTags] = React.useState<any>('')
+  const [stopTags, setStopTags] = React.useState<any>('')
+  const [publicDateFrom, setPublicDateFrom] = React.useState<any>('')
+  const [publicDateTo, setPublicDateTo] = React.useState<any>('')
+  const [startDateFrom, setStartDateFrom] = React.useState<any>('')
+  const [startDateTo, setStartDateTo] = React.useState<any>('')
+  const [endDateFrom, setEndDateFrom] = React.useState<any>('')
+  const [endDateTo, setEndDateTo] = React.useState<any>('')
   const [fz, setFz] = React.useState<any>('')
   const [region, setRegion] = React.useState<any>('')
-  const [tenderNum, setTenderNum] = React.useState('')
-  const [customerName, setCustomerName] = React.useState('')
-  const [stopCustomerName, setStopCustomerName] = React.useState('')
-  const [inn, setInn] = React.useState('')
-  const [priceFrom, setPriceFrom] = React.useState('')
-  const [priceTo, setPriceTo] = React.useState('')
-  const [enablePrice, setEnablePrice] = React.useState('')
-  const [source, setSource] = React.useState('')
-  const [enableSource, setEnableSource] = React.useState('')
+  const [tenderNum, setTenderNum] = React.useState<any>('')
+  const [customerName, setCustomerName] = React.useState<any>('')
+  const [stopCustomerName, setStopCustomerName] = React.useState<any>('')
+  const [inn, setInn] = React.useState<any>('')
+  const [priceFrom, setPriceFrom] = React.useState<any>('')
+  const [priceTo, setPriceTo] = React.useState<any>('')
+  const [enablePrice, setEnablePrice] = React.useState<any>('')
+  const [source, setSource] = React.useState<any>('')
+  const [enableSource, setEnableSource] = React.useState<any>('')
   const [okpd2, setOkpd2] = React.useState<any>('')
 
   // show by
@@ -131,7 +131,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
       endDateFrom: endDateFrom,
       endDateTo: endDateTo,
       fz: fz,
-      region: region.value,
+      region: region ? region.name : '',
       tenderNum: tenderNum,
       customerName: customerName,
       stopCustomerName: stopCustomerName,
@@ -143,7 +143,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
       methodDeterminingSupplier: '',
       source: source,
       enableSource: enableSource,
-      okpd2: okpd2.code,
+      okpd2: okpd2 ? okpd2.code : '',
       autoSearchId: id
     }, {
       headers: {
@@ -168,11 +168,31 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
         if (okpdChildObj.code == code) {
           return okpdChildObj
         }
-        
+      }
+    }
+  }
+
+  const getRegionByValue = (value:any) => {
+
+    for (let i = 0; i < regionsList.length; i++) {
+      const findRegion:any = regionsList[i];
+
+      if (findRegion.value == value) {
+        return findRegion
       }
 
+      for (let y = 0; y < findRegion.child.length; y++) {
+        const regionChild = findRegion.child[y];
+        console.log(regionChild);
+
+
+        if (regionChild.value == value) {
+
+          return regionChild
+        }
+
+      }
     }
-   
   }
 
   const getAutoSearchFields = async () => {
@@ -187,8 +207,12 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
       console.log(response.data.message);
       const data = response.data.message
 
-      const getOkpd2: any = getOkpd2ByCode(data.okpd2)
+      let getOkpd2: any = await getOkpd2ByCode(data.okpd2)
       console.log('getokpd2' + ' ' + JSON.stringify(getOkpd2));
+
+      const getRegion:any = getRegionByValue(data.region)
+      console.log('region '+getRegion);
+
 
 
       setCustomerName(data.customerName)
@@ -198,12 +222,12 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
       setEndDateTo(data.endDateTo)
       setFz(data.fz)
       setInn(data.inn)
-      setOkpd2(getOkpd2.name)
+      setOkpd2(getOkpd2)
       setPriceFrom(data.priceFrom)
       setPriceTo(data.priceTo)
       setPublicDateFrom(data.publicDateFrom)
       setPublicDateTo(data.publicDateTo)
-      setRegion(data.region)
+      setRegion(getRegion)
       setSource(data.source)
       setStartDateFrom(data.startDateFrom)
       setStartDateTo(data.startDateTo)

@@ -43,11 +43,11 @@ export default function AdvancedSearch(
 
 
 
+
     const [showOkpd2Select, setShowOkpd2Select] = React.useState(false)
 
     const [showRegionSelect, setShowRegionSelect] = React.useState(false)
 
-    const [okpd2Name, setOkpd2Name] = React.useState('')
 
     const changeRegion = (e: any) => {
         setRegion(e)
@@ -72,22 +72,6 @@ export default function AdvancedSearch(
 
     }
 
-    const checkSelectFz = (selectFz: any) => {
-        const isSelect = fz.split(' ').includes(selectFz)
-
-        return isSelect
-
-    }
-
-    const regionOptions =
-        [
-            { value: '', label: 'Не выбрано' },
-
-            { value: 'Регион1', label: 'Регион 1' },
-            { value: 'Регион2', label: 'Регион 2' },
-            { value: 'Регион3', label: 'Регион 3' },
-            { value: 'Регион4', label: 'Регион 4' },
-        ]
 
     const okpd2Options = [
 
@@ -100,22 +84,6 @@ export default function AdvancedSearch(
 
     ]
 
-    const getOkpd2ByCode = (code: any) => {
-        okpd2Nomenclature.forEach((okpdObj: any) => {
-            if (okpdObj.code == code) {
-                return okpdObj
-            }
-            okpdObj.child.forEach((okpdChildObj: any) => {
-                if (okpdChildObj.code == code) {
-                    return okpdChildObj
-                }
-            });
-        })
-    }
-
-    React.useEffect(() => {
-        
-    }, [])
 
 
 
@@ -155,13 +123,13 @@ export default function AdvancedSearch(
                     <div className='AdvancedSearch-inputForm' onClick={() => setShowRegionSelect(true)}>
                         <p className='AdvancedSearch-inputname'>Регион заказчика</p>
                         <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                            <input type="text" className='AdvancedSearch-input' placeholder='' value={region.name} />
+                            <input type="text" className='AdvancedSearch-input' placeholder='' value={region ? region.name : ''} />
                         </div>
                     </div>
 
                     <div className='AdvancedSearch-inputForm' onClick={() => setShowOkpd2Select(true)}>
                         <p className='AdvancedSearch-inputname'>ОКПД2</p>
-                        <input type="text" className='AdvancedSearch-input' placeholder='' value={okpd2.name} />
+                        <input type="text" className='AdvancedSearch-input' placeholder='' value={okpd2 ? okpd2.name : ''} />
                     </div>
                 </form>
                 <form className='AdvancedSearch-form'>

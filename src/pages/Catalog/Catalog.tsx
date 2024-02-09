@@ -1,4 +1,4 @@
-import { FC, Fragment, useEffect, useState } from "react";
+import { FC, Fragment, useContext, useEffect, useState } from "react";
 import { TenderPreiewCard44, TenderPreiewCard223 } from "../../components/TenderPreviewCard";
 import { AdvancedFindP, CatalogPage, FindByIDButton, FinderByID, LoaderTest } from "./styles";
 import axios from "axios";
@@ -9,6 +9,9 @@ import { AccesNotif } from "../../components/AccessNotif/AccesNotif";
 import { showErrorMessage, showSuccesMessage } from "../../functions/Message";
 import { checkAuth } from "../../functions/CheckAuth.js";
 import { checkDigitsOnly } from "../../functions/CheckDigitsOnly";
+import { MenuContext } from "../../MenuContext";
+import { createReportMyTender } from "../../functions/createReportMyTenders";
+import { RiFileExcel2Line } from "react-icons/ri";
 
 
 export const Catalog: FC = () => {
@@ -26,6 +29,15 @@ export const Catalog: FC = () => {
 
     const [auth, setAuth] = useState<boolean>(false)
     const [openAccesNotif, setOpenAccesNotif] = useState(true)
+    const [beforeTenders, setBeforeTenders] = useState<any>([])
+
+    const [sortByDateAdded, setSortByDateAdded] = useState(true)
+    const [sortByDateStart, setSortByDateStart] = useState(false)
+    const [sortByPrice, setSortByPrice] = useState(false)
+    const [sortByDateFinished, setSortByDateFinished] = useState(false)
+    const [sortByDatePublic, setSortByDatePublic] = useState(false)
+
+    const { openMenu, setOpenMenu }: any = useContext(MenuContext);
 
 
     const fetchData = async () => {
@@ -47,12 +59,14 @@ export const Catalog: FC = () => {
                 });
 
                 setTendersList(response.data.message);
+                setBeforeTenders(response.data.message)
 
             } else {
                 const response = await axios.get(`${process.env.REACT_APP_API}/api/find/innOrRegnumber/${textSearch}`);
                 console.log(response.data.tender);
 
                 setTendersList(response.data.tender); // Обновите состояние данными из ответа
+                setBeforeTenders(response.data.message)
             }
 
             setLoading(false)
@@ -143,8 +157,100 @@ export const Catalog: FC = () => {
         }
     }
 
+    const sortByDatePublicTenders = () => {
+        const newTendersArray = beforeTenders.sort((a: any, b: any) => {
+            console.log(a);
+
+            if (a.fz == 'fz223') {
+                const aDate = a?.publicationDateTime
+                const bDate = b.fz == 'fz223' ? b?.publicationDateTime : b?.commonInfo?.publishDTInEIS
+
+                return new Date(bDate).getTime() - new Date(aDate).getTime()
+            } else {
+                const aDate = a?.commonInfo?.publishDTInEIS
+                const bDate = b.fz == 'fz223' ? b?.publicationDateTime : b?.commonInfo?.publishDTInEIS
 
 
+                return new Date(bDate).getTime() - new Date(aDate).getTime()
+            }
+        })
+
+
+        setTendersList(newTendersArray)
+    }
+
+    const sortByDateStartTenders = () => {
+
+        const newTendersArray = beforeTenders.sort((a: any, b: any) => {
+            console.log(a);
+
+            if (a.fz == 'fz223') {
+                const aDate = a?.publicationDateTime
+                const bDate = b.fz == 'fz223' ? b?.publicationDateTime : b?.notificationInfo?.procedureInfo?.collectingInfo?.startDT
+
+                return new Date(bDate).getTime() - new Date(aDate).getTime()
+            } else {
+                const aDate = a?.notificationInfo?.procedureInfo?.collectingInfo?.startDT
+                const bDate = b.fz == 'fz223' ? b?.publicationDateTime : b?.notificationInfo?.procedureInfo?.collectingInfo?.startDT
+
+                return new Date(bDate).getTime() - new Date(aDate).getTime()
+            }
+        })
+
+
+        setTendersList(newTendersArray)
+
+    }
+
+    const sortByPriceTenders = () => {
+
+        const newTendersArray = beforeTenders.sort((a: any, b: any) => {
+            console.log(a);
+
+            if (a.fz == 'fz223') {
+                const aPrice = a.lots?.lot?.lotData?.initialSum
+                const bPrice = b.fz == 'fz223' ? b.lots?.lot?.lotData?.initialSum : b.notificationInfo?.contractConditionsInfo?.maxPriceInfo?.maxPrice
+
+                return parseFloat(aPrice) - parseFloat(bPrice)
+            } else {
+                const aPrice = a.notificationInfo?.contractConditionsInfo?.maxPriceInfo?.maxPrice
+                const bPrice = b.fz == 'fz223' ? b.lots?.lot?.lotData?.initialSum : b.notificationInfo?.contractConditionsInfo?.maxPriceInfo?.maxPrice
+
+                return parseFloat(aPrice) - parseFloat(bPrice)
+            }
+        })
+
+
+        setTendersList(newTendersArray)
+
+    }
+
+    const showFinishedTenders = () => {
+        const newTendersArray = beforeTenders.map((tender: any) => {
+
+            if (tender.fz == 'fz223') {
+                if (!tender.applSubmisionStartDate) {
+                    return
+                }
+                if (new Date(tender.applSubmisionStartDate).getTime() < new Date().getTime()) {
+                    return tender
+                }
+            }
+
+            if (tender.fz == 'fz44') {
+                if (!tender.notificationInfo?.procedureInfo?.collectingInfo?.endDT) {
+                    return
+                }
+                if (new Date(tender.notificationInfo?.procedureInfo?.collectingInfo?.endDT).getTime() < new Date().getTime()) {
+
+                    return tender
+                }
+            }
+
+        })
+
+        setTendersList(newTendersArray)
+    }
 
 
     // @ts-ignore
@@ -194,6 +300,88 @@ export const Catalog: FC = () => {
                             ФЗ 44
                         </label>
                     </FlexRow> */}
+                    <div className="Mytenders-sort">
+            <div className='Mytenders-sort-list'>
+              <div style={{ color: 'gray', paddingLeft: '0px', display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: '15px' }}><p>Сортировать по</p></div>
+
+              <div className="sort-property" onClick={() => {
+                setSortByDateAdded(true)
+                setSortByDateStart(false)
+                setSortByPrice(false)
+                setSortByDateFinished(false)
+                setSortByDatePublic(false)
+
+              }}>
+                {
+                  !sortByDateAdded
+                    ?
+                    <p>Дата добавления в мои тендеры</p>
+                    :
+                    <p style={{ fontWeight: 'bold' }}>Дата добавления в мои тендеры</p>
+                }
+
+              </div>
+
+              <div className="sort-property" onClick={() => {
+                setSortByDateAdded(false)
+                setSortByDateStart(true)
+                setSortByPrice(false)
+                setSortByDateFinished(false)
+                setSortByDatePublic(false)
+                sortByDateStartTenders()
+
+              }}>
+                {
+                  !sortByDateStart
+                    ?
+                    <p>Дата начала подачи заявок</p>
+                    :
+                    <p style={{ fontWeight: 'bold' }}>Дата начала подачи заявок</p>
+                }
+              </div>
+
+              <div className="sort-property" onClick={() => {
+                setSortByDateAdded(false)
+                setSortByDateStart(false)
+                setSortByPrice(true)
+                setSortByDateFinished(false)
+                setSortByDatePublic(false)
+                sortByPriceTenders()
+
+              }}>
+                {
+                  !sortByPrice
+                    ?
+                    <p>Цена</p>
+                    :
+                    <p style={{ fontWeight: 'bold' }}>Цена</p>
+                }
+              </div>
+
+              <div className="sort-property" onClick={() => {
+                setSortByDateAdded(false)
+                setSortByDateStart(false)
+                setSortByPrice(false)
+                setSortByDateFinished(true)
+                setSortByDatePublic(false)
+
+
+
+              }}>
+                {
+                  !sortByDateFinished
+                    ?
+                    <p>Дата окончания</p>
+                    :
+                    <p style={{ fontWeight: 'bold' }}>Дата окончания</p>
+                }
+              </div>
+
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={() => createReportMyTender()}>
+              <RiFileExcel2Line size={30} color='#3294F4' />
+            </div>
+          </div>
                     {tendersList
                         .map((item: any, index) => (
                             // Проверка на null перед отображением TenderPreiewC

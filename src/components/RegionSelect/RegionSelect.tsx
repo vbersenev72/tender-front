@@ -16,7 +16,7 @@ export function RegionSelect({ closeModal, setRegionCustomer, regionCustomer, va
 
     const clearText = () => {
         setFindText('')
-        setRegionCustomer('')
+        setRegionCustomer({})
         setSelectCheckBox('')
         setRegions([...regions])
     }
