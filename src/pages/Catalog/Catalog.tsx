@@ -305,24 +305,6 @@ export const Catalog: FC = () => {
               <div style={{ color: 'gray', paddingLeft: '0px', display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: '15px' }}><p>Сортировать по</p></div>
 
               <div className="sort-property" onClick={() => {
-                setSortByDateAdded(true)
-                setSortByDateStart(false)
-                setSortByPrice(false)
-                setSortByDateFinished(false)
-                setSortByDatePublic(false)
-
-              }}>
-                {
-                  !sortByDateAdded
-                    ?
-                    <p>Дата добавления в мои тендеры</p>
-                    :
-                    <p style={{ fontWeight: 'bold' }}>Дата добавления в мои тендеры</p>
-                }
-
-              </div>
-
-              <div className="sort-property" onClick={() => {
                 setSortByDateAdded(false)
                 setSortByDateStart(true)
                 setSortByPrice(false)
@@ -365,6 +347,7 @@ export const Catalog: FC = () => {
                 setSortByDateFinished(true)
                 setSortByDatePublic(false)
 
+                
 
 
               }}>
@@ -375,6 +358,24 @@ export const Catalog: FC = () => {
                     :
                     <p style={{ fontWeight: 'bold' }}>Дата окончания</p>
                 }
+              </div>
+
+              <div className="sort-property" onClick={() => {
+                setSortByDateAdded(false)
+                setSortByDateStart(false)
+                setSortByPrice(false)
+                setSortByDateFinished(false)
+                setSortByDatePublic(true)
+                sortByDatePublicTenders()
+              }}>
+                {
+                  !sortByDatePublic
+                    ?
+                    <p>Дата публикации</p>
+                    :
+                    <p style={{ fontWeight: 'bold' }}>Дата публикации</p>
+                }
+
               </div>
 
             </div>

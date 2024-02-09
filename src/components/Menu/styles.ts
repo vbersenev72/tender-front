@@ -9,7 +9,7 @@ padding: 150px 20px 20px 20px;
 background: #29324A;
 height: 100vh;
 position: fixed;
-width: ${props => (props.isShow ? '20%' : '5%')};
+width: ${props => (props.isShow ? '23%' : '5%')};
 z-index: 100;
 left: 0;
 `;
