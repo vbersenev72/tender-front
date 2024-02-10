@@ -13,6 +13,7 @@ import { createReport } from '../../../functions/createReport';
 import { createReportAutoSearch } from '../../../functions/createReportAutoSearch';
 import { Okpd2Select } from '../../../components/OKPD2Select/Okpd2Select';
 import { okpd2Nomenclature, regionsList } from '../../../data/tendersData';
+import { PaginationBlock } from '../../../components/PaginationBlock/PaginationBlock';
 
 export interface IAutoSearchCardProps {
 }
@@ -562,17 +563,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
 
                       ))}
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-                    <button onClick={() => handlePageChange((currentPage - 1))} disabled={currentPage === 1}>
-                      Назад
-                    </button>
-                    <span style={{ margin: '0 10px' }}>Страница {currentPage}</span>
-                    <button onClick={() => {
-                      handlePageChange((currentPage + 1))
-                    }}>
-                      Вперед
-                    </button>
-                  </div>
+                  <PaginationBlock handlePageChange={handlePageChange} currentPage={currentPage}/>
                 </div>
 
               </div>

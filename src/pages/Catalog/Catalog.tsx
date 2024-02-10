@@ -16,6 +16,7 @@ import { createReport } from "../../functions/createReport";
 import React from "react";
 import AdvancedSearch from "../../components/AdvancedSearch/AdvancedSearch";
 import { createReportAutoSearch } from "../../functions/createReportAutoSearch";
+import { PaginationBlock } from "../../components/PaginationBlock/PaginationBlock";
 
 
 export const Catalog: FC = () => {
@@ -586,18 +587,7 @@ export const Catalog: FC = () => {
                                 : null
 
                         ))}
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-                        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-                            Назад
-                        </button>
-                        <span style={{ margin: '0 10px' }}>Страница {currentPage}</span>
-                        <button onClick={() => {
-                            if (!auth) return showErrorMessage('Для просмотра всех тендеров необходимо авторизоваться')
-                            handlePageChange(currentPage + 1)
-                        }}>
-                            Вперед
-                        </button>
-                    </div>
+                    <PaginationBlock handlePageChange={handlePageChange} currentPage={currentPage}/>
                     {/*<FlexRow>*/}
                     {/*    <ShowCount>*/}
                     {/*        <TextGray14pxRegular>Показать по</TextGray14pxRegular>*/}

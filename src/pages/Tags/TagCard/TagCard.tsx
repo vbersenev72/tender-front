@@ -9,6 +9,7 @@ import { TailSpin } from 'react-loader-spinner';
 import { RiFileExcel2Line } from 'react-icons/ri';
 import './TagCard.css'
 import { createReportTag } from '../../../functions/createReportTags';
+import { PaginationBlock } from '../../../components/PaginationBlock/PaginationBlock';
 
 
 export interface ITagCardProps {
@@ -326,17 +327,7 @@ export function TagCard(props: ITagCardProps) {
 
                   ))}
               </div>
-              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-                <button onClick={() => handlePageChange((currentPage - 1))} disabled={currentPage === 1}>
-                  Назад
-                </button>
-                <span style={{ margin: '0 10px' }}>Страница {currentPage}</span>
-                <button onClick={() => {
-                  handlePageChange((currentPage + 1))
-                }}>
-                  Вперед
-                </button>
-              </div>
+              <PaginationBlock handlePageChange={handlePageChange} currentPage={currentPage}/>
             </div>
           }
         </div>

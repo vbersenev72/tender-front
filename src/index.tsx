@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import './normalize.css'
 import { BrowserRouter } from "react-router-dom";
 import { MenuProvider } from './MenuContext';
+import { AuthProvider } from './AuthContext';
 
 
 const root = ReactDOM.createRoot(
@@ -12,10 +13,12 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <MenuProvider>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </MenuProvider>
+  <AuthProvider>
+    <MenuProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </MenuProvider>
+  </AuthProvider>
 );
 

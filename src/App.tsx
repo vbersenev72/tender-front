@@ -20,11 +20,14 @@ import { TagCard } from './pages/Tags/TagCard/TagCard';
 import { AutoSearchPage } from './pages/AutoSearchPage/AutoSearchPage';
 import { AutoSearchCard } from './pages/AutoSearchPage/AutoSearchCard/AutoSearchCard';
 import { MenuContext } from './MenuContext';
+import { AuthContext } from './AuthContext';
 
 function App() {
 
-    const [auth, setAuth]: any = useState(false)
+    // const [auth, setAuth]: any = useState(false)
     const { openMenu, setOpenMenu }: any = useContext(MenuContext);
+
+    const { auth, setAuth }: any = useContext(AuthContext)
 
     async function getAllTags() {
 
@@ -64,7 +67,7 @@ function App() {
     return (
         <Fragment>
             <ToastContainer />
-            <div style={{width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : ''}}><Header /> </div>
+            <div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><Header /> </div>
             {/* <Header /> */}
             <Menu auth={auth} />
 
@@ -72,23 +75,23 @@ function App() {
                 auth
                     ?
                     <Routes>
-                        <Route path="/" element={<div style={{width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : ''}}><Catalog /> </div>} />
-                        <Route path="/contracts" element={<div style={{width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : ''}}><ContractsPage /> </div>} />
-                        <Route path="/tender/:id" element={<div style={{width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : ''}}><TenderCard /> </div>} />
-                        <Route path='/personal' element={<div style={{width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : ''}}><PersonalPage /></div>} />
-                        <Route path="/auth" element={<div style={{width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : ''}}><AuthPage /> </div>} />
-                        <Route path="/mytenders" element={<div style={{width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : ''}}><MyTendersPage auth={auth} /> </div>} />
+                        <Route path="/" element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><Catalog /> </div>} />
+                        <Route path="/contracts" element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><ContractsPage /> </div>} />
+                        <Route path="/tender/:id" element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><TenderCard /> </div>} />
+                        <Route path='/personal' element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><PersonalPage /></div>} />
+                        <Route path="/auth" element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><AuthPage /> </div>} />
+                        <Route path="/mytenders" element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><MyTendersPage auth={auth} /> </div>} />
 
-                        <Route path='/tags' element={<div style={{width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : ''}}><TagsPage /> </div>} />
-                        <Route path='/tags/:id' element={<div style={{width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : ''}}> <TagCard /></div>} />
+                        <Route path='/tags' element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><TagsPage /> </div>} />
+                        <Route path='/tags/:id' element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}> <TagCard /></div>} />
 
-                        <Route path='/autosearch' element={<div style={{width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : ''}}><AutoSearchPage /> </div>} />
-                        <Route path='/autosearch/:id' element={<div style={{width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : ''}}><AutoSearchCard /> </div>} />
+                        <Route path='/autosearch' element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><AutoSearchPage /> </div>} />
+                        <Route path='/autosearch/:id' element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><AutoSearchCard /> </div>} />
                     </Routes>
                     :
                     <Routes>
-                        <Route path="/" element={<div style={{width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : ''}}><Catalog /> </div>} />
-                        <Route path="/auth" element={<div style={{width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : ''}}><AuthPage /> </div>} />
+                        <Route path="/" element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><Catalog /> </div>} />
+                        <Route path="/auth" element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><AuthPage /> </div>} />
                     </Routes>
             }
 

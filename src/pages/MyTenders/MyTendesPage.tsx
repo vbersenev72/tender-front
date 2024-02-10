@@ -14,6 +14,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { TenderPreiewCard223, TenderPreiewCard44 } from '../../components/TenderPreviewCard';
 import { createReport } from '../../functions/createReport';
 import { createReportMyTender } from '../../functions/createReportMyTenders';
+import { PaginationBlock } from '../../components/PaginationBlock/PaginationBlock';
 
 
 export interface IMyTendersPageProps {
@@ -511,17 +512,7 @@ export function MyTendersPage(props: any) {
 
                   ))}
               </div>
-              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-                <button onClick={() => handlePageChange((currentPage - 1))} disabled={currentPage === 1}>
-                  Назад
-                </button>
-                <span style={{ margin: '0 10px' }}>Страница {currentPage}</span>
-                <button onClick={() => {
-                  handlePageChange((currentPage + 1))
-                }}>
-                  Вперед
-                </button>
-              </div>
+              <PaginationBlock handlePageChange={handlePageChange} currentPage={currentPage}/>
             </div>
           }
         </div>
