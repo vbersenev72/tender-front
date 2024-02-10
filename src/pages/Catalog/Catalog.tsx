@@ -12,17 +12,21 @@ import { checkDigitsOnly } from "../../functions/CheckDigitsOnly";
 import { MenuContext } from "../../MenuContext";
 import { createReportMyTender } from "../../functions/createReportMyTenders";
 import { RiFileExcel2Line } from "react-icons/ri";
+import { createReport } from "../../functions/createReport";
+import React from "react";
+import AdvancedSearch from "../../components/AdvancedSearch/AdvancedSearch";
+import { createReportAutoSearch } from "../../functions/createReportAutoSearch";
 
 
 export const Catalog: FC = () => {
-    const [tendersList, setTendersList] = useState([]);
+    const [tendersList, setTendersList] = useState<any>([]);
     const [myTenders, setMyTenders] = useState<any[]>([])
 
     const [tendersCount, setTendersCount] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [countItems, setCountItems] = useState(10);
     // const [findedTenderId, setFindedTenderId] = useState('')
-    const [fz, setFz] = useState('')
+
     const [loading, setLoading] = useState(false) // true
     const [textSearch, setTextSearch] = useState('')
 
@@ -38,6 +42,121 @@ export const Catalog: FC = () => {
     const [sortByDatePublic, setSortByDatePublic] = useState(false)
 
     const { openMenu, setOpenMenu }: any = useContext(MenuContext);
+
+
+
+    // Advanced Search Data
+    const [showAdvancedSearch, setShowAdvancedSearch] = React.useState(false)
+
+    const [tags, setTags] = React.useState<any>('')
+    const [stopTags, setStopTags] = React.useState<any>('')
+    const [publicDateFrom, setPublicDateFrom] = React.useState<any>('')
+    const [publicDateTo, setPublicDateTo] = React.useState<any>('')
+    const [startDateFrom, setStartDateFrom] = React.useState<any>('')
+    const [startDateTo, setStartDateTo] = React.useState<any>('')
+    const [endDateFrom, setEndDateFrom] = React.useState<any>('')
+    const [endDateTo, setEndDateTo] = React.useState<any>('')
+    const [fz, setFz] = React.useState<any>('')
+    const [region, setRegion] = React.useState<any>('')
+    const [tenderNum, setTenderNum] = React.useState<any>('')
+    const [customerName, setCustomerName] = React.useState<any>('')
+    const [stopCustomerName, setStopCustomerName] = React.useState<any>('')
+    const [inn, setInn] = React.useState<any>('')
+    const [priceFrom, setPriceFrom] = React.useState<any>('')
+    const [priceTo, setPriceTo] = React.useState<any>('')
+    const [enablePrice, setEnablePrice] = React.useState<any>('')
+    const [source, setSource] = React.useState<any>('')
+    const [enableSource, setEnableSource] = React.useState<any>('')
+    const [okpd2, setOkpd2] = React.useState<any>('')
+    ///
+
+    const formatDate = (dateString: any) => {
+        const date: any = new Date(dateString)
+        if (isNaN(date)) {
+            return ''; // возвращаем пустую строку, если date не является датой
+        }
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
+    }
+
+    const getAdvancedSearch = async () => {
+        try {
+            setLoading(true)
+            const response: any = await axios.post(`${process.env.REACT_APP_API}/api/find/advancedfind`, {
+                tags: tags,
+                stopTags: stopTags,
+                publicDateFrom: formatDate(publicDateFrom),
+                publicDateTo: formatDate(publicDateTo),
+                startDateFrom: formatDate(startDateFrom),
+                startDateTo: formatDate(startDateTo),
+                endDateFrom: formatDate(endDateFrom),
+                endDateTo: formatDate(endDateTo),
+                fz: fz,
+                region: region ? region.name : '',
+                tenderNum: tenderNum,
+                customerName: customerName,
+                stopCustomerName: stopCustomerName,
+                inn: inn,
+                priceFrom: priceFrom,
+                priceTo: priceTo,
+                enablePrice: enablePrice,
+                purchaseStage: '',
+                methodDeterminingSupplier: '',
+                source: source,
+                enableSource: enableSource,
+                okpd2: okpd2 ? okpd2.code : '',
+                page: currentPage
+
+            }, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+
+
+
+            const result = response.data.message
+
+            setTendersList([...result])
+
+            setLoading(false)
+
+        } catch (error: any) {
+            showErrorMessage('Ошибка поиска')
+            console.log(error);
+
+            setLoading(false)
+        }
+    }
+
+    const clearAllFields = () => {
+        setTags('')
+        setStopTags('')
+        setPublicDateFrom('')
+        setPublicDateTo('')
+        setStartDateFrom('')
+        setStartDateTo('')
+        setEndDateFrom('')
+        setEndDateTo('')
+        setFz('')
+        setRegion('')
+        setTenderNum('')
+        setCustomerName('')
+        setStopCustomerName('')
+        setInn('')
+        setPriceFrom('')
+        setPriceTo('')
+        setEnablePrice('')
+        setSource('')
+        setEnableSource('')
+        setOkpd2('')
+
+        showSuccesMessage('Все параметры сброшены!')
+    }
 
 
     const fetchData = async () => {
@@ -128,12 +247,15 @@ export const Catalog: FC = () => {
 
         checkAuth().then((auth) => setAuth(auth))
         //getMyTenders()
-        console.log('fz', fz)
 
-        fetchData();
+        if (showAdvancedSearch) {
+            getAdvancedSearch()
+        } else {
+            fetchData();
+        }
 
 
-    }, [currentPage, fz]);
+    }, [currentPage]);
 
 
     const handlePageChange = (newPage: number) => {
@@ -141,21 +263,6 @@ export const Catalog: FC = () => {
         fetchData()
     };
 
-    let check44 = false
-    let check223 = false
-
-    const checkFz = () => {
-        console.log('check44', check44);
-        console.log('check223', check223);
-        const reasonAll = (check44 && check223) || (!check44 && !check223)
-        const reason44 = check44 && !check223
-        const reason223 = check223 && !check44
-        switch (true) {
-            case reasonAll: { setFz(''); break }
-            case reason44: { setFz('44'); break }
-            case reason223: { setFz('223'); break }
-        }
-    }
 
     const sortByDatePublicTenders = () => {
         const newTendersArray = beforeTenders.sort((a: any, b: any) => {
@@ -252,6 +359,27 @@ export const Catalog: FC = () => {
         setTendersList(newTendersArray)
     }
 
+    const sortByDateFinishedTenders = () => {
+        const newTendersArray = beforeTenders.sort((a: any, b: any) => {
+            console.log(a);
+
+            if (a.fz == 'fz223') {
+                const aDate = a?.submissionCloseDateTime
+                const bDate = b.fz == 'fz223' ? b?.submissionCloseDateTime : b?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
+
+                return new Date(bDate).getTime() - new Date(aDate).getTime()
+            } else {
+                const aDate = a?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
+                const bDate = b.fz == 'fz223' ? b?.submissionCloseDateTime : b?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
+
+                return new Date(bDate).getTime() - new Date(aDate).getTime()
+            }
+        })
+
+
+        setTendersList(newTendersArray)
+    }
+
 
     // @ts-ignore
     return (
@@ -275,11 +403,56 @@ export const Catalog: FC = () => {
                             }
                         }>Поиск</FindByIDButton>
                     </FlexRow>
-                    <FlexRow style={{ width: '100%', justifyContent: 'flex-end' }}>
-                        <div style={{ width: "18%", display: 'flex', justifyContent: 'center' }}>
-                            <AdvancedFindP>Расширенный поиск</AdvancedFindP>
-                        </div>
-                    </FlexRow>
+                    {
+                        showAdvancedSearch
+                        &&
+                        <>
+                            <FlexRow style={{ width: '100%', justifyContent: 'flex-end' }}>
+                                <div style={{ width: "18%", display: 'flex', justifyContent: 'center' }} onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}>
+                                    <AdvancedFindP>Простой поиск</AdvancedFindP>
+                                </div>
+                            </FlexRow>
+                            <AdvancedSearch
+
+                                tags={tags} setTags={setTags}
+                                stopTags={stopTags} setStopTags={setStopTags}
+                                publicDateFrom={publicDateFrom} setPublicDateFrom={setPublicDateFrom}
+                                publicDateTo={publicDateTo} setPublicDateTo={setPublicDateTo}
+                                startDateFrom={startDateFrom} setStartDateFrom={setStartDateFrom}
+                                startDateTo={startDateTo} setStartDateTo={setStartDateTo}
+                                endDateFrom={endDateFrom} setEndDateFrom={setEndDateFrom}
+                                endDateTo={endDateTo} setEndDateTo={setEndDateTo}
+                                fz={fz} setFz={setFz}
+                                region={region} setRegion={setRegion}
+                                tenderNum={tenderNum} setTenderNum={setTenderNum}
+                                customerName={customerName} setCustomerName={setCustomerName}
+                                inn={inn} setInn={setInn}
+                                priceFrom={priceFrom} setPriceFrom={setPriceFrom}
+                                priceTo={priceTo} setPriceTo={setPriceTo}
+                                enablePrice={enablePrice} setEnablePrice={setEnablePrice}
+                                source={source} setSource={setSource}
+                                enableSource={enableSource} setEnableSource={setEnableSource}
+                                okpd2={okpd2} setOkpd2={setOkpd2}
+
+                            />
+                            <div style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', width: '100%' }}>
+                                <div style={{ width: '50%', display: 'flex', justifyContent: 'space-around' }}>
+                                    <div className='AdvancedSearchButton' style={{ backgroundColor: 'dodgerblue', color: 'white', paddingLeft: '60px', paddingRight: '60px' }} onClick={() => getAdvancedSearch()}><p>Поиск</p></div>
+                                    <div className='AdvancedSearchButton' style={{ paddingLeft: '60px', paddingRight: '60px' }} onClick={() => createReport(tendersList, auth)}><p>Excel</p></div>
+                                    <div className='AdvancedSearchButton' style={{ paddingLeft: '60px', paddingRight: '60px' }} onClick={clearAllFields}><p>Сбросить</p></div>
+                                </div>
+                            </div>
+                        </>
+                    }
+                    {
+                        !showAdvancedSearch
+                        &&
+                        <FlexRow style={{ width: '100%', justifyContent: 'flex-end' }}>
+                            <div style={{ width: "18%", display: 'flex', justifyContent: 'center' }} onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}>
+                                <AdvancedFindP>Расширенный поиск</AdvancedFindP>
+                            </div>
+                        </FlexRow>
+                    }
                     <FlexTextRow style={{ alignItems: 'center', gap: '20px' }}>
                         <TextBlack22pxRegular>Результаты поиска</TextBlack22pxRegular>
                         {/* <TextGray14pxRegular>найдено 26000 тендеров</TextGray14pxRegular> */}
@@ -301,88 +474,107 @@ export const Catalog: FC = () => {
                         </label>
                     </FlexRow> */}
                     <div className="Mytenders-sort">
-            <div className='Mytenders-sort-list'>
-              <div style={{ color: 'gray', paddingLeft: '0px', display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: '15px' }}><p>Сортировать по</p></div>
-
+                        <div className='Mytenders-sort-list'>
+                            <div style={{ color: 'gray', paddingLeft: '0px', display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: '15px' }}><p>Сортировать по</p></div>
+                            {/*
               <div className="sort-property" onClick={() => {
-                setSortByDateAdded(false)
-                setSortByDateStart(true)
-                setSortByPrice(false)
-                setSortByDateFinished(false)
-                setSortByDatePublic(false)
-                sortByDateStartTenders()
-
-              }}>
-                {
-                  !sortByDateStart
-                    ?
-                    <p>Дата начала подачи заявок</p>
-                    :
-                    <p style={{ fontWeight: 'bold' }}>Дата начала подачи заявок</p>
-                }
-              </div>
-
-              <div className="sort-property" onClick={() => {
-                setSortByDateAdded(false)
-                setSortByDateStart(false)
-                setSortByPrice(true)
-                setSortByDateFinished(false)
-                setSortByDatePublic(false)
-                sortByPriceTenders()
-
-              }}>
-                {
-                  !sortByPrice
-                    ?
-                    <p>Цена</p>
-                    :
-                    <p style={{ fontWeight: 'bold' }}>Цена</p>
-                }
-              </div>
-
-              <div className="sort-property" onClick={() => {
-                setSortByDateAdded(false)
-                setSortByDateStart(false)
-                setSortByPrice(false)
-                setSortByDateFinished(true)
-                setSortByDatePublic(false)
-
-                
-
-
-              }}>
-                {
-                  !sortByDateFinished
-                    ?
-                    <p>Дата окончания</p>
-                    :
-                    <p style={{ fontWeight: 'bold' }}>Дата окончания</p>
-                }
-              </div>
-
-              <div className="sort-property" onClick={() => {
-                setSortByDateAdded(false)
+                setSortByDateAdded(true)
                 setSortByDateStart(false)
                 setSortByPrice(false)
                 setSortByDateFinished(false)
-                setSortByDatePublic(true)
-                sortByDatePublicTenders()
+                setSortByDatePublic(false)
+                sortByDateAddedTenders()
+
               }}>
                 {
-                  !sortByDatePublic
+                  !sortByDateAdded
                     ?
-                    <p>Дата публикации</p>
+                    <p>Дата добавления в мои тендеры</p>
                     :
-                    <p style={{ fontWeight: 'bold' }}>Дата публикации</p>
+                    <p style={{ fontWeight: 'bold' }}>Дата добавления в мои тендеры</p>
                 }
 
-              </div>
+              </div> */}
 
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={() => createReportMyTender()}>
-              <RiFileExcel2Line size={30} color='#3294F4' />
-            </div>
-          </div>
+                            <div className="sort-property" onClick={() => {
+                                setSortByDateAdded(false)
+                                setSortByDateStart(false)
+                                setSortByPrice(false)
+                                setSortByDateFinished(false)
+                                setSortByDatePublic(true)
+
+                                sortByDatePublicTenders()
+
+                            }}>
+                                {
+                                    !sortByDatePublic
+                                        ?
+                                        <p>Размещено</p>
+                                        :
+                                        <p style={{ fontWeight: 'bold' }}>Размещено</p>
+                                }
+                            </div>
+
+                            <div className="sort-property" onClick={() => {
+                                setSortByDateAdded(false)
+                                setSortByDateStart(true)
+                                setSortByPrice(false)
+                                setSortByDateFinished(false)
+                                setSortByDatePublic(false)
+                                sortByDateStartTenders()
+
+                            }}>
+                                {
+                                    !sortByDateStart
+                                        ?
+                                        <p>Обновлено</p>
+                                        :
+                                        <p style={{ fontWeight: 'bold' }}>Обновлено</p>
+                                }
+                            </div>
+
+                            <div className="sort-property" onClick={() => {
+                                setSortByDateAdded(false)
+                                setSortByDateStart(false)
+                                setSortByPrice(true)
+                                setSortByDateFinished(false)
+                                setSortByDatePublic(false)
+                                sortByPriceTenders()
+
+                            }}>
+                                {
+                                    !sortByPrice
+                                        ?
+                                        <p>Цена</p>
+                                        :
+                                        <p style={{ fontWeight: 'bold' }}>Цена</p>
+                                }
+                            </div>
+
+                            <div className="sort-property" onClick={() => {
+                                setSortByDateAdded(false)
+                                setSortByDateStart(false)
+                                setSortByPrice(false)
+                                setSortByDateFinished(true)
+                                setSortByDatePublic(false)
+
+                                sortByDateFinishedTenders()
+
+                            }}>
+                                {
+                                    !sortByDateFinished
+                                        ?
+                                        <p>Дата окончания</p>
+                                        :
+                                        <p style={{ fontWeight: 'bold' }}>Дата окончания</p>
+                                }
+                            </div>
+
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={() => createReport(tendersList, auth)}>
+                            <RiFileExcel2Line size={30} color='#3294F4' />
+                        </div>
+                    </div>
                     {tendersList
                         .map((item: any, index) => (
                             // Проверка на null перед отображением TenderPreiewC

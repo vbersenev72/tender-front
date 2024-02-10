@@ -206,6 +206,44 @@ export function TagCard(props: ITagCardProps) {
           <div className="Mytenders-sort">
             <div className='Mytenders-sort-list'>
               <div style={{ color: 'gray', paddingLeft: '0px', display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: '15px' }}><p>Сортировать по</p></div>
+              {/*
+              <div className="sort-property" onClick={() => {
+                setSortByDateAdded(true)
+                setSortByDateStart(false)
+                setSortByPrice(false)
+                setSortByDateFinished(false)
+                setSortByDatePublic(false)
+                sortByDateAddedTenders()
+
+              }}>
+                {
+                  !sortByDateAdded
+                    ?
+                    <p>Дата добавления в мои тендеры</p>
+                    :
+                    <p style={{ fontWeight: 'bold' }}>Дата добавления в мои тендеры</p>
+                }
+
+              </div> */}
+
+              <div className="sort-property" onClick={() => {
+                setSortByDateAdded(false)
+                setSortByDateStart(false)
+                setSortByPrice(false)
+                setSortByDateFinished(false)
+                setSortByDatePublic(true)
+
+                sortByDatePublicTenders()
+
+              }}>
+                {
+                  !sortByDatePublic
+                    ?
+                    <p>Размещено</p>
+                    :
+                    <p style={{ fontWeight: 'bold' }}>Размещено</p>
+                }
+              </div>
 
               <div className="sort-property" onClick={() => {
                 setSortByDateAdded(false)
@@ -219,9 +257,9 @@ export function TagCard(props: ITagCardProps) {
                 {
                   !sortByDateStart
                     ?
-                    <p>Дата начала подачи заявок</p>
+                    <p>Обновлено</p>
                     :
-                    <p style={{ fontWeight: 'bold' }}>Дата начала подачи заявок</p>
+                    <p style={{ fontWeight: 'bold' }}>Обновлено</p>
                 }
               </div>
 
@@ -262,30 +300,12 @@ export function TagCard(props: ITagCardProps) {
                 }
               </div>
 
-              <div className="sort-property" onClick={() => {
-                setSortByDateAdded(false)
-                setSortByDateStart(false)
-                setSortByPrice(false)
-                setSortByDateFinished(false)
-                setSortByDatePublic(true)
-
-                sortByDatePublicTenders()
-
-              }}>
-                {
-                  !sortByDatePublic
-                    ?
-                    <p>Дата публикации</p>
-                    :
-                    <p style={{ fontWeight: 'bold' }}>Дата публикации</p>
-                }
-              </div>
-
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={()=>createReportTag(id)}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={() => createReportTag(tag)}>
               <RiFileExcel2Line size={30} color='#3294F4' />
             </div>
           </div>
+
           <br />
 
           {loading ? (

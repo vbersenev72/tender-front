@@ -77,10 +77,10 @@ export default function AdvancedSearch(
 
         { value: '', label: 'Не выбрано' },
 
-        { value: 'Выбор1', label: 'Выбор 1' },
-        { value: 'Выбор1', label: 'Выбор 2' },
-        { value: 'Выбор1', label: 'Выбор 3' },
-        { value: 'Выбор1', label: 'Выбор 4' },
+        { value: 'Выбор1', label: 'Конкурсы (открытые, закрытые)' },
+        { value: 'Выбор1', label: 'Аукционы (открытые и закрытые)' },
+        { value: 'Выбор1', label: 'Запросы предложений и котировок' },
+        { value: 'Выбор1', label: 'Закупки у единственного поставщика.' },
 
     ]
 
@@ -170,7 +170,7 @@ export default function AdvancedSearch(
                     <div>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div className='AdvancedSearch-inputForm'>
-                                <p className='AdvancedSearch-inputname'>Дата начала от</p>
+                                <p className='AdvancedSearch-inputname'>Размещено</p>
                                 <DatePicker className='AdvancedSearch-input' selected={startDateFrom != '' ? new Date(startDateFrom) : startDateFrom} onChange={(e: any) => setStartDateFrom(e)} />
                             </div>
                             <div className='AdvancedSearch-inputForm'>
@@ -183,7 +183,7 @@ export default function AdvancedSearch(
                     <div>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div className='AdvancedSearch-inputForm'>
-                                <p className='AdvancedSearch-inputname'>Дата окончания от</p>
+                                <p className='AdvancedSearch-inputname'>Окончание подачи заявки</p>
                                 <DatePicker className='AdvancedSearch-input' selected={endDateFrom != '' ? new Date(endDateFrom) : endDateFrom} onChange={(e: any) => setEndDateFrom(e)} />
                             </div>
                             <div className='AdvancedSearch-inputForm'>
@@ -196,7 +196,7 @@ export default function AdvancedSearch(
                     <div>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div className='AdvancedSearch-inputForm'>
-                                <p className='AdvancedSearch-inputname'>Дата публикации от</p>
+                                <p className='AdvancedSearch-inputname'>Обновлено</p>
                                 <DatePicker className='AdvancedSearch-input' selected={publicDateFrom != '' ? new Date(publicDateFrom) : publicDateFrom} onChange={(e: any) => setPublicDateFrom(e)} />
                             </div>
                             <div className='AdvancedSearch-inputForm'>

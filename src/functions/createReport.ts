@@ -1,8 +1,10 @@
 import axios from "axios"
 import { showErrorMessage, showSuccesMessage } from "./Message"
 
-export const createReport = async (tenders: any) => {
+export const createReport = async (tenders: any, auth:any) => {
   try {
+
+    if (!auth) return showErrorMessage('Для выполнения этого действия необходимо авторизоваться')
 
     let newTenders = tenders.map((tenderData:any) => {
       if (tenderData.fz == 'fz223') return tenderData.registrationNumber

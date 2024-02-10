@@ -93,7 +93,7 @@ export const Menu = ({ auth }: any) => {
             const tags = getAllTags.data.message
             setTags([...tags])
         } catch (error) {
-            showErrorMessage('Ошибка загрузки меток, попробуйте позже')
+            console.log(error);
         }
     }
 
@@ -131,7 +131,8 @@ export const Menu = ({ auth }: any) => {
 
 
         } catch (error) {
-            showErrorMessage('Ошибка загрузки автопоисков')
+            console.log(error);
+
         }
     }
 

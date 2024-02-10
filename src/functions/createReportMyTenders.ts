@@ -8,7 +8,7 @@ export const createReportMyTender = async () => {
     showSuccesMessage('Ожидайте отчёт в течение 2-ух минут')
 
     const createReport = await axios.post(`${process.env.REACT_APP_API}/api/report/createmytendersreport`, {
-       
+
     }, {
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`
