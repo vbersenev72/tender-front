@@ -21,6 +21,12 @@ export function TagsModal({ addTagToTender, closeModal, popupTagsPosition, jsonD
                 });
 
                 const tags = getAllTags.data.message
+                
+                if (tags.length == 0) {
+                    closeModal()
+                    return showErrorMessage('Нет доступных меток!')
+                }
+
                 setTags([...tags, { id: -1, tag_color: 'white', tag_name: 'Удалить метку' }])
 
             } catch (error) {
