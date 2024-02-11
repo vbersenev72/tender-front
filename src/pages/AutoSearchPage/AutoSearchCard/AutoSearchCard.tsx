@@ -57,6 +57,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
   const [endPeriod, setEndPeriod] = useState(new Date())
 
   const [currentPage, setCurrentPage] = useState<any>(1)
+  const [countShowElements, setCountShowElements] = useState(10)
   const [tenders, setTenders] = useState<any>([])
   const [beforeTenders, setBeforeTenders] = useState<any>([])
 
@@ -347,7 +348,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
       try {
         setLoading(true)
 
-        const response = await axios.get(`${process.env.REACT_APP_API}/api/autosearch/getresult/${id}?page=${currentPage}`, {
+        const response = await axios.get(`${process.env.REACT_APP_API}/api/autosearch/getresult/${id}?page=${currentPage}&limit=${countShowElements}`, {
           headers: {
             authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -376,7 +377,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
 
     getTenders()
 
-  }, [currentPage])
+  }, [currentPage, countShowElements])
 
   return (
     <>
@@ -563,7 +564,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
 
                       ))}
                   </div>
-                  <PaginationBlock handlePageChange={handlePageChange} currentPage={currentPage}/>
+                  <PaginationBlock handlePageChange={handlePageChange} currentPage={currentPage} countShowElements={countShowElements} setCountShowElements={setCountShowElements}/>
                 </div>
 
               </div>

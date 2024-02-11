@@ -26,6 +26,7 @@ export const Catalog: FC = () => {
     const [tendersCount, setTendersCount] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [countShowElements, setCountShowElements] = useState(10)
+
     // const [findedTenderId, setFindedTenderId] = useState('')
 
     const [loading, setLoading] = useState(false) // true
@@ -110,7 +111,9 @@ export const Catalog: FC = () => {
                 source: source,
                 enableSource: enableSource,
                 okpd2: okpd2 ? okpd2.code : '',
-                page: currentPage
+                page: currentPage,
+                limit: countShowElements
+
 
             }, {
                 headers: {
@@ -163,19 +166,15 @@ export const Catalog: FC = () => {
     const fetchData = async () => {
         try {
 
-            let limit
-            if (currentPage == 1) {
-                limit = `${currentPage}-${currentPage + 20}`
-            } else {
-                limit = `${currentPage * 20}-${(currentPage * 20) + 20}`
-            }
+
 
             setLoading(true)
             if (!checkDigitsOnly(textSearch) || textSearch == '') {
 
                 const response = await axios.post(`${process.env.REACT_APP_API}/api/find/find`, {
-                    limit: limit,
-                    tags: textSearch.trim()
+                    limit: countShowElements,
+                    tags: textSearch.trim(),
+                    page: currentPage
                 });
 
                 setTendersList(response.data.message);
@@ -256,7 +255,7 @@ export const Catalog: FC = () => {
         }
 
 
-    }, [currentPage]);
+    }, [currentPage, countShowElements]);
 
 
     const handlePageChange = (newPage: number) => {

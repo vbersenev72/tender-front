@@ -5,16 +5,35 @@ import axios from 'axios';
 import { FaMinus } from 'react-icons/fa';
 
 
-export function TagsModal({ tags, addTagToTender, closeModal, popupTagsPosition, jsonData, addTag, setAddTag }: any) {
+export function TagsModal({ addTagToTender, closeModal, popupTagsPosition, jsonData, addTag, setAddTag }: any) {
 
     const regNum = jsonData?.commonInfo?.purchaseNumber ? jsonData?.commonInfo?.purchaseNumber : jsonData?.registrationNumber
 
+    const [tags, setTags] = React.useState<any>([])
+
+    React.useEffect(() => {
+        const getTags = async () => {
+            try {
+                const getAllTags: any = await axios.get(`${process.env.REACT_APP_API}/api/tags/getall`, {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                const tags = getAllTags.data.message
+                setTags([...tags, { id: -1, tag_color: 'white', tag_name: 'Удалить метку' }])
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        getTags().then(() => console.log('Метки загружены!'))
+
+    }, [])
+
     console.log(tags);
     console.log(regNum);
-
-    const [newTags, setNewTags] = React.useState<any>([...tags, { id: -1, tag_color: 'white', tag_name: 'Удалить метку' }])
-
-    console.log(newTags);
 
 
 
@@ -59,9 +78,9 @@ export function TagsModal({ tags, addTagToTender, closeModal, popupTagsPosition,
                 }}
             >
                 {
-                    newTags.length != 0
+                    tags.length != 0
                     &&
-                    newTags.map((tag: any) => {
+                    tags.map((tag: any) => {
 
                         return (
                             <>

@@ -33,6 +33,8 @@ export function MyTendersPage(props: any) {
   const [endPeriod, setEndPeriod] = useState(new Date())
 
   const [currentPage, setCurrentPage] = useState<any>(1)
+  const [countShowElements, setCountShowElements] = useState(10)
+
   const [tenders, setTenders] = useState<any>([])
   const [beforeTenders, setBeforeTenders] = useState<any>([])
   const [myTendersList, setMyTendersList] = useState<any>([])
@@ -54,7 +56,7 @@ export function MyTendersPage(props: any) {
 
       const token = localStorage.getItem('token')
 
-      const response = await axios.get(`${process.env.REACT_APP_API}/api/lk/mytenders/${page}`, {
+      const response = await axios.get(`${process.env.REACT_APP_API}/api/lk/mytenders/${page}?limit=${countShowElements}`, {
         headers: {
           authorization: `Bearer ${token}`
         }
@@ -302,7 +304,7 @@ export function MyTendersPage(props: any) {
     getMyTenders()
     sortByDateAddedTenders()
 
-  }, [currentPage, setCurrentPage,])
+  }, [currentPage, setCurrentPage, countShowElements])
 
 
 
@@ -512,7 +514,7 @@ export function MyTendersPage(props: any) {
 
                   ))}
               </div>
-              <PaginationBlock handlePageChange={handlePageChange} currentPage={currentPage}/>
+              <PaginationBlock handlePageChange={handlePageChange} currentPage={currentPage} countShowElements={countShowElements} setCountShowElements={setCountShowElements} />
             </div>
           }
         </div>

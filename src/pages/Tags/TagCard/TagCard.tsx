@@ -29,6 +29,8 @@ export function TagCard(props: ITagCardProps) {
   const [endPeriod, setEndPeriod] = useState(new Date())
 
   const [currentPage, setCurrentPage] = useState<any>(1)
+  const [countShowElements, setCountShowElements] = useState(10)
+
   const [tenders, setTenders] = useState<any>([])
   const [tag, setTag] = useState<any>({})
   const [beforeTenders, setBeforeTenders] = useState<any>([])
@@ -138,7 +140,8 @@ export function TagCard(props: ITagCardProps) {
 
         const response = await axios.post(`${process.env.REACT_APP_API}/api/tags/gettenders`, {
           page: currentPage,
-          idTag: id
+          idTag: id,
+          limit: countShowElements
         }, {
           headers: {
             authorization: `Bearer ${localStorage.getItem('token')}`
@@ -175,7 +178,7 @@ export function TagCard(props: ITagCardProps) {
 
     getTendersByTag()
 
-  }, [currentPage, setCurrentPage,])
+  }, [currentPage, setCurrentPage, countShowElements])
 
   const handlePageChange = async (newPage: number) => {
     console.log(newPage);
@@ -327,7 +330,7 @@ export function TagCard(props: ITagCardProps) {
 
                   ))}
               </div>
-              <PaginationBlock handlePageChange={handlePageChange} currentPage={currentPage}/>
+              <PaginationBlock handlePageChange={handlePageChange} currentPage={currentPage} countShowElements={countShowElements} setCountShowElements={setCountShowElements}/>
             </div>
           }
         </div>
