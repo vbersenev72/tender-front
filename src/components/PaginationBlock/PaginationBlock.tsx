@@ -7,7 +7,7 @@ import { IoArrowBack } from "react-icons/io5";
 export interface IPaginationBlockProps {
 }
 
-export function PaginationBlock({ handlePageChange, currentPage, countShowElements }: any) {
+export function PaginationBlock({ handlePageChange, currentPage, countShowElements, setCountShowElements }: any) {
 
     const { auth, setAuth }: any = React.useContext(AuthContext)
 
@@ -28,10 +28,10 @@ export function PaginationBlock({ handlePageChange, currentPage, countShowElemen
             <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginBottom: '40px', padding: '14px', fontSize: '18px' }}>
 
                 <div style={{ color: 'gray', margin: '10px' }}><p>Показать по</p></div>
-                <div style={{ cursor: 'pointer', margin: '10px', fontWeight: countShowElements == 10 ? 'bold' : '' }}><p>10</p></div>
-                <div style={{ cursor: 'pointer', margin: '10px', fontWeight: countShowElements == 20 ? 'bold' : '' }}><p>20</p></div>
-                <div style={{ cursor: 'pointer', margin: '10px', fontWeight: countShowElements == 30 ? 'bold' : '' }}><p>30</p></div>
-                <div style={{ cursor: 'pointer', margin: '10px', fontWeight: countShowElements == 50 ? 'bold' : '' }}><p>50</p></div>
+                <div onClick={() => setCountShowElements(10)} style={{ cursor: 'pointer', margin: '10px', fontWeight: countShowElements == 10 ? 'bold' : '' }}><p>10</p></div>
+                <div onClick={() => setCountShowElements(20)} style={{ cursor: 'pointer', margin: '10px', fontWeight: countShowElements == 20 ? 'bold' : '' }}><p>20</p></div>
+                <div onClick={() => setCountShowElements(30)} style={{ cursor: 'pointer', margin: '10px', fontWeight: countShowElements == 30 ? 'bold' : '' }}><p>30</p></div>
+                <div onClick={() => setCountShowElements(50)} style={{ cursor: 'pointer', margin: '10px', fontWeight: countShowElements == 50 ? 'bold' : '' }}><p>50</p></div>
 
             </div>
         </div>
@@ -62,10 +62,10 @@ export function PaginationBlock({ handlePageChange, currentPage, countShowElemen
             <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginBottom: '40px', padding: '14px', fontSize: '18px' }}>
 
                 <div style={{ color: 'gray', margin: '10px' }}><p>Показать по</p></div>
-                <div style={{ cursor: 'pointer', margin: '10px', fontWeight: countShowElements == 10 ? 'bold' : '' }}><p>10</p></div>
-                <div style={{ cursor: 'pointer', margin: '10px', fontWeight: countShowElements == 20 ? 'bold' : '' }}><p>20</p></div>
-                <div style={{ cursor: 'pointer', margin: '10px', fontWeight: countShowElements == 30 ? 'bold' : '' }}><p>30</p></div>
-                <div style={{ cursor: 'pointer', margin: '10px', fontWeight: countShowElements == 50 ? 'bold' : '' }}><p>50</p></div>
+                <div onClick={() => setCountShowElements(10)} style={{ cursor: 'pointer', margin: '10px', fontWeight: countShowElements == 10 ? 'bold' : '' }}><p>10</p></div>
+                <div onClick={() => setCountShowElements(20)} style={{ cursor: 'pointer', margin: '10px', fontWeight: countShowElements == 20 ? 'bold' : '' }}><p>20</p></div>
+                <div onClick={() => setCountShowElements(30)} style={{ cursor: 'pointer', margin: '10px', fontWeight: countShowElements == 30 ? 'bold' : '' }}><p>30</p></div>
+                <div onClick={() => setCountShowElements(50)} style={{ cursor: 'pointer', margin: '10px', fontWeight: countShowElements == 50 ? 'bold' : '' }}><p>50</p></div>
 
             </div>
         </div>

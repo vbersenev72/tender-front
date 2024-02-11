@@ -25,7 +25,7 @@ export const Catalog: FC = () => {
 
     const [tendersCount, setTendersCount] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [countItems, setCountItems] = useState(10);
+    const [countShowElements, setCountShowElements] = useState(10)
     // const [findedTenderId, setFindedTenderId] = useState('')
 
     const [loading, setLoading] = useState(false) // true
@@ -587,7 +587,7 @@ export const Catalog: FC = () => {
                                 : null
 
                         ))}
-                    <PaginationBlock handlePageChange={handlePageChange} currentPage={currentPage}/>
+                    <PaginationBlock handlePageChange={handlePageChange} currentPage={currentPage} countShowElements={countShowElements} setCountShowElements={setCountShowElements}/>
                     {/*<FlexRow>*/}
                     {/*    <ShowCount>*/}
                     {/*        <TextGray14pxRegular>Показать по</TextGray14pxRegular>*/}
