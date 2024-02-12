@@ -58,9 +58,6 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
 
         let result: any = []
 
-        let tags: any = localStorage.getItem('tags')
-        tags = JSON.parse(tags)
-
         for (let i = 0; i < tags.length; i++) {
             const tag = tags[i];
 
@@ -169,7 +166,6 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
     const addTagWindow = async (event: any) => {
         try {
 
-            const tags: any = JSON.parse(localStorage.getItem('tags') as any)
             if (!tags || tags.length == 0) return showErrorMessage('Нет активных меток')
 
 
