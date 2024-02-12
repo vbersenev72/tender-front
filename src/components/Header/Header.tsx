@@ -68,7 +68,8 @@ export const Header: FC = () => {
             setAutoSearchList([...result])
 
         } catch (error) {
-
+            console.log(error);
+            
         }
     }
 
