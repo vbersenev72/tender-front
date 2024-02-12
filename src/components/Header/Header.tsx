@@ -1,15 +1,19 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { CompanyName, HeaderContainer } from "./styles";
 import { ReactComponent as TenderLogo } from '../../assets/icons/TENDER.svg';
 import { FlexRow } from "../../containers/containers";
 import { TextWhite14pxRegular } from "../../constants/fonts";
 import { useNavigate } from 'react-router-dom';
 import { checkAuth } from '../../functions/CheckAuth';
+import { AuthContext } from '../../AuthContext';
 
 export const Header: FC = () => {
 
     const navigate = useNavigate()
+    const { auth, setAuth }: any = useContext(AuthContext)
+
     const [isAuth, setIsAuth] = useState(false)
+
 
     const redirectToAuth = () => {
         navigate('/auth')
