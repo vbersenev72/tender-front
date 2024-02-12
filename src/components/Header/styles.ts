@@ -16,3 +16,17 @@ export const CompanyName = styled.div`
   border-radius: 5px;
   padding: 10px;
 `;
+
+export const InfoLog = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 45px;
+  padding: 10px;
+`
+
+export const InfoLogItem = styled.div<{ count: any }>`
+  display: grid;
+  grid: center;
+  padding: 5px;
+`
