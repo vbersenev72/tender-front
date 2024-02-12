@@ -39,22 +39,33 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
 
     const regNum: any = jsonData?.commonInfo?.purchaseNumber ? jsonData?.commonInfo?.purchaseNumber : jsonData?.registrationNumber
 
-    const getTags = async () => {
-        try {
-            const getAllTags: any = await axios.get(`${process.env.REACT_APP_API}/api/tags/getall`, {
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            });
+    // const getTags = async () => {
+    //     try {
+    //         const getAllTags: any = await axios.get(`${process.env.REACT_APP_API}/api/tags/getall`, {
+    //             headers: {
+    //                 authorization: `Bearer ${localStorage.getItem('token')}`
+    //             }
+    //         });
 
-            const tags = getAllTags.data.message
-            setTags([...tags])
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    //         const tags = getAllTags.data.message
+    //         setTags([...tags])
+
+    //         return 'ok'
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     const getTagForRegNum = async () => {
+
+        const getAllTags: any = await axios.get(`${process.env.REACT_APP_API}/api/tags/getall`, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        const tags = getAllTags.data.message
+        setTags([...tags])
 
         let result: any = []
 
@@ -94,11 +105,6 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
                         }
                     })
 
-                    // console.log(findTag.data.message);
-                    // console.log(tender.reg_num + ' + '+regNum);
-                    // console.log('tender data > '+JSON.stringify(tender));
-
-
                     setMarkTag(findTag.data.message)
                     return findTag.data.message
                 }
@@ -109,6 +115,9 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
         }
         return
     }
+
+
+
 
 
     const addMyTenders = async (id: any) => {
@@ -231,8 +240,10 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
 
 
     useEffect(() => {
-        getTags()
+
+
         getTagForRegNum().then((data: any) => console.log(data))
+
     }, [])
 
 
