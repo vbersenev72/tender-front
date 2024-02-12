@@ -30,14 +30,29 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
 
     const navigate = useNavigate()
 
-    const tags = JSON.parse(localStorage.getItem('tags') || '[]');
+    const [tags, setTags] = useState<any>([])
 
     const [showTagsPopup, setShowTagsPopup] = useState(false);
     const [popupTagsPosition, setPopupTagsPosition] = useState({ x: 0, y: 0 });
     const [markTag, setMarkTag] = useState<any>()
-    const [readButton, setReadButton] = useState((showReadButton || showReadButton == true) ? true : false )
+    const [readButton, setReadButton] = useState((showReadButton || showReadButton == true) ? true : false)
 
     const regNum: any = jsonData?.commonInfo?.purchaseNumber ? jsonData?.commonInfo?.purchaseNumber : jsonData?.registrationNumber
+
+    const getTags = async () => {
+        try {
+            const getAllTags: any = await axios.get(`${process.env.REACT_APP_API}/api/tags/getall`, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+
+            const tags = getAllTags.data.message
+            setTags([...tags])
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const getTagForRegNum = async () => {
 
@@ -220,6 +235,7 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
 
 
     useEffect(() => {
+        getTags()
         getTagForRegNum().then((data: any) => console.log(data))
     }, [])
 
