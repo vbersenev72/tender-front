@@ -57,63 +57,69 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
     // }
 
     const getTagForRegNum = async () => {
+        try {
 
-        const getAllTags: any = await axios.get(`${process.env.REACT_APP_API}/api/tags/getall`, {
-            headers: {
-                authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-        });
-
-        const tags = getAllTags.data.message
-        setTags([...tags])
-
-        let result: any = []
-
-        for (let i = 0; i < tags.length; i++) {
-            const tag = tags[i];
-
-            try {
-
-                const response: any = await axios.post(`${process.env.REACT_APP_API}/api/tags/gettenderslist`, {
-                    idTag: tag.id
-                }, {
-                    headers: {
-                        authorization: `Bearer ${localStorage.getItem('token')}`
-                    }
-                })
-
-                const tenders = response.data.message
-
-                result.push(...tenders)
-
-
-            } catch (error) {
-
-            }
-
-        }
-
-        for (let i = 0; i < result.length; i++) {
-            try {
-                const tender = result[i];
-                console.log(tender.reg_num == regNum);
-
-                if (tender.reg_num == regNum) {
-                    const findTag = await axios.get(`${process.env.REACT_APP_API}/api/tags/${tender.tag_id}`, {
+            const getAllTags: any = await axios.get(`${process.env.REACT_APP_API}/api/tags/getall`, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+    
+            const tags = getAllTags.data.message
+            setTags([...tags])
+    
+            let result: any = []
+    
+            for (let i = 0; i < tags.length; i++) {
+                const tag = tags[i];
+    
+                try {
+    
+                    const response: any = await axios.post(`${process.env.REACT_APP_API}/api/tags/gettenderslist`, {
+                        idTag: tag.id
+                    }, {
                         headers: {
                             authorization: `Bearer ${localStorage.getItem('token')}`
                         }
                     })
-
-                    setMarkTag(findTag.data.message)
-                    return findTag.data.message
+    
+                    const tenders = response.data.message
+    
+                    result.push(...tenders)
+    
+    
+                } catch (error) {
+    
                 }
-            } catch (error) {
-
+    
             }
-
+    
+            for (let i = 0; i < result.length; i++) {
+                try {
+                    const tender = result[i];
+                    console.log(tender.reg_num == regNum);
+    
+                    if (tender.reg_num == regNum) {
+                        const findTag = await axios.get(`${process.env.REACT_APP_API}/api/tags/${tender.tag_id}`, {
+                            headers: {
+                                authorization: `Bearer ${localStorage.getItem('token')}`
+                            }
+                        })
+    
+                        setMarkTag(findTag.data.message)
+                        return findTag.data.message
+                    }
+                } catch (error) {
+    
+                }
+    
+            }
+            return
+            
+        } catch (error) {
+            console.log(error);
+            
         }
-        return
     }
 
 
