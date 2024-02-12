@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const TextBlack11pxRegular = styled.p`
   font-family: 'Open-Sans', sans-serif;
-  font-weight: 700;
+  font-weight: 300;
   color: black;
   font-size: 11px;
   width: fit-content;
@@ -23,7 +23,7 @@ export const TextBlack22pxRegular = styled.p`
 `;
 export const TextBlack22pxBold = styled.p`
   font-family: 'Open-Sans', sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   color: black;
   font-size: 22px;
   width: fit-content;
@@ -32,19 +32,19 @@ export const TextBlack14pxRegular = styled.p`
   font-family: 'Open-Sans', sans-serif;
   color: black;
   font-size: 14px;
+  font-weight: 300;
   width: fit-content;
 `;
 export const TextGray14pxRegular = styled.p`
   font-family: 'Open-Sans', sans-serif;
+  color: #909EBB;
   font-size: 14px;
   width: fit-content;
-  color: gray;
-  text-decoration: none;
 `;
 
 export const TextGray11pxRegular = styled.p`
   font-family: 'Open-Sans', sans-serif;
-  color: gray;
+  color: #909EBB;
   font-size: 11px;
   width: fit-content;
 `;

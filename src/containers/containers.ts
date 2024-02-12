@@ -22,5 +22,6 @@ export const FlexRow = styled.div`
   display: flex;
   flex-direction: row;
   width: fit-content;
+  gap: 15px;
   justify-content: space-between;
 `;

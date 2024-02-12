@@ -47,10 +47,14 @@ export const TenderCard44 = ({tender}) => {
 
     console.log(tender)
 
-    const { events, stage } = getEvents(tender);
+
+
+    // const { events, stage } = getEvents(tender);
     const [lastTender] = tender.tender.sort((a,b) => +b.versionNumber - +a.versionNumber)
 
-    console.log('last', lastTender)
+    const zakupki = lastTender?.notificationInfo?.purchaseObjectsInfo?.notDrugPurchaseObjectsInfo
+        || lastTender?.notificationInfo?.purchaseObjectsInfo?.drugPurchaseObjectsInfo
+        || lastTender?.notificationInfo?.purchaseObjectsInfo
 
     if (tender) {
         return (
@@ -68,7 +72,7 @@ export const TenderCard44 = ({tender}) => {
                         </FlexTextColumn>
                         <FlexTextColumn>
                             <TextGray14pxRegular>Этап закупки</TextGray14pxRegular>
-                            <TextBlack14pxRegular>{stage}</TextBlack14pxRegular>
+                            <TextBlack14pxRegular>Подача заявок</TextBlack14pxRegular>
                         </FlexTextColumn>
                         <FlexTextColumn>
                             <TextGray14pxRegular>Способ определения поставщика (подрядчика,
@@ -158,14 +162,14 @@ export const TenderCard44 = ({tender}) => {
                                     (<FlexTextRow>
                                         <TextGray14pxRegular>Дата и время начала срока подачи
                                             заявок </TextGray14pxRegular>
-                                        <TextBlack14pxRegular>{formatDate(new Date(lastTender?.notificationInfo?.procedureInfo?.collectingInfo?.startDT).toISOString())}</TextBlack14pxRegular>
+                                        <TextBlack14pxRegular>{formatDate(new Date(lastTender?.notificationInfo?.procedureInfo?.collectingInfo?.startDT.slice(0,10)).toISOString())}</TextBlack14pxRegular>
                                     </FlexTextRow>)
                                     : null}
                                 {lastTender?.notificationInfo?.procedureInfo?.collectingInfo?.endDT ?
                                     (<FlexTextRow>
                                         <TextGray14pxRegular>Дата и время окончания срока подачи
                                             заявок </TextGray14pxRegular>
-                                        <TextBlack14pxRegular>{formatDate(new Date(lastTender?.notificationInfo?.procedureInfo?.collectingInfo?.endDT).toISOString())}</TextBlack14pxRegular>
+                                        <TextBlack14pxRegular>{formatDate(new Date(lastTender?.notificationInfo?.procedureInfo?.collectingInfo?.endDT.slice(0,10)).toISOString())}</TextBlack14pxRegular>
                                     </FlexTextRow>) : null}
                                 {lastTender?.notificationInfo?.procedureInfo?.biddingDate ?
                                     (<FlexTextRow>
@@ -201,7 +205,7 @@ export const TenderCard44 = ({tender}) => {
                             </BorderedContainer>)
                         : null}
                     <ZakupkiInfo
-                        data={lastTender?.notificationInfo?.purchaseObjectsInfo?.notDrugPurchaseObjectsInfo || lastTender?.notificationInfo?.purchaseObjectsInfo?.drugPurchaseObjectsInfo}
+                        data={zakupki}
                         extradata={lastTender?.purchaseResponsibleInfo?.responsibleOrgInfo?.fullName}/>
                     <BorderedContainer>
                         <TextBlack14pxBold>Условия контракта</TextBlack14pxBold>
@@ -282,10 +286,13 @@ export const TenderCard44 = ({tender}) => {
                             }</TextBlack14pxRegular>
                         </FlexTextRow>
                     </BorderedContainer>
-                    {/* {lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.contractGuarantee ? (
+                    {lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.contractGuarantee ? (
                         <BorderedContainer>
                             <TextBlack14pxBold>Обеспечение исполнения контракта</TextBlack14pxBold>
-              
+                            {/*<FlexTextColumn>*/}
+                            {/*    <TextGray14pxRegular style={{width: '35%'}}>Требуется обеспечение исполнения контракта</TextGray14pxRegular>*/}
+                            {/*    <TextBlack14pxRegular></TextBlack14pxRegular>*/}
+                            {/*</FlexTextColumn>*/}
                             <FlexTextColumn>
                                 <TextGray14pxRegular style={{width: '35%'}}>Размер обеспечения исполнения
                                     контракта</TextGray14pxRegular>
@@ -311,7 +318,10 @@ export const TenderCard44 = ({tender}) => {
                     {lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.applicationGuarantee ? (
                         <BorderedContainer>
                             <TextBlack14pxBold>Обеспечение заявки</TextBlack14pxBold>
-      
+                            {/*<FlexTextColumn>*/}
+                            {/*    <TextGray14pxRegular style={{width: '35%'}}>Требуется обеспечение исполнения контракта</TextGray14pxRegular>*/}
+                            {/*    <TextBlack14pxRegular></TextBlack14pxRegular>*/}
+                            {/*</FlexTextColumn>*/}
                             <FlexTextColumn>
                                 <TextGray14pxRegular style={{width: '35%'}}>Размер обеспечения исполнения
                                     контракта</TextGray14pxRegular>
@@ -332,8 +342,8 @@ export const TenderCard44 = ({tender}) => {
                                 </TextBlack14pxRegular>
                             </FlexTextColumn>
                         </BorderedContainer>
-                    ) : null} */}
-                    {/* <BorderedContainer>
+                    ) : null}
+                    <BorderedContainer>
                         <TextBlack14pxBold>Начальная(максимальная) цена контракта</TextBlack14pxBold>
                         <FlexTextColumn>
                             <TextGray14pxRegular style={{width: '35%'}}>Начальная(максимальная) цена
@@ -353,8 +363,8 @@ export const TenderCard44 = ({tender}) => {
                                 закупки</TextGray14pxRegular>
                             <TextBlack14pxRegular>{lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.contractConditionsInfo?.IKZInfo?.purchaseCode}</TextBlack14pxRegular>
                         </FlexTextColumn>
-                    </BorderedContainer> */}
-                    {/* <BorderOpeningContainer>
+                    </BorderedContainer>
+                    <BorderOpeningContainer>
                         <FlexTextRow style={{alignItems: 'center'}}>
                             <TextBlack14pxBold style={{marginRight: '20px'}}>Документы закупки</TextBlack14pxBold>
                             <div
@@ -376,9 +386,9 @@ export const TenderCard44 = ({tender}) => {
                                 }
                             </BorderFitContaienr>
                         )}
-                    </BorderOpeningContainer> */}
-                    {/* <BorderOpeningContainer> */}
-                        {/* <FlexTextRow style={{alignItems: 'center'}}>
+                    </BorderOpeningContainer>
+                    <BorderOpeningContainer>
+                        <FlexTextRow style={{alignItems: 'center'}}>
                             <TextBlack14pxBold style={{marginRight: '20px'}}>Протоколы</TextBlack14pxBold>
                             <div
                                 id="arrow"
@@ -387,22 +397,23 @@ export const TenderCard44 = ({tender}) => {
                             >
                                 <Arrow/>
                             </div>
-                        </FlexTextRow> */}
-                        {/* {isProtocolsContainerVisible && (
+                        </FlexTextRow>
+                        {isProtocolsContainerVisible && (
                             <BorderFitContaienr>
                                 <FlexTextColumn>
                                     {
-                                        tender?.protocol?.map((item, index) => (
-                                            <a key={index} href={item?.extPrintFormInfo?.url} download={`Протокол_${item.id}_от_${item?.commonInfo?.signDT}.${item?.extPrintFormInfo?.fileType}`}>
-                                                <TextBlue14pxRegular>Протокол {item.id} от {item?.commonInfo?.signDT}</TextBlue14pxRegular>
+                                        tender?.protocols?.map((item, index) => (
+                                            <a key={index} href={item.extPrintFormInfo?.url || item.printFormInfo?.url}>
+                                                {/*download={`Протокол_${item.commonInfo?.docNumber}_от_${item.commonInfo?.signDT}.${item.extPrintFormInfo.fileType}`}*/}
+                                                <TextBlue14pxRegular>Протокол {item.commonInfo?.docNumber} от {item.commonInfo?.publishDTInEIS || item.commonInfo?.docPublishDTInEIS}</TextBlue14pxRegular>
                                             </a>
                                         ))
                                     }
                                 </FlexTextColumn>
                             </BorderFitContaienr>
-                        )} */}
-                    {/* </BorderOpeningContainer> */}
-                    {tender?.clarification[0]?.commonInfo ? (
+                        )}
+                    </BorderOpeningContainer>
+                    {/* {tender?.clarification[0]?.commonInfo ? (
                         <BorderOpeningContainer>
                             <FlexTextRow style={{alignItems: 'center'}}>
                                 <TextBlack14pxBold style={{marginRight: '20px'}}>Разъяснения</TextBlack14pxBold>
@@ -427,7 +438,7 @@ export const TenderCard44 = ({tender}) => {
                                 </BorderFitContaienr>
                             )}
                         </BorderOpeningContainer>
-                    ) : null}
+                    ) : null} */}
                     {lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.contractConditionsInfo?.contractExecutionPaymentPlan ? (
                         <BorderedContainer>
                             <TextBlack14pxBold>Информация о сроках исполнения контракта и источниках финансирования</TextBlack14pxBold>
@@ -620,12 +631,12 @@ export const TenderCard44 = ({tender}) => {
                     }
                     <BorderedContainer>
                         <TextBlack14pxBold> Журнал событий</TextBlack14pxBold>
-                        {events?.length ? events.map(a => (
+                        {/* {events?.length ? events.map(a => (
                             <FlexTextColumn>
-                                <TextGray14pxRegular> {a.date}</TextGray14pxRegular>
+                                <TextGray14pxRegular> {a.date} </TextGray14pxRegular>
                                 <TextBlack14pxRegular> {a.message}</TextBlack14pxRegular>
                             </FlexTextColumn>
-                        )) : null}
+                        )) : null} */}
 
                     </BorderedContainer>
                     <JsonRenderer tenderID={lastTender?.commonInfo?.purchaseNumber}/>
