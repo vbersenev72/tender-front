@@ -20,6 +20,7 @@ import { CiCircleMinus } from "react-icons/ci";
 import axios from "axios";
 import { TagsModal } from "../TagsModal/TagsModal";
 import { IoEye } from "react-icons/io5";
+import { getRegion } from "../../functions/getRegion/getRegion";
 
 
 
@@ -38,6 +39,9 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
     const [readButton, setReadButton] = useState((showReadButton || showReadButton == true) ? true : false)
 
     const regNum: any = jsonData?.commonInfo?.purchaseNumber ? jsonData?.commonInfo?.purchaseNumber : jsonData?.registrationNumber
+    const link: any = jsonData?.urlEIS ? jsonData?.urlEIS : jsonData?.printFormInfo.url
+
+    const region: any = getRegion(jsonData.customer?.mainInfo?.postalAddress)
 
     // const getTags = async () => {
     //     try {
@@ -64,17 +68,17 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
                     authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             });
-    
+
             const tags = getAllTags.data.message
             setTags([...tags])
-    
+
             let result: any = []
-    
+
             for (let i = 0; i < tags.length; i++) {
                 const tag = tags[i];
-    
+
                 try {
-    
+
                     const response: any = await axios.post(`${process.env.REACT_APP_API}/api/tags/gettenderslist`, {
                         idTag: tag.id
                     }, {
@@ -82,43 +86,43 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
                             authorization: `Bearer ${localStorage.getItem('token')}`
                         }
                     })
-    
+
                     const tenders = response.data.message
-    
+
                     result.push(...tenders)
-    
-    
+
+
                 } catch (error) {
-    
+
                 }
-    
+
             }
-    
+
             for (let i = 0; i < result.length; i++) {
                 try {
                     const tender = result[i];
                     console.log(tender.reg_num == regNum);
-    
+
                     if (tender.reg_num == regNum) {
                         const findTag = await axios.get(`${process.env.REACT_APP_API}/api/tags/${tender.tag_id}`, {
                             headers: {
                                 authorization: `Bearer ${localStorage.getItem('token')}`
                             }
                         })
-    
+
                         setMarkTag(findTag.data.message)
                         return findTag.data.message
                     }
                 } catch (error) {
-    
+
                 }
-    
+
             }
             return
-            
+
         } catch (error) {
             console.log(error);
-            
+
         }
     }
 
@@ -173,9 +177,18 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
     }
 
 
-    const formatDate = (originalDate: string) => {
-        const parsedDate = parseISO(originalDate);
-        return format(parsedDate, 'dd.MM.yyyy');
+
+    const formatDate = (originalDate: any) => {
+        console.log('formatDate', originalDate);
+
+        try {
+            let parsedDate: any = String((originalDate))
+            parsedDate = parseISO(parsedDate);
+            return format(parsedDate, 'dd.MM.yyyy');
+        } catch (error) {
+            console.log(error);
+            return 'Нет данных'
+        }
     };
 
     const addTagWindow = async (event: any) => {
@@ -341,38 +354,39 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
                             </FlexTextRow>
                             <FlexTextRow style={{ width: '30%', justifyContent: 'space-between', marginRight: '20px' }}>
                                 <TextGray14pxRegular>Регион</TextGray14pxRegular>
-                                <TextBlack14pxRegular>{jsonData.customer?.mainInfo?.region}</TextBlack14pxRegular>
+                                <TextBlack14pxRegular>{region ? region : 'Нет данных'}</TextBlack14pxRegular>
                             </FlexTextRow>
                             <FlexTextRow>
                                 <FlexTextColumn>
-                                    <TextGray14pxRegular style={{ marginRight: '20px' }}>Дата начала</TextGray14pxRegular>
+                                    <TextGray14pxRegular style={{ marginRight: '20px' }}>Размещено</TextGray14pxRegular>
                                     <TextBlack14pxRegular>
-                                        {jsonData?.applSubmisionStartDate
-                                            ? jsonData.publicationDateTime
-                                            : 'Нет данных'
+                                        {jsonData.firstPubDate
+                                            ? formatDate(jsonData.firstPubDate)
+                                            : formatDate(jsonData?.createDateTime)
                                         }
+
+
                                     </TextBlack14pxRegular>
                                 </FlexTextColumn>
                                 <FlexTextColumn>
-                                    <TextGray14pxRegular style={{ marginRight: '20px' }}>Дата окончания</TextGray14pxRegular>
+                                    <TextGray14pxRegular style={{ marginRight: '20px' }}>Обновлено</TextGray14pxRegular>
                                     <TextBlack14pxRegular>
-                                        {jsonData?.submissionCloseDateTime
-                                            ? jsonData.submissionCloseDateTime
-                                            : 'Нет данных'
-                                        }
+                                        {formatDate(jsonData.customDate)}
+
                                     </TextBlack14pxRegular>
                                 </FlexTextColumn>
                             </FlexTextRow>
                             <FlexTextRow>
-                                <FlexTextColumn>
-                                    <TextGray14pxRegular style={{ marginRight: '20px' }}>Дата публикации</TextGray14pxRegular>
-                                    <TextBlack14pxRegular>
-                                        {jsonData?.publicationDateTime
-                                            ? formatDate(jsonData.publicationDateTime)
-                                            : 'Нет данных'
-                                        }
-                                    </TextBlack14pxRegular>
-                                </FlexTextColumn>
+                                {
+                                    jsonData?.submissionCloseDateTime ?
+                                        <FlexTextColumn>
+                                            <TextGray14pxRegular>Окончание подачи заявки</TextGray14pxRegular>
+                                            <TextBlack14pxRegular>
+                                                {formatDate(jsonData.submissionCloseDateTime)}
+                                            </TextBlack14pxRegular>
+                                        </FlexTextColumn>
+                                        : null
+                                }
                             </FlexTextRow>
                         </FlexTextColumn>
                     </PrevContainer>
@@ -415,7 +429,9 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
                         }
                         <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }}>
                             <IoIosLink size={20} color="dodgerblue" />
-                            <p>Официальный сайт</p>
+                            <a href={link} style={{ textDecoration: 'none', color: 'black' }}>
+                                <p>Официальный сайт</p>
+                            </a>
                         </div>
                         <div>
                             {(showTagsPopup && tags.length) > 0 && (

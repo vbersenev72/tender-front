@@ -61,8 +61,12 @@ export function TagCard(props: ITagCardProps) {
       }
     })
 
-
-    setTenders(newTendersArray)
+    if (sortByPrice) {
+      const reverseTenders = tenders.reverse()
+      setTenders([...reverseTenders])
+    } else {
+      setTenders([...newTendersArray])
+    }
 
   }
 
@@ -72,22 +76,27 @@ export function TagCard(props: ITagCardProps) {
       console.log(a);
 
       if (a.fz == 'fz223') {
-        const aDate = a?.publicationDateTime
-        const bDate = b.fz == 'fz223' ? b?.publicationDateTime : b?.notificationInfo?.procedureInfo?.collectingInfo?.startDT
+        const aDate = a?.modificationDate
+        const bDate = b.fz == 'fz223' ? b?.modificationDate : b?.customDate
 
         return new Date(bDate).getTime() - new Date(aDate).getTime()
       } else {
-        const aDate = a?.notificationInfo?.procedureInfo?.collectingInfo?.startDT
-        const bDate = b.fz == 'fz223' ? b?.publicationDateTime : b?.notificationInfo?.procedureInfo?.collectingInfo?.startDT
+        const aDate = a?.customDate
+        const bDate = b.fz == 'fz223' ? b?.modificationDate : b?.customDate
 
         return new Date(bDate).getTime() - new Date(aDate).getTime()
       }
     })
 
-
-    setTenders(newTendersArray)
+    if (sortByDateStart) {
+      const reverseTenders = tenders.reverse()
+      setTenders([...reverseTenders])
+    } else {
+      setTenders([...newTendersArray])
+    }
 
   }
+
 
   const sortByDateFinishedTenders = () => {
     const newTendersArray = beforeTenders.sort((a: any, b: any) => {
@@ -106,11 +115,17 @@ export function TagCard(props: ITagCardProps) {
       }
     })
 
+    if (sortByDateFinished) {
+      const reverseTenders = tenders.reverse()
+      setTenders([...reverseTenders])
+    } else {
+      setTenders([...newTendersArray])
+    }
 
-    setTenders(newTendersArray)
   }
 
   const sortByDatePublicTenders = () => {
+
     const newTendersArray = beforeTenders.sort((a: any, b: any) => {
       console.log(a);
 
@@ -128,8 +143,14 @@ export function TagCard(props: ITagCardProps) {
       }
     })
 
+    if (sortByDatePublic) {
+      const reverseTenders = tenders.reverse()
+      setTenders([...reverseTenders])
+    } else {
+      setTenders([...newTendersArray])
+    }
 
-    setTenders(newTendersArray)
+
   }
 
   React.useEffect(() => {
@@ -210,34 +231,17 @@ export function TagCard(props: ITagCardProps) {
           <div className="Mytenders-sort">
             <div className='Mytenders-sort-list'>
               <div style={{ color: 'gray', paddingLeft: '0px', display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: '15px' }}><p>Сортировать по</p></div>
-              {/*
-              <div className="sort-property" onClick={() => {
-                setSortByDateAdded(true)
-                setSortByDateStart(false)
-                setSortByPrice(false)
-                setSortByDateFinished(false)
-                setSortByDatePublic(false)
-                sortByDateAddedTenders()
 
-              }}>
-                {
-                  !sortByDateAdded
-                    ?
-                    <p>Дата добавления в мои тендеры</p>
-                    :
-                    <p style={{ fontWeight: 'bold' }}>Дата добавления в мои тендеры</p>
-                }
-
-              </div> */}
 
               <div className="sort-property" onClick={() => {
+                sortByDatePublicTenders()
+
                 setSortByDateAdded(false)
                 setSortByDateStart(false)
                 setSortByPrice(false)
-                setSortByDateFinished(false)
                 setSortByDatePublic(true)
+                setSortByDateFinished(false)
 
-                sortByDatePublicTenders()
 
               }}>
                 {
@@ -250,12 +254,13 @@ export function TagCard(props: ITagCardProps) {
               </div>
 
               <div className="sort-property" onClick={() => {
+                sortByDateStartTenders()
+
                 setSortByDateAdded(false)
-                setSortByDateStart(true)
                 setSortByPrice(false)
                 setSortByDateFinished(false)
+                setSortByDateStart(true)
                 setSortByDatePublic(false)
-                sortByDateStartTenders()
 
               }}>
                 {
@@ -268,12 +273,13 @@ export function TagCard(props: ITagCardProps) {
               </div>
 
               <div className="sort-property" onClick={() => {
+                sortByPriceTenders()
+
                 setSortByDateAdded(false)
                 setSortByDateStart(false)
-                setSortByPrice(true)
                 setSortByDateFinished(false)
                 setSortByDatePublic(false)
-                sortByPriceTenders()
+                setSortByPrice(true)
 
               }}>
                 {
@@ -286,13 +292,14 @@ export function TagCard(props: ITagCardProps) {
               </div>
 
               <div className="sort-property" onClick={() => {
+
+                sortByDateFinishedTenders()
+
                 setSortByDateAdded(false)
                 setSortByDateStart(false)
                 setSortByPrice(false)
                 setSortByDateFinished(true)
                 setSortByDatePublic(false)
-
-                sortByDateFinishedTenders()
 
               }}>
                 {
@@ -330,7 +337,7 @@ export function TagCard(props: ITagCardProps) {
 
                   ))}
               </div>
-              <PaginationBlock handlePageChange={handlePageChange} currentPage={currentPage} countShowElements={countShowElements} setCountShowElements={setCountShowElements}/>
+              <PaginationBlock handlePageChange={handlePageChange} currentPage={currentPage} countShowElements={countShowElements} setCountShowElements={setCountShowElements} />
             </div>
           }
         </div>

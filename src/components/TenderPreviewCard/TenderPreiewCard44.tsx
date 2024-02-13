@@ -18,6 +18,7 @@ import axios from "axios";
 import React from "react";
 import { TagsModal } from "../TagsModal/TagsModal";
 import { IoEye } from "react-icons/io5";
+import { getRegion } from "../../functions/getRegion/getRegion";
 
 
 
@@ -33,6 +34,9 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
     const [readButton, setReadButton] = useState((showReadButton || showReadButton == true) ? true : false)
 
     const regNum: any = jsonData?.commonInfo?.purchaseNumber ? jsonData?.commonInfo?.purchaseNumber : jsonData?.registrationNumber
+    const link: any = jsonData?.urlEIS ? jsonData?.urlEIS : jsonData?.printFormInfo.url
+
+    const region: any = getRegion(jsonData.purchaseResponsibleInfo.responsibleOrgInfo.postAddress)
 
     const getTags = async () => {
         try {
@@ -111,7 +115,7 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
             return
         } catch (error) {
             console.log(error);
-            
+
         }
     }
 
@@ -119,9 +123,17 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
 
 
 
-    const formatDate = (originalDate: string) => {
-        const parsedDate = parseISO(originalDate);
-        return format(parsedDate, 'dd.MM.yyyy');
+    const formatDate = (originalDate: any) => {
+        console.log('formatDate', originalDate);
+
+        try {
+            let parsedDate: any = String((originalDate))
+            parsedDate = parseISO(parsedDate);
+            return format(parsedDate, 'dd.MM.yyyy');
+        } catch (error) {
+            console.log(error);
+            return 'Нет данных'
+        }
     };
 
     const addMyTenders = async (id: any) => {
@@ -317,36 +329,42 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
                             </FlexTextRow>
                             <FlexTextRow style={{ width: '30%', justifyContent: 'space-between' }}>
                                 <TextGray14pxRegular>Регион</TextGray14pxRegular>
-                                <TextBlack14pxRegular>СПБ</TextBlack14pxRegular>
+                                <TextBlack14pxRegular>{region ? region : 'Нет данных'}</TextBlack14pxRegular>
                             </FlexTextRow>
                             <FlexTextRow>
                                 <FlexTextColumn>
-                                    <TextGray14pxRegular>Дата начала</TextGray14pxRegular>
+                                    <TextGray14pxRegular style={{ marginRight: '20px' }}>Размещено</TextGray14pxRegular>
                                     <TextBlack14pxRegular>
-                                        {jsonData?.notificationInfo?.procedureInfo?.collectingInfo?.startDT
-                                            ? formatDate(jsonData.notificationInfo.procedureInfo.collectingInfo.startDT)
-                                            : 'Нет данных'
+                                        {jsonData.firstPubDate
+                                            ? formatDate(jsonData.firstPubDate)
+                                            : jsonData?.commonInfo?.publishDTInEIS
+                                                ? formatDate(jsonData.commonInfo.publishDTInEIS.slice(0, 10))
+                                                : 'Нет данных'
                                         }
+
                                     </TextBlack14pxRegular>
                                 </FlexTextColumn>
                                 <FlexTextColumn>
-                                    <TextGray14pxRegular>Дата окончания</TextGray14pxRegular>
-                                    <TextBlack14pxRegular>
-                                        {jsonData?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
-                                            ? formatDate(jsonData.notificationInfo.procedureInfo.collectingInfo.endDT)
-                                            : 'Нет данных'
-                                        }
-                                    </TextBlack14pxRegular>
-                                </FlexTextColumn>
-                            </FlexTextRow>
-                            <FlexTextRow>
-                                <FlexTextColumn>
-                                    <TextGray14pxRegular>Дата публикации</TextGray14pxRegular>
+                                    <TextGray14pxRegular style={{ marginRight: '20px' }}>Обновлено</TextGray14pxRegular>
                                     <TextBlack14pxRegular>
                                         {jsonData?.commonInfo?.publishDTInEIS
-                                            ? formatDate(jsonData.commonInfo.publishDTInEIS)
+                                            ? formatDate(jsonData.commonInfo?.publishDTInEIS)
                                             : 'Нет данных'
                                         }
+
+
+                                    </TextBlack14pxRegular>
+                                </FlexTextColumn>
+                            </FlexTextRow>
+                            <FlexTextRow>
+                                <FlexTextColumn>
+                                    <TextGray14pxRegular>Окончание подачи заявки</TextGray14pxRegular>
+                                    <TextBlack14pxRegular>
+                                        {jsonData?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
+                                            ? formatDate(jsonData.notificationInfo.procedureInfo.collectingInfo.endDT.slice(0, 10))
+                                            : 'Нет данных'
+                                        }
+
                                     </TextBlack14pxRegular>
                                 </FlexTextColumn>
                             </FlexTextRow>
@@ -391,7 +409,9 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
 
                         <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }}>
                             <IoIosLink size={20} color="dodgerblue" />
-                            <p>Официальный сайт</p>
+                            <a href={link} style={{ textDecoration: 'none', color: 'black' }}>
+                                <p>Официальный сайт</p>
+                            </a>
                         </div>
                         <div>
                             {(showTagsPopup && tags.length) > 0 && (
