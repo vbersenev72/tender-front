@@ -45,7 +45,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
   const [enablePrice, setEnablePrice] = React.useState<any>('')
   const [source, setSource] = React.useState<any>('')
   const [enableSource, setEnableSource] = React.useState<any>('')
-  const [okpd2, setOkpd2] = React.useState<any>('')
+  const [okpd2, setOkpd2] = React.useState<any>([])
 
   // show by
   const [showAll, setShowAll] = useState(true)
@@ -93,7 +93,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
     setEnablePrice('')
     setSource('')
     setEnableSource('')
-    setOkpd2('')
+    setOkpd2([])
 
     showSuccesMessage('Все параметры сброшены!')
   }
@@ -145,7 +145,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
       methodDeterminingSupplier: '',
       source: source,
       enableSource: enableSource,
-      okpd2: okpd2 ? okpd2.code : '',
+      okpd2: okpd2.map((obj:any)=>obj.code).join(' '),
       autoSearchId: id
     }, {
       headers: {
@@ -156,18 +156,18 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
     showSuccesMessage('Изменения сохранены!')
   }
 
-  const getOkpd2ByCode = (code: any) => {
+  const getOkpd2ByCode = (okpd2Str: any) => {
     for (let i = 0; i < okpd2Nomenclature.length; i++) {
       const okpdObj = okpd2Nomenclature[i];
 
-      if (okpdObj.code == code) {
+      if (okpd2Str.split(';').includes(okpdObj.code)) {
         return okpdObj
       }
 
       for (let y = 0; y < okpdObj.child.length; y++) {
         const okpdChildObj = okpdObj.child[y];
 
-        if (okpdChildObj.code == code) {
+        if (okpd2Str.split(';').includes(okpdChildObj.code)) {
           return okpdChildObj
         }
       }
@@ -209,13 +209,21 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
       console.log(response.data.message);
       const data = response.data.message
 
-      let getOkpd2: any = await getOkpd2ByCode(data.okpd2)
-      console.log('getokpd2' + ' ' + JSON.stringify(getOkpd2));
+
 
       const getRegion: any = getRegionByValue(data.region)
       console.log('region ' + getRegion);
 
-
+      const inputCodes = data.okpd2.split(' ').filter((code: any) => code !== ''); // Разделение строки на отдельные коды и фильтрация пустых элементов
+      const getOkpd2 = okpd2Nomenclature.filter((obj: any) => {
+        if (inputCodes.includes(obj.code.toString())) {
+          return true;
+        }
+        if (obj.child && obj.child.some((childObj: any) => inputCodes.includes(childObj.code.toString()))) {
+          return true;
+        }
+        return false;
+      });
 
       setCustomerName(data.customerName)
       setEnablePrice(data.enablePrice)

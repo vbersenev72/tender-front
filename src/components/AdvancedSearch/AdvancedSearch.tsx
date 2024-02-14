@@ -53,7 +53,7 @@ export default function AdvancedSearch(
         setRegion(e)
     }
 
-
+    
     const changeFz = (addfz: any) => {
 
         console.log(fz.split(' ').includes('fz223'));
@@ -123,13 +123,13 @@ export default function AdvancedSearch(
                     <div className='AdvancedSearch-inputForm' onClick={() => setShowRegionSelect(true)}>
                         <p className='AdvancedSearch-inputname'>Регион заказчика</p>
                         <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                            <input type="text" className='AdvancedSearch-input' placeholder='' value={region ? region.name : ''} />
+                            <input type="text" className='AdvancedSearch-input' placeholder='' value={region?.name ? region.name : ''} />
                         </div>
                     </div>
 
                     <div className='AdvancedSearch-inputForm' onClick={() => setShowOkpd2Select(true)}>
                         <p className='AdvancedSearch-inputname'>ОКПД2</p>
-                        <input type="text" className='AdvancedSearch-input' placeholder='' value={okpd2 ? okpd2.name : ''} />
+                        <input type="text" className='AdvancedSearch-input' placeholder='' value={'ОКПД2'} />
                     </div>
                 </form>
                 <form className='AdvancedSearch-form'>
