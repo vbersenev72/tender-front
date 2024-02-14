@@ -35,7 +35,6 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
   const [endDateFrom, setEndDateFrom] = React.useState<any>('')
   const [endDateTo, setEndDateTo] = React.useState<any>('')
   const [fz, setFz] = React.useState<any>('')
-  const [region, setRegion] = React.useState<any>('')
   const [tenderNum, setTenderNum] = React.useState<any>('')
   const [customerName, setCustomerName] = React.useState<any>('')
   const [stopCustomerName, setStopCustomerName] = React.useState<any>('')
@@ -46,6 +45,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
   const [source, setSource] = React.useState<any>('')
   const [enableSource, setEnableSource] = React.useState<any>('')
   const [okpd2, setOkpd2] = React.useState<any>([])
+  const [region, setRegion] = React.useState<any>([])
 
   // show by
   const [showAll, setShowAll] = useState(true)
@@ -83,7 +83,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
     setEndDateFrom('')
     setEndDateTo('')
     setFz('')
-    setRegion('')
+    setRegion([])
     setTenderNum('')
     setCustomerName('')
     setStopCustomerName('')
@@ -133,7 +133,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
       endDateFrom: endDateFrom,
       endDateTo: endDateTo,
       fz: fz,
-      region: region ? region.name : '',
+      region: region.map((region: any) => region.value).join(';'),
       tenderNum: tenderNum,
       customerName: customerName,
       stopCustomerName: stopCustomerName,
@@ -145,7 +145,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
       methodDeterminingSupplier: '',
       source: source,
       enableSource: enableSource,
-      okpd2: okpd2.map((obj:any)=>obj.code).join(' '),
+      okpd2: okpd2.map((obj: any) => obj.code).join(' '),
       autoSearchId: id
     }, {
       headers: {
@@ -211,8 +211,9 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
 
 
 
-      const getRegion: any = getRegionByValue(data.region)
-      console.log('region ' + getRegion);
+      //const getRegion: any = getRegionByValue(data.region)
+      const regionValues = data.region.split(';').filter((code: any) => code !== '');
+      const getRegion: any = [...regionValues.map((regValue: any) => getRegionByValue(regValue))]
 
       const inputCodes = data.okpd2.split(' ').filter((code: any) => code !== ''); // Разделение строки на отдельные коды и фильтрация пустых элементов
       const getOkpd2 = okpd2Nomenclature.filter((obj: any) => {

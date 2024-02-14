@@ -61,7 +61,7 @@ export const okpd2Nomenclature = [
             {
                 symbol: '1',
                 code: '10',
-                name: "	Продукты пищевые",
+                name: "Продукты пищевые",
             },
             {
                 symbol: '2',
@@ -385,7 +385,7 @@ export const okpd2Nomenclature = [
     },
     {
         symbol: 'M',
-        code: '69',
+        code: '69 ',
         name: 'Услуги, связанные с научной, инженерно-технической и профессиональной деятельностью',
         child: [
             {

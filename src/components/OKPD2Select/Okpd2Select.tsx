@@ -9,7 +9,6 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
 
     const [findText, setFindText] = React.useState('')
     const [nomenclature, setNomenclature] = React.useState([...okpd2Nomenclature])
-    const [selectCheckBox, setSelectCheckBox] = React.useState<any>([])
     const [showAllElements, setShowAllElements] = React.useState('')
 
 
@@ -20,19 +19,16 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
     }
 
 
-    const clickCheckBox = (element: any) => {
-        for (let i = 0; i < okpd2Code.length; i++) {
-            const okpd2 = okpd2Code[i];
+    const handleCheckboxChange = (event: any, item: any) => {
+        const { checked } = event.target;
 
-            if (okpd2.code != element.code) {
-                setSelectCheckBox([...selectCheckBox, element])
-                setOkpd2Code([...selectCheckBox, element])
-            } else {
-                setSelectCheckBox([...selectCheckBox.filter((checkBox: any) => checkBox.code != element.code)])
-                setOkpd2Code([...selectCheckBox.filter((checkBox: any) => checkBox.code != element.code)])
-            }
+        if (checked) {
+            setOkpd2Code((prevSelectedItems: any) => [...prevSelectedItems, item]);
+        } else {
+            setOkpd2Code((prevSelectedItems: any) => prevSelectedItems.filter((selectedItem: any) => selectedItem.code != item.code));
         }
-    }
+    };
+
 
     const clickOnTriangle = (code: any) => {
         setShowAllElements(code)
@@ -73,7 +69,7 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
 
     React.useEffect(() => {
 
-        console.log(okpd2Nomenclature);
+        console.log(okpd2Code);
         findByText()
 
     }, [findText])
@@ -109,11 +105,7 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
                                                     <div style={{ display: 'grid', grid: 'center' }} onClick={() => clickOnTriangle('')}>
                                                         <GoTriangleDown size={24} />
                                                     </div>
-                                                    <Checkbox checked={
-                                                        selectCheckBox.forEach((select: any) => {
-                                                            if (element.code == select.code) return true
-                                                        })
-                                                    } onChange={() => clickCheckBox(element)} />
+                                                    <Checkbox checked={okpd2Code.some((selectedItem: any) => selectedItem.code === element.code)} onChange={event => handleCheckboxChange(event, element)} />
                                                     <h4 style={{ marginRight: '10px' }}>{element.symbol}</h4>
                                                     <p>{element.name}</p>
                                                 </div>
@@ -128,11 +120,7 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
                                                                     alignItems: 'center'
                                                                 }}>
 
-                                                                    <Checkbox checked={
-                                                                        selectCheckBox.forEach((select: any) => {
-                                                                            if (child.code == child.code) return true
-                                                                        })
-                                                                    } onChange={() => clickCheckBox(child)} />
+                                                                    <Checkbox checked={okpd2Code.some((selectedItem: any) => selectedItem.code === child.code)} onChange={event => handleCheckboxChange(event, child)} />
                                                                     <h4 style={{ marginRight: '12px' }}>{child.symbol}</h4>
                                                                     <p style={{ fontSize: '14px' }}>{child.name}</p>
                                                                 </div>
@@ -150,11 +138,7 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
                                                 <div style={{ display: 'grid', grid: 'center' }} onClick={() => clickOnTriangle(element.code)}>
                                                     <GoTriangleRight size={24} />
                                                 </div>
-                                                <Checkbox checked={
-                                                    selectCheckBox.forEach((select: any) => {
-                                                        if (element.code == select.code) return true
-                                                    })
-                                                } onChange={() => clickCheckBox(element)} />
+                                                <Checkbox checked={okpd2Code.some((selectedItem: any) => selectedItem.code === element.code)} onChange={event => handleCheckboxChange(event, element)} />
                                                 <h4 style={{ marginRight: '10px' }}>{element.symbol}</h4>
                                                 <p>{element.name}</p>
                                             </div>

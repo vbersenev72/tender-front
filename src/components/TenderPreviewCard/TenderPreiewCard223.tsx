@@ -101,7 +101,6 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
             for (let i = 0; i < result.length; i++) {
                 try {
                     const tender = result[i];
-                    console.log(tender.reg_num == regNum);
 
                     if (tender.reg_num == regNum) {
                         const findTag = await axios.get(`${process.env.REACT_APP_API}/api/tags/${tender.tag_id}`, {
@@ -179,7 +178,7 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
 
 
     const formatDate = (originalDate: any) => {
-        console.log('formatDate', originalDate);
+
 
         try {
             let parsedDate: any = String((originalDate))

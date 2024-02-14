@@ -9,22 +9,25 @@ export function RegionSelect({ closeModal, setRegionCustomer, regionCustomer, va
 
     const [findText, setFindText] = React.useState('')
     const [regions, setRegions]= React.useState([...regionsList])
-    const [selectCheckBox, setSelectCheckBox] = React.useState('')
     const [showAllElements, setShowAllElements] = React.useState('')
 
 
 
     const clearText = () => {
         setFindText('')
-        setRegionCustomer({})
-        setSelectCheckBox('')
         setRegions([...regions])
     }
 
-    const clickCheckBox = (element: any) => {
-        setSelectCheckBox(element.name)
-        setRegionCustomer(element)
-    }
+    const handleCheckboxChange = (event: any, item: any) => {
+        const { checked } = event.target;
+
+        if (checked) {
+            setRegionCustomer((prevSelectedItems: any) => [...prevSelectedItems, item]);
+        } else {
+            setRegionCustomer((prevSelectedItems: any) => prevSelectedItems.filter((selectedItem: any) => selectedItem.value != item.value));
+        }
+    };
+
 
     const clickOnTriangle = (name: any) => {
         setShowAllElements(name)
@@ -78,7 +81,7 @@ export function RegionSelect({ closeModal, setRegionCustomer, regionCustomer, va
                                                     <div style={{ display: 'grid', grid: 'center' }} onClick={() => clickOnTriangle('')}>
                                                         <GoTriangleDown size={24} />
                                                     </div>
-                                                    <Checkbox checked={selectCheckBox == element.name || element.name == regionCustomer} onChange={() => clickCheckBox(element)} />
+                                                    <Checkbox checked={regionCustomer.some((selectedItem: any) => selectedItem.value === element.value)} onChange={event => handleCheckboxChange(event, element)} />
                                                     {/* <h4 style={{ marginRight: '10px' }}>{element.id}</h4> */}
                                                     <p>{element.name}</p>
                                                 </div>
@@ -93,7 +96,7 @@ export function RegionSelect({ closeModal, setRegionCustomer, regionCustomer, va
                                                                     alignItems: 'center'
                                                                 }}>
 
-                                                                    <Checkbox checked={selectCheckBox == child.name || child.name == regionCustomer} onChange={() => clickCheckBox(child)} />
+                                                                    <Checkbox checked={regionCustomer.some((selectedItem: any) => selectedItem.value === child.value)} onChange={event => handleCheckboxChange(event, child)} />
                                                                     {/* <h4 style={{ marginRight: '12px' }}>{child.name[0]}</h4> */}
                                                                     <p style={{ fontSize: '14px' }}>{child.name}</p>
                                                                 </div>
@@ -111,7 +114,7 @@ export function RegionSelect({ closeModal, setRegionCustomer, regionCustomer, va
                                                 <div style={{ display: 'grid', grid: 'center' }} onClick={() => clickOnTriangle(element.name)}>
                                                     <GoTriangleRight size={24} />
                                                 </div>
-                                                <Checkbox checked={selectCheckBox == element.name || element.name == regionCustomer} onChange={() => clickCheckBox(element)} />
+                                                <Checkbox checked={regionCustomer.some((selectedItem: any) => selectedItem.value === element.value)} onChange={event => handleCheckboxChange(event, element)} />
                                                 {/* <h4 style={{ marginRight: '10px' }}>{element.id}</h4> */}
                                                 <p>{element.name}</p>
                                             </div>
