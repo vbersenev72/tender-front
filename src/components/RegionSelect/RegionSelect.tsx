@@ -59,7 +59,7 @@ export function RegionSelect({ closeModal, setRegionCustomer, regionCustomer, va
                 <br />
                 <div className='okpd2-select-inputContainer'>
                     <input type="text" className='okpd2-select-input' placeholder='Введите полностью или часть наименования региона' value={findText} onChange={(e: any) => setFindText(e.target.value)} />
-                    <button className='okpd2-select-searchButton' >Найти</button>
+                    <button className='okpd2-select-searchButton' onClick={closeModal}>Применить</button>
                     <button className='okpd2-select-searchClear' onClick={clearText} >Очистить</button>
                 </div>
                 <br />
