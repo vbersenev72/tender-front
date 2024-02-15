@@ -145,7 +145,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
       methodDeterminingSupplier: '',
       source: source,
       enableSource: enableSource,
-      okpd2: okpd2.map((obj: any) => obj.code).join(' '),
+      okpd2: okpd2.map((obj: any) => obj.code).join(';'),
       autoSearchId: id
     }, {
       headers: {
@@ -215,7 +215,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
       const regionValues = data.region.split(';').filter((code: any) => code !== '');
       const getRegion: any = [...regionValues.map((regValue: any) => getRegionByValue(regValue))]
 
-      const inputCodes = data.okpd2.split(' ').filter((code: any) => code !== ''); // Разделение строки на отдельные коды и фильтрация пустых элементов
+      const inputCodes = data.okpd2.split(';').filter((code: any) => code !== ''); // Разделение строки на отдельные коды и фильтрация пустых элементов
       const getOkpd2 = okpd2Nomenclature.filter((obj: any) => {
         if (inputCodes.includes(obj.code.toString())) {
           return true;
