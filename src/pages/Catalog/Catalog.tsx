@@ -59,7 +59,7 @@ export const Catalog: FC = () => {
     const [endDateFrom, setEndDateFrom] = React.useState<any>('')
     const [endDateTo, setEndDateTo] = React.useState<any>('')
     const [fz, setFz] = React.useState<any>('')
-    const [region, setRegion] = React.useState<any>('')
+    const [region, setRegion] = React.useState<any>([])
     const [tenderNum, setTenderNum] = React.useState<any>('')
     const [customerName, setCustomerName] = React.useState<any>('')
     const [stopCustomerName, setStopCustomerName] = React.useState<any>('')
@@ -69,7 +69,7 @@ export const Catalog: FC = () => {
     const [enablePrice, setEnablePrice] = React.useState<any>('')
     const [source, setSource] = React.useState<any>('')
     const [enableSource, setEnableSource] = React.useState<any>('')
-    const [okpd2, setOkpd2] = React.useState<any>('')
+    const [okpd2, setOkpd2] = React.useState<any>([])
     ///
 
     const formatDate = (dateString: any) => {
@@ -98,7 +98,7 @@ export const Catalog: FC = () => {
                 endDateFrom: formatDate(endDateFrom),
                 endDateTo: formatDate(endDateTo),
                 fz: fz,
-                region: region ? region.name : '',
+                region: region.map((region: any) => region.value).join(';'),
                 tenderNum: tenderNum,
                 customerName: customerName,
                 stopCustomerName: stopCustomerName,
@@ -110,7 +110,7 @@ export const Catalog: FC = () => {
                 methodDeterminingSupplier: '',
                 source: source,
                 enableSource: enableSource,
-                okpd2: okpd2 ? okpd2.code : '',
+                okpd2: okpd2.map((obj: any) => obj.code).join(';'),
                 page: currentPage,
                 limit: countShowElements
 
@@ -147,7 +147,7 @@ export const Catalog: FC = () => {
         setEndDateFrom('')
         setEndDateTo('')
         setFz('')
-        setRegion('')
+        setRegion()
         setTenderNum('')
         setCustomerName('')
         setStopCustomerName('')
@@ -157,7 +157,7 @@ export const Catalog: FC = () => {
         setEnablePrice('')
         setSource('')
         setEnableSource('')
-        setOkpd2('')
+        setOkpd2([])
 
         showSuccesMessage('Все параметры сброшены!')
     }
