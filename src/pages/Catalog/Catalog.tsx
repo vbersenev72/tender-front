@@ -70,6 +70,9 @@ export const Catalog: FC = () => {
     const [source, setSource] = React.useState<any>('')
     const [enableSource, setEnableSource] = React.useState<any>('')
     const [okpd2, setOkpd2] = React.useState<any>([])
+    const [methodDeterminingSupplier, setMethodDeterminingSupplier] = useState<any>([])
+    const [purchaseStage, setPurchaseStage] = useState<any>([])
+
     ///
 
     const formatDate = (dateString: any) => {
@@ -106,14 +109,13 @@ export const Catalog: FC = () => {
                 priceFrom: priceFrom,
                 priceTo: priceTo,
                 enablePrice: enablePrice,
-                purchaseStage: '',
-                methodDeterminingSupplier: '',
+                purchaseStage: purchaseStage.map((stage: any) => stage).join(';'),
                 source: source,
                 enableSource: enableSource,
                 okpd2: okpd2.map((obj: any) => obj.code).join(';'),
                 page: currentPage,
-                limit: countShowElements
-
+                limit: countShowElements,
+                methodDeterminingSupplier: methodDeterminingSupplier.map((method: any) => method.value).join(';'),
 
             }, {
                 headers: {
@@ -125,6 +127,7 @@ export const Catalog: FC = () => {
 
             const result = response.data.message
 
+            setBeforeTenders([...result])
             setTendersList([...result])
 
             setLoading(false)
@@ -147,7 +150,7 @@ export const Catalog: FC = () => {
         setEndDateFrom('')
         setEndDateTo('')
         setFz('')
-        setRegion()
+        setRegion([])
         setTenderNum('')
         setCustomerName('')
         setStopCustomerName('')
@@ -158,6 +161,8 @@ export const Catalog: FC = () => {
         setSource('')
         setEnableSource('')
         setOkpd2([])
+        setMethodDeterminingSupplier([])
+        setPurchaseStage([])
 
         showSuccesMessage('Все параметры сброшены!')
     }
@@ -452,6 +457,7 @@ export const Catalog: FC = () => {
                                 source={source} setSource={setSource}
                                 enableSource={enableSource} setEnableSource={setEnableSource}
                                 okpd2={okpd2} setOkpd2={setOkpd2}
+                                setMethodDeterminingSupplier={setMethodDeterminingSupplier} methodDeterminingSupplier={methodDeterminingSupplier}setPurchaseStage={setPurchaseStage} purchaseStage={purchaseStage}
 
                             />
                             <div style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', width: '100%' }}>

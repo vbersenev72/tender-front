@@ -869,3 +869,12 @@ export const regionsList = [
     },
 
 ]
+
+
+export const methodDeterminingSupplierList = [
+    { value: 'конкурс', label: 'Конкурсы (открытые, закрытые)' },
+    { value: 'аукцион', label: 'Аукционы (открытые и закрытые)' },
+    { value: 'котировок', label: 'Запросы предложений и котировок' },
+    { value: 'поставщика', label: 'Закупки у единственного поставщика' },
+]
+

@@ -12,7 +12,7 @@ import { TenderPreiewCard223, TenderPreiewCard44 } from '../../../components/Ten
 import { createReport } from '../../../functions/createReport';
 import { createReportAutoSearch } from '../../../functions/createReportAutoSearch';
 import { Okpd2Select } from '../../../components/OKPD2Select/Okpd2Select';
-import { okpd2Nomenclature, regionsList } from '../../../data/tendersData';
+import { methodDeterminingSupplierList, okpd2Nomenclature, regionsList } from '../../../data/tendersData';
 import { PaginationBlock } from '../../../components/PaginationBlock/PaginationBlock';
 
 export interface IAutoSearchCardProps {
@@ -46,6 +46,8 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
   const [enableSource, setEnableSource] = React.useState<any>('')
   const [okpd2, setOkpd2] = React.useState<any>([])
   const [region, setRegion] = React.useState<any>([])
+  const [methodDeterminingSupplier, setMethodDeterminingSupplier] = useState<any>([])
+  const [purchaseStage, setPurchaseStage] = useState<any>([])
 
   // show by
   const [showAll, setShowAll] = useState(true)
@@ -94,6 +96,8 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
     setSource('')
     setEnableSource('')
     setOkpd2([])
+    setMethodDeterminingSupplier([])
+    setPurchaseStage([])
 
     showSuccesMessage('Все параметры сброшены!')
   }
@@ -141,12 +145,12 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
       priceFrom: priceFrom,
       priceTo: priceTo,
       enablePrice: enablePrice,
-      purchaseStage: '',
-      methodDeterminingSupplier: '',
+      purchaseStage: purchaseStage.map((stage: any) => stage).join(';'),
       source: source,
       enableSource: enableSource,
       okpd2: okpd2.map((obj: any) => obj.code).join(';'),
-      autoSearchId: id
+      autoSearchId: id,
+      methodDeterminingSupplier: methodDeterminingSupplier.map((method: any) => method.value).join(';')
     }, {
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`
@@ -226,6 +230,19 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
         return false;
       });
 
+      const getMethodSupplySelect = data.methodDeterminingSupplier.split(';').filter((value: any) => value !== '');
+      const getMethodSupplySelectArray = methodDeterminingSupplierList.filter((method: any) => {
+        if (getMethodSupplySelect.includes(method.value.toString())) {
+          return true;
+        }
+
+        return false;
+      });
+
+
+
+
+
       setCustomerName(data.customerName)
       setEnablePrice(data.enablePrice)
       setEnableSource(data.enableSource)
@@ -246,7 +263,8 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
       setStopTags(data.stopTags)
       setTags(data.tags)
       setTenderNum(data.tenderNum)
-
+      setMethodDeterminingSupplier([...getMethodSupplySelectArray])
+      setPurchaseStage([...data.purchaseStage.split(';')])
 
       setLoading(false)
 
@@ -456,6 +474,8 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                       source={source} setSource={setSource}
                       enableSource={enableSource} setEnableSource={setEnableSource}
                       okpd2={okpd2} setOkpd2={setOkpd2}
+                      setMethodDeterminingSupplier={setMethodDeterminingSupplier} methodDeterminingSupplier={methodDeterminingSupplier}
+                      setPurchaseStage={setPurchaseStage} purchaseStage={purchaseStage}
 
                     />
                     <div style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', width: '100%' }}>

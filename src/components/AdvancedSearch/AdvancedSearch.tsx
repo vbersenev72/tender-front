@@ -9,7 +9,7 @@ import { Okpd2Select } from '../OKPD2Select/Okpd2Select';
 import { RegionSelect } from '../RegionSelect/RegionSelect';
 
 import "react-datepicker/dist/react-datepicker.css";
-import { okpd2Nomenclature } from '../../data/tendersData.js';
+import { methodDeterminingSupplierList, okpd2Nomenclature } from '../../data/tendersData.js';
 
 
 
@@ -37,12 +37,28 @@ export default function AdvancedSearch(
         enablePrice, setEnablePrice,
         source, setSource,
         enableSource, setEnableSource,
-        okpd2, setOkpd2
+        okpd2, setOkpd2,
+        methodDeterminingSupplier, setMethodDeterminingSupplier,
+        purchaseStage, setPurchaseStage
     }: any
 ) {
 
 
+    const handleCheckboxChangeMethodSupplier = (options: any) => {
+        setMethodDeterminingSupplier(options)
+    }
 
+    const handleCheckboxChangePurchaseStage = (stage: any) => {
+        console.log(stage);
+        console.log(purchaseStage);
+
+
+        if (purchaseStage.includes(stage)) {
+            setPurchaseStage([...purchaseStage.filter((element: any) => element != stage)])
+        } else {
+            setPurchaseStage([...purchaseStage, stage])
+        }
+    }
 
     const [showOkpd2Select, setShowOkpd2Select] = React.useState(false)
 
@@ -72,17 +88,6 @@ export default function AdvancedSearch(
 
     }
 
-
-    const okpd2Options = [
-
-        { value: '', label: 'Не выбрано' },
-
-        { value: 'Выбор1', label: 'Конкурсы (открытые, закрытые)' },
-        { value: 'Выбор1', label: 'Аукционы (открытые и закрытые)' },
-        { value: 'Выбор1', label: 'Запросы предложений и котировок' },
-        { value: 'Выбор1', label: 'Закупки у единственного поставщика.' },
-
-    ]
 
 
 
@@ -123,13 +128,13 @@ export default function AdvancedSearch(
                     <div className='AdvancedSearch-inputForm' onClick={() => setShowRegionSelect(true)}>
                         <p className='AdvancedSearch-inputname'>Регион заказчика</p>
                         <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                            <input type="text" className='AdvancedSearch-input' placeholder='' value={region.map((item:any) => item.name).join(', ')} />
+                            <input type="text" className='AdvancedSearch-input' placeholder='' value={region.map((item: any) => item.name).join(', ')} />
                         </div>
                     </div>
 
                     <div className='AdvancedSearch-inputForm' onClick={() => setShowOkpd2Select(true)}>
                         <p className='AdvancedSearch-inputname'>ОКПД2</p>
-                        <input type="text" className='AdvancedSearch-input' placeholder='' value={okpd2.map((item:any) => item.name).join(', ')} />
+                        <input type="text" className='AdvancedSearch-input' placeholder='' value={okpd2.map((item: any) => item.name).join(', ')} />
                     </div>
                 </form>
                 <form className='AdvancedSearch-form'>
@@ -210,11 +215,11 @@ export default function AdvancedSearch(
                         <div className='AdvancedSearch-inputForm'>
                             <p className='AdvancedSearch-inputname'>Этап закупки</p>
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}>
-                                <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Подача заявок" />
-                                <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Закупка отменена" />
-                                <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Работа комиссии" />
-                                <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Закупка приостановлена" />
-                                <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Закупка завершена" />
+                                <FormControlLabel control={<Checkbox defaultChecked={purchaseStage.includes("Подача заявок")} onClick={() => handleCheckboxChangePurchaseStage("Подача заявок")} />} label="Подача заявок" />
+                                <FormControlLabel control={<Checkbox defaultChecked={purchaseStage.includes("Закупка отменена")} onClick={() => handleCheckboxChangePurchaseStage("Закупка отменена")} />} label="Закупка отменена" />
+                                <FormControlLabel control={<Checkbox defaultChecked={purchaseStage.includes("Работа комиссии")} onClick={() => handleCheckboxChangePurchaseStage("Работа комиссии")} />} label="Работа комиссии" />
+                                <FormControlLabel control={<Checkbox defaultChecked={purchaseStage.includes("Закупка приостановлена")} onClick={() => handleCheckboxChangePurchaseStage("Закупка приостановлена")} />} label="Закупка приостановлена" />
+                                <FormControlLabel control={<Checkbox defaultChecked={purchaseStage.includes("Закупка завершена")} onClick={() => handleCheckboxChangePurchaseStage("Закупка завершена")} />} label="Закупка завершена" />
                             </div>
                         </div>
                     </div>
@@ -223,7 +228,7 @@ export default function AdvancedSearch(
                         <div className='AdvancedSearch-inputForm'>
                             <p className='AdvancedSearch-inputname'>Способ определения поставщика</p>
                             <div style={{ width: '100%' }}>
-                                <Select options={okpd2Options} placeholder='Не выбрано' />
+                                <Select options={methodDeterminingSupplierList} placeholder='Не выбрано' isMulti onChange={handleCheckboxChangeMethodSupplier} value={methodDeterminingSupplier} />
                             </div>
                         </div>
 
