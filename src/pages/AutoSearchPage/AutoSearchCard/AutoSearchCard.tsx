@@ -104,28 +104,6 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
 
 
   const saveAutoSearch = async () => {
-    // console.log(
-    //   tags, '\n',
-    //   stopTags, '\n',
-    //   publicDateFrom, '\n',
-    //   publicDateTo, '\n',
-    //   startDateFrom, '\n',
-    //   startDateTo, '\n',
-    //   endDateFrom, '\n',
-    //   endDateTo, '\n',
-    //   fz, '\n',
-    //   region, '\n',
-    //   tenderNum, '\n',
-    //   customerName, '\n',
-    //   stopCustomerName, '\n',
-    //   inn, '\n',
-    //   priceFrom, '\n',
-    //   priceTo, '\n',
-    //   enablePrice, '\n',
-    //   source, '\n',
-    //   enableSource, '\n',
-    //   okpd2, '\n',
-    // )
 
     const saveAutosearchParams = await axios.post(`${process.env.REACT_APP_API}/api/autosearch/edit`, {
       tags: tags,

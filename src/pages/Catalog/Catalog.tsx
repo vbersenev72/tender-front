@@ -405,6 +405,55 @@ export const Catalog: FC = () => {
 
     }
 
+    const createAutoSearch = async () => {
+        try {
+
+            if (tags == '') {
+                return showErrorMessage('Введите набор ключевых слов для поиска')
+            }
+
+            const create = await axios.post(`${process.env.REACT_APP_API}/api/autosearch/create`, {
+                name: tags,
+                tags: tags,
+                stopTags: stopTags,
+                publicDateFrom: publicDateFrom,
+                publicDateTo: publicDateTo,
+                startDateFrom: startDateFrom,
+                startDateTo: startDateTo,
+                endDateFrom: endDateFrom,
+                endDateTo: endDateTo,
+                fz: fz,
+                region: region.map((region: any) => region.value).join(';'),
+                tenderNum: tenderNum,
+                customerName: customerName,
+                stopCustomerName: stopCustomerName,
+                inn: inn,
+                priceFrom: priceFrom,
+                priceTo: priceTo,
+                enablePrice: enablePrice,
+                purchaseStage: purchaseStage.map((stage: any) => stage).join(';'),
+                source: source,
+                enableSource: enableSource,
+                okpd2: okpd2.map((obj: any) => obj.code).join(';'),
+                methodDeterminingSupplier: methodDeterminingSupplier.map((method: any) => method.value).join(';')
+              }, {
+                headers: {
+                  authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+              })
+
+            showSuccesMessage('Автопоиск создан!')
+
+            setTimeout(() => {
+                window.location.reload()
+            }, 1700);
+
+        } catch (error:any) {
+            console.log(error);
+            showErrorMessage(error.response.data.message)
+        }
+    }
+
     // @ts-ignore
     return (
         <Fragment>
@@ -463,8 +512,12 @@ export const Catalog: FC = () => {
                             <div style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', width: '100%' }}>
                                 <div style={{ width: '50%', display: 'flex', justifyContent: 'space-around' }}>
                                     <div className='AdvancedSearchButton' style={{ backgroundColor: 'dodgerblue', color: 'white', paddingLeft: '60px', paddingRight: '60px' }} onClick={() => getAdvancedSearch()}><p>Поиск</p></div>
-                                    <div className='AdvancedSearchButton' style={{ paddingLeft: '60px', paddingRight: '60px' }} onClick={() => createReport(tendersList, auth)}><p>Excel</p></div>
-                                    <div className='AdvancedSearchButton' style={{ paddingLeft: '60px', paddingRight: '60px' }} onClick={clearAllFields}><p>Сбросить</p></div>
+
+                                    <div className='AdvancedSearchButton' style={{ paddingLeft: '45px', paddingRight: '45px' }} onClick={createAutoSearch}><p>Автопоиск</p></div>
+
+                                    <div className='AdvancedSearchButton' style={{ paddingLeft: '45px', paddingRight: '45px' }} onClick={() => createReport(tendersList, auth)}><p>Excel</p></div>
+
+                                    <div className='AdvancedSearchButton' style={{ paddingLeft: '45px', paddingRight: '45px' }} onClick={clearAllFields}><p>Сбросить</p></div>
                                 </div>
                             </div>
                         </>
