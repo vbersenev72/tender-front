@@ -179,22 +179,32 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
     const getStage = () => {
         try {
 
-            const collectingStartDate = new Date(jsonData.applSubmisionStartDate || jsonData.publicationDateTime)
+            const collectingStartDate = new Date(jsonData.applSubmisionStartDate)
             const collectingEndDate = new Date(jsonData.submissionCloseDateTime)
 
-            const purchaseEndDate = new Date(jsonData.placingProcedure.summingupDateTime)
+            const purchaseEndDate = new Date(jsonData.placingProcedure?.summingupDateTime)
 
-            if (collectingStartDate.getTime() <= new Date().getTime()) {
+            console.log(regNum, ' ', new Date(collectingEndDate))
+
+
+
+            if (collectingStartDate.getTime() < new Date().getTime() && (collectingEndDate && collectingEndDate.getTime()) > new Date().getTime()) {
                 setStage('Подача заявок')
+                return
             }
 
             if (collectingEndDate && collectingEndDate.getTime() < new Date().getTime()) {
                 setStage('Работа комиссии')
+                return
             }
 
-            if (purchaseEndDate && purchaseEndDate.getTime() < new Date().getTime()) {
+            if ((purchaseEndDate && purchaseEndDate.getTime() < new Date().getTime()) && collectingEndDate.getTime() < new Date().getTime() ) {
                 setStage('Закупка завершена')
+                return
             }
+
+            setStage('Закупка завершена')
+
 
 
 

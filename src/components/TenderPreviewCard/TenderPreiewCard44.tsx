@@ -33,6 +33,8 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
     const [markTag, setMarkTag] = useState<any>()
     const [readButton, setReadButton] = useState((showReadButton || showReadButton == true) ? true : false)
 
+    const [stage, setStage] = useState<any>('')
+
     const regNum: any = jsonData?.commonInfo?.purchaseNumber ? jsonData?.commonInfo?.purchaseNumber : jsonData?.registrationNumber
     const link: any = jsonData?.urlEIS ? jsonData?.urlEIS : jsonData?.printFormInfo.url
 
@@ -53,6 +55,33 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
         } catch (error) {
 
         }
+    }
+
+    const getStage = () => {
+
+        let collectingStartDate = new Date(jsonData?.commonInfo?.publishDTInEIS)
+        let collectingEndDate = new Date(jsonData?.notificationInfo?.procedureInfo?.collectingInfo?.endDT)
+        let purchaseEndDate = new Date(jsonData?.notificationInfo?.procedureInfo?.summarizingDate)
+
+
+        if (collectingStartDate.getTime() < new Date().getTime() && (collectingEndDate && collectingEndDate.getTime()) > new Date().getTime()) {
+            setStage('Подача заявок')
+            return
+        }
+
+        if (collectingEndDate && collectingEndDate.getTime() < new Date().getTime()) {
+            setStage('Работа комиссии')
+            return
+        }
+
+        if ((purchaseEndDate && purchaseEndDate.getTime() < new Date().getTime()) && collectingEndDate.getTime() < new Date().getTime() ) {
+            setStage('Закупка завершена')
+            return
+        }
+
+        setStage('Определение поставщика завершено')
+
+
     }
 
     const getTagForRegNum = async () => {
@@ -252,6 +281,7 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
 
     useEffect(() => {
 
+        getStage()
         getTagForRegNum().then((data: any) => console.log(data))
 
     }, [])
@@ -264,7 +294,7 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
                     <PrevContainer>
                         <FlexTextColumn style={{ width: '70%', borderRight: '1px solid #F2F2F2' }}>
                             <FlexTextRow style={{ width: '100%' }}>
-                                <TextGray14pxRegular>Работа комиссии</TextGray14pxRegular>
+                                <TextGray14pxRegular>{stage}</TextGray14pxRegular>
                             </FlexTextRow>
                             <FlexTextRow style={{ width: '100%', paddingBottom: '5px', borderBottom: '1px solid #F2F2F2' }}>
                                 <TextBlue16pxSemiBold style={{ width: '60%' }}>
