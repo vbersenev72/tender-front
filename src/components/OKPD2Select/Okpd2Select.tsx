@@ -35,37 +35,30 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
     }
 
     const findByText = () => {
-
-        if (findText == '') {
-            return setNomenclature([...okpd2Nomenclature])
+        if (findText === '') {
+            return setNomenclature([...okpd2Nomenclature]);
         }
 
-        //const filteredData = okpd2Nomenclature.filter(item => item.name.toLowerCase().includes(findText.toLowerCase()));
+        const filteredData:any = okpd2Nomenclature.map((item) => {
+            // Сортируем child элементы, если они есть и фильтруем их
+            const filteredChildren = item.child ? item.child.filter((childItem) => childItem.name.toLowerCase().includes(findText.toLowerCase())) : [];
 
-        const filteredData = okpd2Nomenclature.filter((item) => {
-            const isMatch = item.name.toLowerCase().includes(findText.toLowerCase());
+            // Фильтруем родительский элемент и обновляем его child массив
+            const filteredItem = {
+                ...item,
+                child: filteredChildren,
+            };
 
-            if (isMatch) {
-                return true;
+            if (filteredItem.name.toLowerCase().includes(findText.toLowerCase()) || filteredChildren.length > 0) {
+                return filteredItem;
             }
 
-            if (item.child && item.child.length > 0) {
-                // Проверяем наличие совпадений в дочернем массиве
-                const isChildMatch = item.child.some((childItem) =>
-                    childItem.name.toLowerCase().includes(findText.toLowerCase())
-                );
+            return null;
+        }).filter(Boolean); // Фильтруем null значения, которые могли возникнуть
 
-                if (isChildMatch) {
-                    return true;
-                }
-            }
-
-            return false;
-        });
-
-        setNomenclature([...filteredData])
-
-    }
+        setNomenclature([...filteredData]);
+        setShowAllElements(filteredData[0]?.code)
+    };
 
     React.useEffect(() => {
 
