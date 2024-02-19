@@ -56,7 +56,7 @@
 .authmenucontentlogin {
     width: 80%;
     background-color: white;
-    height: 500px;
+    height: 450px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -77,4 +77,5 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
