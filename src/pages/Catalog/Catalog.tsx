@@ -507,7 +507,7 @@ export const Catalog: FC = () => {
                                 enableSource={enableSource} setEnableSource={setEnableSource}
                                 okpd2={okpd2} setOkpd2={setOkpd2}
                                 setMethodDeterminingSupplier={setMethodDeterminingSupplier} methodDeterminingSupplier={methodDeterminingSupplier}setPurchaseStage={setPurchaseStage} purchaseStage={purchaseStage}
-
+                                stopCustomerName={stopCustomerName} setStopCustomerName={setStopCustomerName}
                             />
                             <div style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', width: '100%' }}>
                                 <div style={{ width: '50%', display: 'flex', justifyContent: 'space-around' }}>

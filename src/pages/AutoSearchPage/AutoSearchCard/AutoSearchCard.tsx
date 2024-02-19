@@ -88,7 +88,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
     setRegion([])
     setTenderNum('')
     setCustomerName('')
-    setStopCustomerName('')
+    setStopCustomerName('false')
     setInn('')
     setPriceFrom('')
     setPriceTo('')
@@ -454,6 +454,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                       okpd2={okpd2} setOkpd2={setOkpd2}
                       setMethodDeterminingSupplier={setMethodDeterminingSupplier} methodDeterminingSupplier={methodDeterminingSupplier}
                       setPurchaseStage={setPurchaseStage} purchaseStage={purchaseStage}
+                      setStopCustomerName={setStopCustomerName} stopCustomerName={stopCustomerName}
 
                     />
                     <div style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', width: '100%' }}>

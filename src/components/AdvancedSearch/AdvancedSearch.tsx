@@ -39,7 +39,7 @@ export default function AdvancedSearch(
         enableSource, setEnableSource,
         okpd2, setOkpd2,
         methodDeterminingSupplier, setMethodDeterminingSupplier,
-        purchaseStage, setPurchaseStage
+        purchaseStage, setPurchaseStage,
     }: any
 ) {
 
@@ -146,9 +146,12 @@ export default function AdvancedSearch(
             </div>
             <div className='AdvancedSearch-content'>
                 <form className='AdvancedSearch-form'>
-                    <div className='AdvancedSearch-inputForm'>
+                    <div className='AdvancedSearch-inputForm' style={{paddingBottom: '0'}}>
                         <p className='AdvancedSearch-inputname'>Заказчик или организатор</p>
                         <input type="text" className='AdvancedSearch-input' placeholder='Наименование заказчика или организатора' value={customerName} onChange={(e: any) => setCustomerName(e.target.value)} />
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <FormControlLabel control={<Checkbox defaultChecked={Boolean(stopCustomerName)} onChange={() => setStopCustomerName(!Boolean(stopCustomerName))} />} label="Исключить заказчика" />
                     </div>
 
                     <div className='AdvancedSearch-inputForm'>
@@ -158,7 +161,7 @@ export default function AdvancedSearch(
 
                     <div>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <div className='AdvancedSearch-inputForm'>
+                            <div className='AdvancedSearch-inputForm' style={{paddingBottom: '0'}}>
                                 <p className='AdvancedSearch-inputname'>Цена котракта от</p>
                                 <input type="text" className='AdvancedSearch-input' placeholder='Минимальная цена' value={priceFrom} onChange={(e: any) => setPriceFrom(e.target.value)} />
                             </div>
