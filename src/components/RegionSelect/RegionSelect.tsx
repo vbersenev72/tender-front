@@ -33,16 +33,43 @@ export function RegionSelect({ closeModal, setRegionCustomer, regionCustomer, va
         setShowAllElements(name)
     }
 
+    // const findByText = () => {
+
+    //     if (findText == '') {
+    //         return setRegions([...regions])
+    //     }
+    //     const filteredData = regionsList.filter(item => item.name.toLowerCase().includes(findText.toLowerCase()));
+
+    //     setRegions([...filteredData])
+
+    // }
+
     const findByText = () => {
-
-        if (findText == '') {
-            return setRegions([...regions])
+        if (findText === '') {
+            return setRegions([...regions]);
         }
-        const filteredData = regionsList.filter(item => item.name.toLowerCase().includes(findText.toLowerCase()));
 
-        setRegions([...filteredData])
+        const filteredData:any = regionsList.map((item) => {
+            // Сортируем child элементы, если они есть и фильтруем их
+            const filteredChildren = item.child ? item.child.filter((childItem) => childItem.name.toLowerCase().includes(findText.toLowerCase())) : [];
 
-    }
+            // Фильтруем родительский элемент и обновляем его child массив
+            const filteredItem = {
+                ...item,
+                child: filteredChildren,
+            };
+
+            if (filteredItem.name.toLowerCase().includes(findText.toLowerCase()) || filteredChildren.length > 0) {
+                return filteredItem;
+            }
+
+            return null;
+        }).filter(Boolean); // Фильтруем null значения, которые могли возникнуть
+
+        setRegions([...filteredData]);
+        setShowAllElements(filteredData[0]?.name)
+    };
+
 
     React.useEffect(() => {
 

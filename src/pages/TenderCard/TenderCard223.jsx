@@ -18,7 +18,7 @@ import {
 import {FlexRow, FlexTextColumn} from "../../containers/containers";
 import {formatDate} from "../../functions/FormateDate";
 import {Documents} from "../../components/FZ223/Tender/Documents/Documents";
-// import { getEvents223 } from "../../functions/Events223";
+import { getEvents223 } from "../../functions/Events223";
 
 
 function getRef(url){
@@ -31,7 +31,7 @@ function getRef(url){
 export const TenderCard223 = ({tender}) => {
 
     const [lastTender] = tender.tender.sort((a, b) => +b.version - +a.version)
-    // const events = getEvents223(tender)
+    const events = getEvents223(tender)
 
     formatDate(lastTender?.publicationPlannedDate || tender.tender[0].publicationDateTime)
 
@@ -295,12 +295,12 @@ export const TenderCard223 = ({tender}) => {
                     <Documents tender={tender}/>
                     <BorderedContainer>
                         <TextBlack14pxBold> Журнал событий</TextBlack14pxBold>
-                        {/* {events?.length ? events.map(a => (
+                        {events?.length ? events.map(a => (
                             <FlexTextColumn>
                                 <TextGray14pxRegular> {a.date}</TextGray14pxRegular>
                                 <TextBlack14pxRegular> {a.message}</TextBlack14pxRegular>
                             </FlexTextColumn>
-                        )) : null} */}
+                        )) : null}
                     </BorderedContainer>
                     <JsonRenderer tenderID={tender.tender[0]?.registrationNumber} />
                 </RightSideSection>

@@ -32,8 +32,6 @@ export const TenderCard = () => {
 
     // Обработчик клика по кнопке
 
-    const events = getEvents(tender)
-
     return (
 
 
@@ -44,10 +42,10 @@ export const TenderCard = () => {
                          <TailSpin color="#3294F4" height={150} width={150} />
                      </LoaderTest>
                           :
-                                tender?.tender[0]?.fz === 'fz44' ?
-                                                    <TenderCard44 tender={tender}/>
+                                tender.message?.tender[0]?.fz === 'fz44' ?
+                                                    <TenderCard44 tender={tender.message}/>
                                      :
-                                                    <TenderCard223 tender={tender}/>
+                                                    <TenderCard223 tender={tender.message}/>
                      }
         </Fragment>
     )}

@@ -49,7 +49,7 @@ export const TenderCard44 = ({tender}) => {
 
 
 
-    // const { events, stage } = getEvents(tender);
+    const { events, stage } = getEvents(tender);
     const [lastTender] = tender.tender.sort((a,b) => +b.versionNumber - +a.versionNumber)
 
     const zakupki = lastTender?.notificationInfo?.purchaseObjectsInfo?.notDrugPurchaseObjectsInfo
@@ -72,7 +72,7 @@ export const TenderCard44 = ({tender}) => {
                         </FlexTextColumn>
                         <FlexTextColumn>
                             <TextGray14pxRegular>Этап закупки</TextGray14pxRegular>
-                            <TextBlack14pxRegular>Подача заявок</TextBlack14pxRegular>
+                            <TextBlack14pxRegular>{stage}</TextBlack14pxRegular>
                         </FlexTextColumn>
                         <FlexTextColumn>
                             <TextGray14pxRegular>Способ определения поставщика (подрядчика,
@@ -413,7 +413,7 @@ export const TenderCard44 = ({tender}) => {
                             </BorderFitContaienr>
                         )}
                     </BorderOpeningContainer>
-                    {/* {tender?.clarification[0]?.commonInfo ? (
+                    {tender?.clarification[0]?.commonInfo ? (
                         <BorderOpeningContainer>
                             <FlexTextRow style={{alignItems: 'center'}}>
                                 <TextBlack14pxBold style={{marginRight: '20px'}}>Разъяснения</TextBlack14pxBold>
@@ -438,7 +438,7 @@ export const TenderCard44 = ({tender}) => {
                                 </BorderFitContaienr>
                             )}
                         </BorderOpeningContainer>
-                    ) : null} */}
+                    ) : null}
                     {lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.contractConditionsInfo?.contractExecutionPaymentPlan ? (
                         <BorderedContainer>
                             <TextBlack14pxBold>Информация о сроках исполнения контракта и источниках финансирования</TextBlack14pxBold>
@@ -523,8 +523,8 @@ export const TenderCard44 = ({tender}) => {
                             }
                         </>
                     ) : null}
-                    <BorderedContainer>
                         {lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.contractConditionsInfo?.contractExecutionPaymentPlan?.financingSourcesInfo?.financeInfo ? (
+                            <BorderedContainer>
                             <FlexTextColumn>
                                 <TextGray14pxRegular style={{width: '35%'}}>Финансовое обеспечение
                                     закупки</TextGray14pxRegular>
@@ -547,9 +547,11 @@ export const TenderCard44 = ({tender}) => {
                                     </TableRow>
                                     </tbody>
                                 </Table>
-                            </FlexTextColumn>) : null}
+                            </FlexTextColumn>
+                                </BorderedContainer>) : null}
                         {
                             lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.contractConditionsInfo?.contractExecutionPaymentPlan?.stagesInfo ? (
+                                    <BorderedContainer>
                                 <FlexTextColumn>
                                     <TextGray14pxRegular style={{width: '35%'}}>За счет бюджетных
                                         средств</TextGray14pxRegular>
@@ -583,41 +585,54 @@ export const TenderCard44 = ({tender}) => {
                                         </tbody>
                                     </Table>
                                 </FlexTextColumn>
-                            ) : null}
-                    </BorderedContainer>
+                                    </BorderedContainer>) : null}
+
                     <BorderedContainer>
+
                         <TextBlack14pxBold>Обеспечение гарантийных обязательств</TextBlack14pxBold>
-                        {lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.provisionWarranty ? (
+                        { lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.provisionWarranty ? (
                             <FlexTextColumn>
                                 <TextGray14pxRegular style={{width: '35%'}}>Требуется обеспечение гарантийных
                                     обязательств</TextGray14pxRegular>
                                 <TextBlack14pxRegular>Да</TextBlack14pxRegular>
                             </FlexTextColumn>
                         ) : null}
+                        { lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.provisionWarranty?.amount ?
                         <FlexTextColumn>
                             <TextGray14pxRegular style={{width: '35%'}}>Размер обеспечение гарантийных
                                 обязательств</TextGray14pxRegular>
                             <TextBlack14pxRegular>{lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.provisionWarranty?.amount} Российский
                                 рубль</TextBlack14pxRegular>
-                        </FlexTextColumn>
+                        </FlexTextColumn> : null
+                        }
+                        {  lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.provisionWarranty?.procedureInfo ?
                         <FlexTextColumn>
                             <TextGray14pxRegular style={{width: '35%'}}>Порядок предоставления обеспечения гарантийных
                                 обязательств, требования к обеспечению</TextGray14pxRegular>
                             <TextBlack14pxRegular>{
                                 lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.provisionWarranty?.procedureInfo
                             }</TextBlack14pxRegular>
-                        </FlexTextColumn>
+                        </FlexTextColumn> : null
+                        }
+                        {
+                            lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.contractConditionsInfo?.contractExecutionPaymentPlan?.financingSourcesInfo?.budgetFinancingsInfo?.budgetInfo?.name ?
                         <FlexTextColumn>
                             <TextGray14pxRegular style={{width: '35%'}}>Наименование бюджета</TextGray14pxRegular>
                             <TextBlack14pxRegular>{
                                 lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.contractConditionsInfo?.contractExecutionPaymentPlan?.financingSourcesInfo?.budgetFinancingsInfo?.budgetInfo?.name
                             }</TextBlack14pxRegular>
-                        </FlexTextColumn>
+                        </FlexTextColumn> : null
+                        }
+                        {
+                            lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.contractConditionsInfo?.contractExecutionPaymentPlan?.financingSourcesInfo?.budgetFinancingsInfo?.OKTMOInfo?.code
+                            || lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.contractConditionsInfo?.contractExecutionPaymentPlan?.financingSourcesInfo?.budgetFinancingsInfo?.OKTMOInfo?.name ?
                         <FlexTextColumn>
                             <TextGray14pxRegular style={{width: '35%'}}>Код территории муниципального
                                 образования</TextGray14pxRegular>
                             <TextBlack14pxRegular>{lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.contractConditionsInfo?.contractExecutionPaymentPlan?.financingSourcesInfo?.budgetFinancingsInfo?.OKTMOInfo?.code}: {lastTender?.notificationInfo?.customerRequirementsInfo?.customerRequirementInfo?.contractConditionsInfo?.contractExecutionPaymentPlan?.financingSourcesInfo?.budgetFinancingsInfo?.OKTMOInfo?.name}</TextBlack14pxRegular>
-                        </FlexTextColumn>
+                        </FlexTextColumn> : null
+
+                        }
                     </BorderedContainer>
                     {
                         lastTender?.notificationInfo?.criteriaInfo ? (
@@ -631,12 +646,12 @@ export const TenderCard44 = ({tender}) => {
                     }
                     <BorderedContainer>
                         <TextBlack14pxBold> Журнал событий</TextBlack14pxBold>
-                        {/* {events?.length ? events.map(a => (
+                        {events?.length ? events.map(a => (
                             <FlexTextColumn>
                                 <TextGray14pxRegular> {a.date} </TextGray14pxRegular>
                                 <TextBlack14pxRegular> {a.message}</TextBlack14pxRegular>
                             </FlexTextColumn>
-                        )) : null} */}
+                        )) : null}
 
                     </BorderedContainer>
                     <JsonRenderer tenderID={lastTender?.commonInfo?.purchaseNumber}/>

@@ -1,8 +1,6 @@
-import { format, parseISO } from "date-fns";
-import { toast } from "react-toastify";
+import {format, parseISO} from "date-fns";
 
 export const formatDate = (originalDate: string) => {
-    const parsedDate = parseISO(originalDate);
+    const parsedDate = parseISO(originalDate.slice(0,10));
     return format(parsedDate, 'dd.MM.yyyy');
 };
-

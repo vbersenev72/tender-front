@@ -47,14 +47,32 @@ function Login() {
         }
     }
 
-    async function submitFunction() {
-        showSuccesMessage('На вашу почту выслан новый пароль!')
+    async function resetPassword() {
+        try {
+
+        if (email == '' || !email) {
+            return showErrorMessage('Введите почту!')
+        }
+
+        const resetPass = await axios.post(`${process.env.REACT_APP_API}/api/lk/resetpass`, {
+            email: email
+        })
+
+
+        showSuccesMessage(resetPass.data.message)
+
+        } catch (error:any) {
+            console.log(error?.response?.data?.message);
+            showErrorMessage(error?.response?.data?.message)
+        }
+
+
     }
 
     return (
         <div className="authmenucontentlogin">
             {
-                openRecoveryModal && <MuiModal title={'Восстановление пароля'} text={'На вашу почту будет выслан новый пароль!'} submitFunction={submitFunction} open={openRecoveryModal} setOpen={setOpenRecoveryModal} />
+                openRecoveryModal && <MuiModal title={'Восстановление пароля'} text={'На вашу почту будет выслан новый пароль!'} submitFunction={resetPassword} open={openRecoveryModal} setOpen={setOpenRecoveryModal} buttonText={'Отправить'} showEmailInput={true} emailChange={setEmail}/>
 
             }
 
@@ -130,10 +148,17 @@ function Register() {
         }
     }
 
+    const redirectToAuth = () => {
+        window.location.href = '/auth'
+    }
 
     return (
         <div className="authmenucontentlogin">
-            <AuthNotifModal isOpen={isOpen} closeModal={closeModal} />
+            {/* <AuthNotifModal isOpen={isOpen} closeModal={closeModal} /> */}
+            {
+                isOpen && <MuiModal title={''} text={'Письмо с паролем будет направлено на вашу почту!'} submitFunction={redirectToAuth} open={isOpen} setOpen={closeModal} buttonText={'Авторизоваться'}/>
+
+            }
             <div style={{ width: 'fit-content' }}>
                 <h3 style={{ margin: '30px', marginBottom: '0', width: 'fit-content', fontSize: '20px' }}>Для использования личного кабинета необходимо зарегистрироваться</h3>
                 <p style={{ margin: '30px', marginTop: '10px', width: '100%', display: 'flex', justifyContent: 'center', fontSize: '14px' }}>После регистрации будет доступен тестовый доступ</p>

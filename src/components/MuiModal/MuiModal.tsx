@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import { TextField } from '@mui/material';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -15,10 +16,10 @@ const style = {
     'text-align': 'center',
     boxShadow: 24,
     p: 4,
-  };
+};
 
 
-export default function MuiModal({ open, setOpen, title, text, submitFunction }: any) {
+export default function MuiModal({ open, setOpen, title, text, submitFunction, buttonText, emailChange, showEmailInput }: any) {
 
     const handleSubmit = () => {
         submitFunction()
@@ -36,14 +37,31 @@ export default function MuiModal({ open, setOpen, title, text, submitFunction }:
             aria-labelledby="parent-modal-title"
             aria-describedby="parent-modal-description"
         >
-            <Box sx={{ ...style}}>
+            <Box sx={{ ...style }}>
                 <h2 id="parent-modal-title">{title}</h2>
                 <br />
                 <p id="parent-modal-description">
                     {text}
                 </p>
+                {
+                    showEmailInput
+                    &&
+                    <>
+
+                        <TextField
+                            id="standard-multiline-flexible"
+                            label="Email"
+                            placeholder='Введите Email'
+                            variant="standard"
+
+                            style={{ width: '80%' }}
+                            onChange={(e: any) => emailChange(e.target.value)}
+                        />
+                        <br />
+                    </>
+                }
                 <br />
-                <Button onClick={handleSubmit}>Подтвердить</Button>
+                <Button onClick={handleSubmit}>{buttonText}</Button>
             </Box>
         </Modal>
     );

@@ -81,7 +81,7 @@ export function MyTendersPage(props: any) {
 
         console.log(response.data);
 
-        const tender = response.data.tender[0]
+        const tender = response.data.message.tender[0]
         allTenders.push(tender)
 
       }
@@ -222,7 +222,7 @@ export function MyTendersPage(props: any) {
 
     let mergedArray = beforeTenders.map((obj2: any) => {
       const matchingObj = myTendersList.find((obj1: any) => obj1.reg_num === obj2?.commonInfo?.purchaseNumber || obj1.reg_num === obj2?.registrationNumber);
-      return { ...obj2, dateAdded: matchingObj.createdAt };
+      return { ...obj2, dateAdded: matchingObj?.createdAt };
     });
 
     mergedArray.sort((a: any, b: any) => {
