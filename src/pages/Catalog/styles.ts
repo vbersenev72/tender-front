@@ -24,6 +24,9 @@ export const AdvancedFindP = styled.p`
   
   color: gray;
   text-decoration: underline;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
 
 

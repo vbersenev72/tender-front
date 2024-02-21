@@ -17,6 +17,7 @@ import React from "react";
 import AdvancedSearch from "../../components/AdvancedSearch/AdvancedSearch";
 import { createReportAutoSearch } from "../../functions/createReportAutoSearch";
 import { PaginationBlock } from "../../components/PaginationBlock/PaginationBlock";
+import { SlSettings } from "react-icons/sl";
 
 
 export const Catalog: FC = () => {
@@ -481,7 +482,7 @@ export const Catalog: FC = () => {
                         &&
                         <>
                             <FlexRow style={{ width: '100%', justifyContent: 'flex-end' }}>
-                                <div style={{ width: "18%", display: 'flex', justifyContent: 'center' }} onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}>
+                                <div style={{ width: "18%", display: 'flex', justifyContent: 'center', marginTop: '-10px' }} onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}>
                                     <AdvancedFindP>Простой поиск</AdvancedFindP>
                                 </div>
                             </FlexRow>
@@ -525,32 +526,15 @@ export const Catalog: FC = () => {
                     {
                         !showAdvancedSearch
                         &&
-                        <FlexRow style={{ width: '100%', justifyContent: 'flex-end' }}>
-                            <div style={{ width: "18%", display: 'flex', justifyContent: 'center' }} onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}>
-                                <AdvancedFindP>Расширенный поиск</AdvancedFindP>
+                        <FlexRow style={{ width: '100%', justifyContent: 'flex-end',  }}>
+                            <div style={{ width: "18%", display: 'flex', justifyContent: 'center', marginTop: '-10px' }} onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}>
+                                <AdvancedFindP>Расширенный поиск <div style={{padding: '3px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}><SlSettings/></div></AdvancedFindP>
                             </div>
                         </FlexRow>
                     }
                     <FlexTextRow style={{ alignItems: 'center', gap: '20px' }}>
                         <TextBlack22pxRegular>Результаты поиска</TextBlack22pxRegular>
-                        {/* <TextGray14pxRegular>найдено 26000 тендеров</TextGray14pxRegular> */}
                     </FlexTextRow>
-                    {/* <FlexRow style={{ width: '100%', justifyContent: 'flex-start' }}>
-                        <label>
-                            <input
-                                type="checkbox"
-                                onChange={handleCheckbox223Change}
-                            />
-                            ФЗ 223
-                        </label>
-                        <label>
-                            <input
-                                type="checkbox"
-                                onChange={handleCheckbox44Change}
-                            />
-                            ФЗ 44
-                        </label>
-                    </FlexRow> */}
                     <div className="Mytenders-sort">
                         <div className='Mytenders-sort-list'>
                             <div style={{ color: 'gray', paddingLeft: '0px', display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: '15px' }}><p>Сортировать по</p></div>
