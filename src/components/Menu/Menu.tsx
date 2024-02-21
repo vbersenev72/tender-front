@@ -10,7 +10,7 @@ import { ReactComponent as StatIcon } from '../../assets/icons/statistic.svg'
 import { ReactComponent as Plans } from '../../assets/icons/plans.svg'
 import { ReactComponent as UserIcon } from '../../assets/icons/user.svg'
 import { useNavigate } from 'react-router-dom';
-import { showErrorMessage, showSuccesMessage } from '../../functions/Message';
+import { showErrorMessage, showInfoMessage, showSuccesMessage } from '../../functions/Message';
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { SlArrowDown } from "react-icons/sl";
@@ -27,12 +27,7 @@ export const Menu = ({ auth }: any) => {
 
     const [showTagsArray, setShowTagsArray] = useState(false)
     const [showAutoSearchesArray, setShowAutoSearchesArray] = useState(false)
-    // const [newAutoSearches, setNewAutoSearches] = useState<any>([])
 
-    // let tagsFromLs: any = localStorage.getItem('tags')
-    // let autoSearchesFromLs: any = localStorage.getItem('autosearches')
-
-    // const tags = tagsFromLs ? JSON.parse(tagsFromLs) : []
     const [tags, setTags] = useState<any>([])
     const [autoSearches, setAutoSearches] = useState<any>([])
 
@@ -164,7 +159,10 @@ export const Menu = ({ auth }: any) => {
                         } else {
                             console.log(auth);
 
-                            return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                            navigate('/auth')
+                            showInfoMessage('Необходима авторизация!')
+
+                            return
                         }
                     }}>
 
@@ -200,7 +198,10 @@ export const Menu = ({ auth }: any) => {
                             } else {
                                 console.log(auth);
 
-                                return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                                navigate('/auth')
+                                showInfoMessage('Необходима авторизация!')
+
+                                return
                             }
                         }}>
 
@@ -243,7 +244,10 @@ export const Menu = ({ auth }: any) => {
                 } else {
                     console.log(auth);
 
-                    return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                    navigate('/auth')
+                    showInfoMessage('Необходима авторизация!')
+
+                    return
                 }
             }}>
                 <TendIcon />
@@ -264,7 +268,10 @@ export const Menu = ({ auth }: any) => {
                         } else {
                             console.log(auth);
 
-                            return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                            navigate('/auth')
+                            showInfoMessage('Необходима авторизация!')
+
+                            return
                         }
                     }}>
 
@@ -300,7 +307,10 @@ export const Menu = ({ auth }: any) => {
                             } else {
                                 console.log(auth);
 
-                                return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                                navigate('/auth')
+                                showInfoMessage('Необходима авторизация!')
+
+                                return
                             }
                         }}>
 
@@ -343,7 +353,10 @@ export const Menu = ({ auth }: any) => {
                 } else {
                     console.log(auth);
 
-                    return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                    navigate('/auth')
+                    showInfoMessage('Необходима авторизация!')
+
+                    return
                 }
             }}>
                 <StatIcon />
@@ -357,7 +370,10 @@ export const Menu = ({ auth }: any) => {
                 } else {
                     console.log(auth);
 
-                    return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                    navigate('/auth')
+                    showInfoMessage('Необходима авторизация!')
+
+                    return
                 }
             }}>
                 <Plans />
@@ -371,7 +387,10 @@ export const Menu = ({ auth }: any) => {
                 } else {
                     console.log(auth);
 
-                    return showErrorMessage('Для использования этого раздела необходимо авторизоваться')
+                    navigate('/auth')
+                    showInfoMessage('Необходима авторизация!')
+
+                    return
                 }
             }}>
                 <UserIcon />

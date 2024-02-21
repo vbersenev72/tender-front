@@ -16,7 +16,9 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
     const clearText = () => {
         setFindText('')
         setNomenclature([...okpd2Nomenclature])
+        setOkpd2Code([])
     }
+
 
 
     const handleCheckboxChange = (event: any, item: any) => {
@@ -31,7 +33,32 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
 
 
     const clickOnTriangle = (code: any) => {
-        setShowAllElements(code)
+        console.log(code);
+
+        let splitShowAllElementsString: any = showAllElements.split(';')
+
+
+        if (splitShowAllElementsString.includes(code)) {
+            splitShowAllElementsString = splitShowAllElementsString.filter((existCode: any) => existCode != code)
+        } else {
+            splitShowAllElementsString = [...splitShowAllElementsString, code]
+        }
+
+        splitShowAllElementsString = splitShowAllElementsString.join(';')
+        setShowAllElements(splitShowAllElementsString)
+    }
+
+    const openTriangle = (code: any) => {
+        let splitShowAllElementsString: any = showAllElements.split(';')
+
+        if (splitShowAllElementsString.includes(code)) {
+            // splitShowAllElementsString.filter((existCode: any) => existCode =! code)
+        } else {
+            splitShowAllElementsString.push(code)
+        }
+
+        splitShowAllElementsString = splitShowAllElementsString.join(';')
+        setShowAllElements(splitShowAllElementsString)
     }
 
     const findByText = () => {
@@ -39,7 +66,7 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
             return setNomenclature([...okpd2Nomenclature]);
         }
 
-        const filteredData:any = okpd2Nomenclature.map((item) => {
+        const filteredData: any = okpd2Nomenclature.map((item) => {
             // Сортируем child элементы, если они есть и фильтруем их
             const filteredChildren = item.child ? item.child.filter((childItem) => childItem.name.toLowerCase().includes(findText.toLowerCase())) : [];
 
@@ -57,7 +84,10 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
         }).filter(Boolean); // Фильтруем null значения, которые могли возникнуть
 
         setNomenclature([...filteredData]);
-        setShowAllElements(filteredData[0]?.code)
+
+        filteredData.forEach((element: any) => {
+            const openAll: any = openTriangle(element.code)
+        });
     };
 
     React.useEffect(() => {
@@ -87,7 +117,7 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
                             return (
                                 <>
                                     {
-                                        showAllElements == element.code
+                                        showAllElements.split(';').includes(element.code)
                                             ?
                                             <div>
                                                 <div style={{
@@ -95,7 +125,7 @@ export function Okpd2Select({ closeModal, setOkpd2Code, okpd2Code }: any) {
                                                     justifyContent: 'flex-start',
                                                     alignItems: 'center'
                                                 }}>
-                                                    <div style={{ display: 'grid', grid: 'center' }} onClick={() => clickOnTriangle('')}>
+                                                    <div style={{ display: 'grid', grid: 'center' }} onClick={() => clickOnTriangle(element.code)}>
                                                         <GoTriangleDown size={24} />
                                                     </div>
                                                     <Checkbox checked={okpd2Code.some((selectedItem: any) => selectedItem.code === element.code)} onChange={event => handleCheckboxChange(event, element)} />

@@ -13,3 +13,12 @@ export const showErrorMessage = (text: string) => {
         position: toast.POSITION.TOP_RIGHT,
     });
 };
+
+
+export const showInfoMessage = (text: string) => {
+    toast.info(text, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: false,
+        theme: "colored"
+    })
+}

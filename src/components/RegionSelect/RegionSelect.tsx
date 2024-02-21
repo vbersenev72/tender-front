@@ -33,17 +33,6 @@ export function RegionSelect({ closeModal, setRegionCustomer, regionCustomer, va
         setShowAllElements(name)
     }
 
-    // const findByText = () => {
-
-    //     if (findText == '') {
-    //         return setRegions([...regions])
-    //     }
-    //     const filteredData = regionsList.filter(item => item.name.toLowerCase().includes(findText.toLowerCase()));
-
-    //     setRegions([...filteredData])
-
-    // }
-
     const findByText = () => {
         if (findText === '') {
             return setRegions([...regions]);
