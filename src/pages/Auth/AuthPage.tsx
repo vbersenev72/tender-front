@@ -163,7 +163,7 @@ function Register() {
                 isOpen && <MuiModal title={''} text={'Письмо с паролем будет направлено на вашу почту!'} submitFunction={redirectToAuth} open={isOpen} setOpen={closeModal} buttonText={'Авторизоваться'} />
 
             }
-            <div style={{ width: 'fit-content' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', height: '100%', }}>
                 <h3 style={{ margin: '30px', marginBottom: '0', width: 'fit-content', fontSize: '20px' }}>Для использования личного кабинета необходимо зарегистрироваться</h3>
                 <p style={{ margin: '30px', marginTop: '10px', width: '100%', display: 'flex', justifyContent: 'center', fontSize: '14px' }}>После регистрации будет доступен тестовый доступ</p>
                 <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px', justifyContent: "center", alignItems: 'center' }}>
@@ -190,7 +190,7 @@ function Register() {
                 <br />
                 <br />
                 <br />
-                <div style={{ position: 'absolute', top: '550px', display: 'flex', justifyContent: 'center', width: '100%', left: '0' }}>
+                <div style={{  display: 'flex', justifyContent: 'center', }}>
                     <p style={{ fontSize: '14px' }}>Нажимая <span style={{ textDecoration: 'underline' }}>Зарегистрироваться</span> вы соглашаетесь с лицензионным соглашением</p>
                 </div>
             </div>
