@@ -77,7 +77,7 @@ export const Menu = ({ auth }: any) => {
             let sumForAll = 0
             for (let i = 0; i < newAutoSearches.length; i++) {
                 const autoSearch: any = newAutoSearches[i];
-                setSum(sumForAll += autoSearch.count)
+                sumForAll += autoSearch.count
             }
 
             setSum(sumForAll)
