@@ -32,7 +32,7 @@ export const Menu = ({ auth }: any) => {
     const [tags, setTags] = useState<any>([])
     const [autoSearches, setAutoSearches] = useState<any>([])
 
-    const [sum, setSum] = useState(0)
+    const [sum, setSum] = useState()
 
     const { openMenu, setOpenMenu }: any = useContext(MenuContext);
 
@@ -47,17 +47,9 @@ export const Menu = ({ auth }: any) => {
     const getAutoSearchersCount = async () => {
         try {
 
-            // let newAutoSearches = autoSearches.map((autoSearch: any) => {
-            //     let countTenders = axios.get(`${process.env.REACT_APP_API}/api/autosearch/count/${autoSearch.id}`, {
-            //         headers: {
-            //             authorization: `Bearer ${localStorage.getItem('token')}`
-            //         }
-            //     }).then((data: any) => data.message)
-
-            //     return { ...autoSearch, count: countTenders }
-            // })
 
             let newAutoSearches: any = []
+            let sumForAll:any = 0
 
             for (let i = 0; i < autoSearches.length; i++) {
                 const autoSearch = autoSearches[i];
@@ -67,20 +59,18 @@ export const Menu = ({ auth }: any) => {
                         authorization: `Bearer ${localStorage.getItem('token')}`
                     }
                 })
-
+                sumForAll += countTenders.data.message
+                setSum(sumForAll)
                 newAutoSearches.push({ ...autoSearch, count: countTenders.data.message })
 
             }
 
             console.log(newAutoSearches);
+            console.log(sumForAll);
+            
 
-            let sumForAll = 0
-            for (let i = 0; i < newAutoSearches.length; i++) {
-                const autoSearch: any = newAutoSearches[i];
-                sumForAll += autoSearch.count
-            }
+           
 
-            setSum(sumForAll)
 
             setAutoSearches([...newAutoSearches])
 
@@ -139,6 +129,35 @@ export const Menu = ({ auth }: any) => {
             setAutoSearches([...newAutoSearches])
 
 
+
+            newAutoSearches = []
+            let sumForAll:any = 0
+
+            for (let i = 0; i < autoSearches.length; i++) {
+                const autoSearch = autoSearches[i];
+
+                let countTenders = await axios.get(`${process.env.REACT_APP_API}/api/autosearch/count/${autoSearch.id}`, {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                })
+                sumForAll += countTenders.data.message
+                setSum(sumForAll)
+                newAutoSearches.push({ ...autoSearch, count: countTenders.data.message })
+
+            }
+
+            console.log(newAutoSearches);
+            console.log(sumForAll);
+            
+
+           
+
+
+            setAutoSearches([...newAutoSearches])
+
+
+
         } catch (error) {
             console.log(error);
 
@@ -148,8 +167,8 @@ export const Menu = ({ auth }: any) => {
 
     useEffect(() => {
         getAutoSearch().then(() => console.log('Автопоиски загружены!'))
-        getAutoSearchersCount().then(() => console.log('Счетчик автопоисков загружен!'))
         getTags().then(() => console.log('Метки загружены!'))
+        // getAutoSearchersCount().then(() => console.log('Счетчик автопоисков загружен!'))
     }, [])
 
     return (
@@ -184,7 +203,7 @@ export const Menu = ({ auth }: any) => {
                         {(isSecondContainerVisible) && (
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '190px' }}>
                                 <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }}>Автопоиск</a></TextGray14pxRegular>
-                                <p style={{color: 'dodgerblue', fontWeight: 'bold'}}>{sum}</p>
+                                <p style={{ color: 'dodgerblue', fontWeight: 'bold' }}>{sum}</p>
                                 <div style={{ display: 'flex', alignItems: 'center', }}>
                                     <SlArrowDown color='white' size={15} />
                                 </div>
@@ -225,7 +244,7 @@ export const Menu = ({ auth }: any) => {
                                 (isSecondContainerVisible) && (
                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
                                         <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }}>Автопоиск</a></TextGray14pxRegular>
-                                        <p style={{color: 'dodgerblue', fontWeight: 'bold'}}>{sum}</p>
+                                        <p style={{ color: 'dodgerblue', fontWeight: 'bold' }}>{sum}</p>
                                         <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => setShowTagsArray(true)}>
                                             <SlArrowUp color='white' size={15} />
                                         </div>
@@ -427,8 +446,8 @@ export const Menu = ({ auth }: any) => {
 
             {
                 isSecondContainerVisible && (
-                    <div style={{marginTop: '80%'}}>
-                        <MenuFooter/>
+                    <div style={{ marginTop: '80%' }}>
+                        <MenuFooter />
                     </div>
                 )
             }
