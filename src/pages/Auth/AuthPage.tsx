@@ -50,18 +50,18 @@ function Login() {
     async function resetPassword() {
         try {
 
-        if (email == '' || !email) {
-            return showErrorMessage('Введите почту!')
-        }
+            if (email == '' || !email) {
+                return showErrorMessage('Введите почту!')
+            }
 
-        const resetPass = await axios.post(`${process.env.REACT_APP_API}/api/lk/resetpass`, {
-            email: email
-        })
+            const resetPass = await axios.post(`${process.env.REACT_APP_API}/api/lk/resetpass`, {
+                email: email
+            })
 
 
-        showSuccesMessage(resetPass.data.message)
+            showSuccesMessage(resetPass.data.message)
 
-        } catch (error:any) {
+        } catch (error: any) {
             console.log(error?.response?.data?.message);
             showErrorMessage(error?.response?.data?.message)
         }
@@ -72,30 +72,34 @@ function Login() {
     return (
         <div className="authmenucontentlogin">
             {
-                openRecoveryModal && <MuiModal title={'Восстановление пароля'} text={'На вашу почту будет выслан новый пароль!'} submitFunction={resetPassword} open={openRecoveryModal} setOpen={setOpenRecoveryModal} buttonText={'Отправить'} showEmailInput={true} emailChange={setEmail}/>
+                openRecoveryModal && <MuiModal title={'Восстановление пароля'} text={'На вашу почту будет выслан новый пароль!'} submitFunction={resetPassword} open={openRecoveryModal} setOpen={setOpenRecoveryModal} buttonText={'Отправить'} showEmailInput={true} emailChange={setEmail} />
 
             }
 
-            <div style={{ width: 'fit-content', }}>
-                <h3 style={{ margin: '30px', width: 'fit-content', fontSize: '20px' }}>Войти в личный кабинет</h3>
-                <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px', justifyContent: "center", alignItems: 'center' }}>
-                    <p style={{ marginRight: '10px' }}>Email</p>
-                    <AuthPageInput setInput={setEmail} value={email} />
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center", marginBottom: "30px", alignItems: 'center' }}>
-                    <p style={{ marginRight: '10px', marginLeft: "-18px" }}>Пароль</p>
-                    <AuthPageInput setInput={setPassword} value={password} />
-                </div>
-                <div style={{ display: 'grid', grid: 'center' }}>
-                    <div className="authmenucontentloginbutton" onClick={async () => await login()}>
-                        <p>Авторизоваться</p>
+            <div style={{ display: 'flex', flexDirection: 'column', height: '100%', }}>
+                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', textAlign: 'center', alignItems: 'center' }}>
+                    <br /><br />
+                    <h3 style={{ margin: '30px', width: 'fit-content', fontSize: '20px' }}>Войти в личный кабинет</h3>
+                    <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px', justifyContent: "center", alignItems: 'center' }}>
+                        <p style={{ marginRight: '10px' }}>Email</p>
+                        <AuthPageInput setInput={setEmail} value={email} />
                     </div>
-                    <div style={{ padding: '10px', display: 'flex', justifyContent: 'center', cursor: 'pointer' }} onClick={() => setOpenRecoveryModal(true)} >
-                        <p>Забыли пароль?</p>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center", marginBottom: "30px", alignItems: 'center' }}>
+                        <p style={{ marginRight: '10px', marginLeft: "-18px" }}>Пароль</p>
+                        <AuthPageInput setInput={setPassword} value={password} />
+                    </div>
+                    <div style={{ display: 'grid', grid: 'center' }}>
+                        <div className="authmenucontentloginbutton" onClick={async () => await login()}>
+                            <p>Авторизоваться</p>
+                        </div>
+                        <div style={{ padding: '10px', display: 'flex', justifyContent: 'center', cursor: 'pointer' }} onClick={() => setOpenRecoveryModal(true)} >
+                            <p>Забыли пароль?</p>
+                        </div>
                     </div>
                 </div>
-                <div style={{ position: 'absolute', top: '550px', display: 'flex', justifyContent: 'center', width: '100%', left: '0' }}>
-                    <p style={{fontSize: '14px'}}>Нажимая <span style={{ textDecoration: 'underline' }}>Авторизоваться</span> вы соглашаетесь с лицензионным соглашением</p>
+            <br /><br /><br /><br />
+                <div style={{  display: 'flex', justifyContent: 'center', }}>
+                    <p style={{ fontSize: '14px' }}>Нажимая <span style={{ textDecoration: 'underline' }}>Авторизоваться</span> вы соглашаетесь с лицензионным соглашением</p>
                 </div>
             </div>
 
@@ -156,7 +160,7 @@ function Register() {
         <div className="authmenucontentlogin">
             {/* <AuthNotifModal isOpen={isOpen} closeModal={closeModal} /> */}
             {
-                isOpen && <MuiModal title={''} text={'Письмо с паролем будет направлено на вашу почту!'} submitFunction={redirectToAuth} open={isOpen} setOpen={closeModal} buttonText={'Авторизоваться'}/>
+                isOpen && <MuiModal title={''} text={'Письмо с паролем будет направлено на вашу почту!'} submitFunction={redirectToAuth} open={isOpen} setOpen={closeModal} buttonText={'Авторизоваться'} />
 
             }
             <div style={{ width: 'fit-content' }}>
@@ -178,8 +182,8 @@ function Register() {
                     <p style={{ marginRight: '10px', marginLeft: "-4px" }}>ИНН</p>
                     <AuthPageInput setInput={setInn} value={inn} />
                 </div>
-                <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-                    <div className="authmenucontentloginbutton" style={{width: '320px'}} onClick={async () => await register()}>
+                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                    <div className="authmenucontentloginbutton" style={{ width: '320px' }} onClick={async () => await register()}>
                         <p>Зарегистрироваться</p>
                     </div>
                 </div>
@@ -187,7 +191,7 @@ function Register() {
                 <br />
                 <br />
                 <div style={{ position: 'absolute', top: '550px', display: 'flex', justifyContent: 'center', width: '100%', left: '0' }}>
-                    <p style={{fontSize: '14px'}}>Нажимая <span style={{ textDecoration: 'underline' }}>Зарегистрироваться</span> вы соглашаетесь с лицензионным соглашением</p>
+                    <p style={{ fontSize: '14px' }}>Нажимая <span style={{ textDecoration: 'underline' }}>Зарегистрироваться</span> вы соглашаетесь с лицензионным соглашением</p>
                 </div>
             </div>
         </div>

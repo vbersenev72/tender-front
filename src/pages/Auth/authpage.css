@@ -73,6 +73,7 @@
     height: 40px;
     background-color: rgb(81, 163, 240);
     color: white;
+    width: 250px;
 
     display: flex;
     justify-content: center;
