@@ -189,7 +189,7 @@ function Register() {
                 </div>
                 <br />
                 <br />
-                <br />
+            
                 <div style={{  display: 'flex', justifyContent: 'center', }}>
                     <p style={{ fontSize: '14px' }}>Нажимая <span style={{ textDecoration: 'underline' }}>Зарегистрироваться</span> вы соглашаетесь с лицензионным соглашением</p>
                 </div>
