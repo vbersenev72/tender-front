@@ -107,7 +107,7 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
             }
 
         } catch (error) {
-            showErrorMessage('Что то пошло не так, попробуйте позже!')
+            console.log(error);
         }
     }
 
