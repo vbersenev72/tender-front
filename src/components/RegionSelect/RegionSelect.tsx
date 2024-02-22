@@ -16,6 +16,7 @@ export function RegionSelect({ closeModal, setRegionCustomer, regionCustomer, va
     const clearText = () => {
         setFindText('')
         setRegions([...regions])
+        setRegionCustomer([])
     }
 
     const handleCheckboxChange = (event: any, item: any) => {
@@ -29,8 +30,37 @@ export function RegionSelect({ closeModal, setRegionCustomer, regionCustomer, va
     };
 
 
+    // const clickOnTriangle = (name: any) => {
+    //     setShowAllElements(name)
+    // }
+
     const clickOnTriangle = (name: any) => {
-        setShowAllElements(name)
+        console.log(name);
+
+        let splitShowAllElementsString: any = showAllElements.split(';')
+
+
+        if (splitShowAllElementsString.includes(name)) {
+            splitShowAllElementsString = splitShowAllElementsString.filter((existCode: any) => existCode != name)
+        } else {
+            splitShowAllElementsString = [...splitShowAllElementsString, name]
+        }
+
+        splitShowAllElementsString = splitShowAllElementsString.join(';')
+        setShowAllElements(splitShowAllElementsString)
+    }
+
+    const openTriangle = (name: any) => {
+        let splitShowAllElementsString: any = showAllElements.split(';')
+
+        if (splitShowAllElementsString.includes(name)) {
+            // splitShowAllElementsString.filter((existCode: any) => existCode =! code)
+        } else {
+            splitShowAllElementsString.push(name)
+        }
+
+        splitShowAllElementsString = splitShowAllElementsString.join(';')
+        setShowAllElements(splitShowAllElementsString)
     }
 
     const findByText = () => {
@@ -56,7 +86,10 @@ export function RegionSelect({ closeModal, setRegionCustomer, regionCustomer, va
         }).filter(Boolean); // Фильтруем null значения, которые могли возникнуть
 
         setRegions([...filteredData]);
-        setShowAllElements(filteredData[0]?.name)
+
+        filteredData.forEach((element: any) => {
+            const openAll: any = openTriangle(element.name)
+        });
     };
 
 
@@ -86,7 +119,7 @@ export function RegionSelect({ closeModal, setRegionCustomer, regionCustomer, va
                             return (
                                 <>
                                     {
-                                        showAllElements == element.name
+                                        showAllElements.split(';').includes(element.name)
                                             ?
                                             <div>
                                                 <div style={{

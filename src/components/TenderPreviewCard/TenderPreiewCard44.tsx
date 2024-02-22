@@ -74,7 +74,7 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
             return
         }
 
-        if ((purchaseEndDate && purchaseEndDate.getTime() < new Date().getTime()) && collectingEndDate.getTime() < new Date().getTime() ) {
+        if ((purchaseEndDate && purchaseEndDate.getTime() < new Date().getTime()) && collectingEndDate.getTime() < new Date().getTime()) {
             setStage('Закупка завершена')
             return
         }
@@ -82,6 +82,33 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
         setStage('Определение поставщика завершено')
 
 
+    }
+
+    const isMyTenderCheck = async () => {
+        try {
+            const token = localStorage.getItem('token')
+
+            const response = await axios.get(`${process.env.REACT_APP_API}/api/lk/mytendersall`, {
+                headers: {
+                    authorization: `Bearer ${token}`
+                }
+            })
+            const tenders: any = response.data.message
+            console.log(tenders);
+
+            for (let i = 0; i < tenders.length; i++) {
+                const tenderInfo = tenders[i];
+
+                if (tenderInfo.reg_num == regNum) {
+                    setIsMyTender(true)
+                    break
+                }
+
+            }
+
+        } catch (error) {
+            showErrorMessage('Что то пошло не так, попробуйте позже!')
+        }
     }
 
     const getTagForRegNum = async () => {
@@ -282,6 +309,7 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
     useEffect(() => {
 
         getStage()
+        isMyTenderCheck().then(() => console.log('зелибоба'))
         getTagForRegNum().then((data: any) => console.log(data))
 
     }, [])

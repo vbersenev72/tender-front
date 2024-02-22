@@ -176,6 +176,33 @@ export const TenderPreiewCard223: FC = ({ jsonData, auth, myTender, showReadButt
         }
     }
 
+    const isMyTenderCheck = async () => {
+        try {
+            const token = localStorage.getItem('token')
+
+            const response = await axios.get(`${process.env.REACT_APP_API}/api/lk/mytendersall`, {
+                headers: {
+                    authorization: `Bearer ${token}`
+                }
+            })
+            const tenders: any = response.data.message
+            console.log(tenders);
+
+            for (let i = 0; i < tenders.length; i++) {
+                const tenderInfo = tenders[i];
+
+                if (tenderInfo.reg_num == regNum) {
+                    setIsMyTender(true)
+                    break
+                }
+
+            }
+
+        } catch (error) {
+            showErrorMessage('Что то пошло не так, попробуйте позже!')
+        }
+    }
+
     const getStage = () => {
         try {
 
@@ -296,6 +323,7 @@ const ReadTender = async () => {
 useEffect(() => {
 
     getStage()
+    isMyTenderCheck().then(()=>console.log('зелибоба'))
     getTagForRegNum().then((data: any) => console.log(data))
 
 }, [])

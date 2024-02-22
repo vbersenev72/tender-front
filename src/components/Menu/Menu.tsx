@@ -19,6 +19,7 @@ import { CiSquarePlus } from "react-icons/ci";
 import { FiPlusSquare } from "react-icons/fi";
 import axios from 'axios';
 import { MenuContext } from '../../MenuContext';
+import { MenuFooter } from './MenuFooter/MenuFooter';
 
 export const Menu = ({ auth }: any) => {
 
@@ -31,6 +32,8 @@ export const Menu = ({ auth }: any) => {
     const [tags, setTags] = useState<any>([])
     const [autoSearches, setAutoSearches] = useState<any>([])
 
+    const [sum, setSum] = useState(0)
+
     const { openMenu, setOpenMenu }: any = useContext(MenuContext);
 
     // Обработчик клика по кнопке
@@ -38,6 +41,8 @@ export const Menu = ({ auth }: any) => {
         setSecondContainerVisible(!isSecondContainerVisible);
         setOpenMenu(!isSecondContainerVisible)
     };
+
+
 
     const getAutoSearchersCount = async () => {
         try {
@@ -69,11 +74,20 @@ export const Menu = ({ auth }: any) => {
 
             console.log(newAutoSearches);
 
+            let sumForAll = 0
+            for (let i = 0; i < newAutoSearches.length; i++) {
+                const autoSearch: any = newAutoSearches[i];
+                setSum(sumForAll += autoSearch.count)
+            }
+
+            setSum(sumForAll)
+
             setAutoSearches([...newAutoSearches])
 
 
         } catch (error) {
-            showErrorMessage('Что то пошло не так!')
+            console.log(error);
+
         }
     }
 
@@ -170,6 +184,7 @@ export const Menu = ({ auth }: any) => {
                         {(isSecondContainerVisible) && (
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '190px' }}>
                                 <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }}>Автопоиск</a></TextGray14pxRegular>
+                                <p style={{color: 'dodgerblue', fontWeight: 'bold'}}>{sum}</p>
                                 <div style={{ display: 'flex', alignItems: 'center', }}>
                                     <SlArrowDown color='white' size={15} />
                                 </div>
@@ -210,6 +225,7 @@ export const Menu = ({ auth }: any) => {
                                 (isSecondContainerVisible) && (
                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
                                         <TextGray14pxRegular><a style={{ textDecoration: 'none', color: 'white' }}>Автопоиск</a></TextGray14pxRegular>
+                                        <p style={{color: 'dodgerblue', fontWeight: 'bold'}}>{sum}</p>
                                         <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => setShowTagsArray(true)}>
                                             <SlArrowUp color='white' size={15} />
                                         </div>
@@ -407,6 +423,14 @@ export const Menu = ({ auth }: any) => {
                 <MenuItem isShow={isSecondContainerVisible} style={{ border: 'none', cursor: 'pointer' }} onClick={handleClick}>
                     <ArrowBack onClick={handleClick} style={{ transform: 'rotate(180deg)' }} />
                 </MenuItem>
+            }
+
+            {
+                isSecondContainerVisible && (
+                    <div style={{marginTop: '80%'}}>
+                        <MenuFooter/>
+                    </div>
+                )
             }
         </MenuContainer>
     );
