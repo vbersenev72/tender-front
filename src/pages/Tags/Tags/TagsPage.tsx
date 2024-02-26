@@ -74,11 +74,14 @@ export function TagsPage(props: ITagsPageProps) {
 
   const colorTagsOptions = [
     { value: '#D11E1E', label: 'Красный' },
-    { value: '#337DDE', label: 'Синий', },
+    { value: '#337DDE', label: 'Голбой', },
     { value: '#7A0058', label: 'Пурпурный', },
     { value: '#47DE00', label: 'Зеленый', },
     { value: '#FFB803', label: 'Оранжевый', },
-    { value: '#4800BD', label: 'Фиолетовый', }
+    { value: '#4800BD', label: 'Фиолетовый', },
+    { value: '#0091B1', label: 'Бирюзовый' },
+    { value: '#002993', label: 'Синий' },
+    { value: 'black', label: 'Черный' },
   ]
 
   const createTag = async () => {
@@ -192,7 +195,7 @@ export function TagsPage(props: ITagsPageProps) {
                       <div key={tag.id} style={{ display: 'flex', alignItems: 'center', padding: '25px', justifyContent: 'space-between' }} onClick={() => {
                         setSelectTagId(tag.id)
                         setSelectTagIdEdit(0)
-                        }}>
+                      }}>
 
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                           <div style={{ height: '22px', width: '22px', backgroundColor: tag.tag_color, borderRadius: '5px', marginRight: '15px' }} />
