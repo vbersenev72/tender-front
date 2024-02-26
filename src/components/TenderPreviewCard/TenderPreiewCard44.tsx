@@ -19,6 +19,7 @@ import React from "react";
 import { TagsModal } from "../TagsModal/TagsModal";
 import { IoEye } from "react-icons/io5";
 import { getRegion } from "../../functions/getRegion/getRegion";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -34,6 +35,8 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
     const [readButton, setReadButton] = useState((showReadButton || showReadButton == true) ? true : false)
 
     const [stage, setStage] = useState<any>('')
+
+    const navigate = useNavigate()
 
     const regNum: any = jsonData?.commonInfo?.purchaseNumber ? jsonData?.commonInfo?.purchaseNumber : jsonData?.registrationNumber
     const link: any = jsonData?.urlEIS ? jsonData?.urlEIS : jsonData?.printFormInfo.url
@@ -331,7 +334,10 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
                                         : 'Нет данных'}
                                 </TextBlue16pxSemiBold>
                                 {jsonData?.commonInfo?.purchaseNumber && (
-                                    <Link to={`/tender/${jsonData?.commonInfo?.purchaseNumber}`}>
+                                    <Link onClick={() => {
+                                        if (!auth) return showErrorMessage('Для доступа к карточке тендера необходимо авторизоваться');
+                                        navigate(`/tender/${regNum}`);
+                                    }} to={auth ? `/tender/${regNum}` : ''}>
                                         <TextBlue16pxSemiBold style={{ width: '40%' }}>
                                             № {jsonData.commonInfo.purchaseNumber}
                                         </TextBlue16pxSemiBold>
