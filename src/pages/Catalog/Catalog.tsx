@@ -18,6 +18,7 @@ import AdvancedSearch from "../../components/AdvancedSearch/AdvancedSearch";
 import { createReportAutoSearch } from "../../functions/createReportAutoSearch";
 import { PaginationBlock } from "../../components/PaginationBlock/PaginationBlock";
 import { SlSettings } from "react-icons/sl";
+import { Footer } from "../../components/Footer/Footer";
 
 
 export const Catalog: FC = () => {
@@ -437,11 +438,11 @@ export const Catalog: FC = () => {
                 enableSource: enableSource,
                 okpd2: okpd2.map((obj: any) => obj.code).join(';'),
                 methodDeterminingSupplier: methodDeterminingSupplier.map((method: any) => method.value).join(';')
-              }, {
+            }, {
                 headers: {
-                  authorization: `Bearer ${localStorage.getItem('token')}`
+                    authorization: `Bearer ${localStorage.getItem('token')}`
                 }
-              })
+            })
 
             showSuccesMessage('Автопоиск создан!')
 
@@ -449,7 +450,7 @@ export const Catalog: FC = () => {
                 window.location.reload()
             }, 1700);
 
-        } catch (error:any) {
+        } catch (error: any) {
             console.log(error);
             showErrorMessage(error.response.data.message)
         }
@@ -507,7 +508,7 @@ export const Catalog: FC = () => {
                                 source={source} setSource={setSource}
                                 enableSource={enableSource} setEnableSource={setEnableSource}
                                 okpd2={okpd2} setOkpd2={setOkpd2}
-                                setMethodDeterminingSupplier={setMethodDeterminingSupplier} methodDeterminingSupplier={methodDeterminingSupplier}setPurchaseStage={setPurchaseStage} purchaseStage={purchaseStage}
+                                setMethodDeterminingSupplier={setMethodDeterminingSupplier} methodDeterminingSupplier={methodDeterminingSupplier} setPurchaseStage={setPurchaseStage} purchaseStage={purchaseStage}
                                 stopCustomerName={stopCustomerName} setStopCustomerName={setStopCustomerName}
                             />
                             <div style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', width: '100%' }}>
@@ -526,9 +527,9 @@ export const Catalog: FC = () => {
                     {
                         !showAdvancedSearch
                         &&
-                        <FlexRow style={{ width: '100%', justifyContent: 'flex-end',  }}>
+                        <FlexRow style={{ width: '100%', justifyContent: 'flex-end', }}>
                             <div style={{ width: "18%", display: 'flex', justifyContent: 'center', marginTop: '-10px' }} onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}>
-                                <AdvancedFindP>Расширенный поиск <div style={{padding: '3px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}><SlSettings/></div></AdvancedFindP>
+                                <AdvancedFindP>Расширенный поиск <div style={{ padding: '3px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}><SlSettings /></div></AdvancedFindP>
                             </div>
                         </FlexRow>
                     }
@@ -624,7 +625,7 @@ export const Catalog: FC = () => {
                         </div>
                     </div>
                     {tendersList
-                        .map((item: any, index:any) => (
+                        .map((item: any, index: any) => (
                             // Проверка на null перед отображением TenderPreiewC
                             item ?
                                 item?.fz === 'fz223' ? (<TenderPreiewCard223 key={index} jsonData={item} auth={auth} myTender={false} />)
@@ -645,6 +646,7 @@ export const Catalog: FC = () => {
                     {/*        <TextBlack14pxRegular onClick={() => setCountItems(50)}>50</TextBlack14pxRegular>*/}
                     {/*    </ShowCount>*/}
                     {/*</FlexRow>*/}
+                    <Footer />
                 </CatalogPage>
             )}
         </Fragment>

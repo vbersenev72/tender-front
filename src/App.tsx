@@ -21,6 +21,7 @@ import { AutoSearchPage } from './pages/AutoSearchPage/AutoSearchPage';
 import { AutoSearchCard } from './pages/AutoSearchPage/AutoSearchCard/AutoSearchCard';
 import { MenuContext } from './MenuContext';
 import { AuthContext } from './AuthContext';
+import { Footer } from './components/Footer/Footer';
 
 function App() {
 
@@ -65,7 +66,7 @@ function App() {
 
     // @ts-ignore
     return (
-        <Fragment>
+        <div>
             <ToastContainer />
             <div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><Header /> </div>
             {/* <Header /> */}
@@ -81,10 +82,8 @@ function App() {
                         <Route path='/personal' element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><PersonalPage /></div>} />
                         <Route path="/auth" element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><AuthPage /> </div>} />
                         <Route path="/mytenders" element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><MyTendersPage auth={auth} /> </div>} />
-
                         <Route path='/tags' element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><TagsPage /> </div>} />
                         <Route path='/tags/:id' element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}> <TagCard /></div>} />
-
                         <Route path='/autosearch' element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><AutoSearchPage /> </div>} />
                         <Route path='/autosearch/:id' element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><AutoSearchCard /> </div>} />
                     </Routes>
@@ -94,9 +93,10 @@ function App() {
                         <Route path="/auth" element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><AuthPage /> </div>} />
                     </Routes>
             }
+            {/* <div style={{ width: openMenu ? '' : '', paddingLeft: openMenu ? '30%' : '7%', backgroundColor: 'white' }}><Footer/></div> */}
 
 
-        </Fragment>
+        </div>
     );
 }
 
