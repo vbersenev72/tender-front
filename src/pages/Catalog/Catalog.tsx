@@ -467,6 +467,7 @@ export const Catalog: FC = () => {
                     <TailSpin color="#3294F4" height={150} width={150} />
                 </LoaderTest>
             ) : (
+                <>
                 <CatalogPage>
                     <FlexRow style={{ width: '100%', justifyContent: 'flex-start' }}>
                         <FinderByID placeholder="Введите полностью или часть номера, наименование закупки, идентификационного номера кода закупки" onChange={(event) => setTextSearch(event.target.value)} value={textSearch} />
@@ -636,18 +637,9 @@ export const Catalog: FC = () => {
 
                         ))}
                     <PaginationBlock handlePageChange={handlePageChange} currentPage={currentPage} countShowElements={countShowElements} setCountShowElements={setCountShowElements} />
-                    {/*<FlexRow>*/}
-                    {/*    <ShowCount>*/}
-                    {/*        <TextGray14pxRegular>Показать по</TextGray14pxRegular>*/}
-                    {/*        <TextBlack14pxRegular onClick={() => setCountItems(10)}>10</TextBlack14pxRegular>*/}
-                    {/*        <TextBlack14pxRegular onClick={() => setCountItems(20)}>20</TextBlack14pxRegular>*/}
-                    {/*        <TextBlack14pxRegular onClick={() => setCountItems(30)}>30</TextBlack14pxRegular>*/}
-                    {/*        <TextBlack14pxRegular></TextBlack14pxRegular>*/}
-                    {/*        <TextBlack14pxRegular onClick={() => setCountItems(50)}>50</TextBlack14pxRegular>*/}
-                    {/*    </ShowCount>*/}
-                    {/*</FlexRow>*/}
-                    <Footer />
+
                 </CatalogPage>
+                </>
             )}
         </Fragment>
     );

@@ -21,7 +21,7 @@ export function TagsModal({ addTagToTender, closeModal, popupTagsPosition, jsonD
                 });
 
                 const tags = getAllTags.data.message
-                
+
                 if (tags.length == 0) {
                     closeModal()
                     return showErrorMessage('Нет доступных меток!')
@@ -51,6 +51,8 @@ export function TagsModal({ addTagToTender, closeModal, popupTagsPosition, jsonD
                     authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
+
+
 
             return showSuccesMessage(response.data.message)
 
@@ -96,7 +98,7 @@ export function TagsModal({ addTagToTender, closeModal, popupTagsPosition, jsonD
                                         <div key={tag.id} style={{ display: 'flex', width: 'fit-content', justifyContent: 'start', alignItems: 'center', cursor: 'pointer', }}
                                             onClick={async () => {
                                                 await deleteTag(regNum)
-                                                setAddTag({ id: -1, tag_color: 'white', tag_name: 'Удалить метку' })
+                                                setAddTag()
                                             }}
                                         >
                                             <FaMinus />

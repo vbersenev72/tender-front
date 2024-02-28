@@ -76,7 +76,7 @@ function App() {
                 auth
                     ?
                     <Routes>
-                        <Route path="/" element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><Catalog /> </div>} />
+                        <Route path="/" element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><Catalog /></div>} />
                         <Route path="/contracts" element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><ContractsPage /> </div>} />
                         <Route path="/tender/:id" element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><TenderCard /> </div>} />
                         <Route path='/personal' element={<div style={{ width: openMenu ? '77%' : '', marginLeft: openMenu ? '20%' : '' }}><PersonalPage /></div>} />
