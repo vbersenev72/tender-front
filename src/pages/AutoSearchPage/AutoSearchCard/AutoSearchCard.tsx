@@ -460,10 +460,10 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                     />
                     <div style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', width: '100%' }}>
                       <div style={{ width: '50%', display: 'flex', justifyContent: 'space-around' }}>
-                        <div className='AdvancedSearchButton' style={{ backgroundColor: 'dodgerblue', color: 'white' }}><p>Поиск</p></div>
-                        <div className='AdvancedSearchButton' onClick={saveAutoSearch} ><p>Сохранить изменения</p></div>
-                        <div className='AdvancedSearchButton' onClick={() => createReportAutoSearch(id)}><p>Excel</p></div>
-                        <div className='AdvancedSearchButton' onClick={clearAllFields}><p>Сбросить</p></div>
+                        <div className='AdvancedSearchButton' style={{ backgroundColor: 'dodgerblue', color: 'white', cursor: 'pointer' }}><p>Поиск</p></div>
+                        <div className='AdvancedSearchButton' style={{cursor: "pointer"}} onClick={saveAutoSearch} ><p>Сохранить изменения</p></div>
+                        <div className='AdvancedSearchButton' style={{cursor: "pointer"}} onClick={() => createReportAutoSearch(id)}><p>Excel</p></div>
+                        <div className='AdvancedSearchButton' style={{cursor: "pointer"}} onClick={clearAllFields}><p>Сбросить</p></div>
                       </div>
                     </div>
                   </>
@@ -481,7 +481,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                     <div style={{ color: 'gray', paddingLeft: '0px', display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: '15px' }}><p>Сортировать по</p></div>
 
 
-                    <div className="sort-property" onClick={() => {
+                    <div className="sort-property" style={{cursor: 'pointer'}} onClick={() => {
                       sortByDatePublicTenders()
 
                       setSortByDateAdded(false)
@@ -501,7 +501,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                       }
                     </div>
 
-                    <div className="sort-property" onClick={() => {
+                    <div className="sort-property" style={{cursor: 'pointer'}} onClick={() => {
                       sortByDateStartTenders()
 
                       setSortByDateAdded(false)
@@ -520,7 +520,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                       }
                     </div>
 
-                    <div className="sort-property" onClick={() => {
+                    <div className="sort-property" style={{cursor: 'pointer'}} onClick={() => {
                       sortByPriceTenders()
 
                       setSortByDateAdded(false)
@@ -539,7 +539,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                       }
                     </div>
 
-                    <div className="sort-property" onClick={() => {
+                    <div className="sort-property" style={{cursor: 'pointer'}} onClick={() => {
 
                       sortByDateFinishedTenders()
 
@@ -560,7 +560,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                     </div>
 
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={() => createReportAutoSearch(id)}>
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right', cursor: 'pointer' }} onClick={() => createReportAutoSearch(id)}>
                     <RiFileExcel2Line size={30} color='#3294F4' />
                   </div>
                 </div>

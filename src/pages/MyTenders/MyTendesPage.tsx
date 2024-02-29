@@ -265,29 +265,29 @@ export function MyTendersPage(props: any) {
 
   const sortByDateFinishedTenders = () => {
     const newTendersArray = beforeTenders.sort((a: any, b: any) => {
-        console.log(a);
+      console.log(a);
 
-        if (a.fz == 'fz223') {
-            const aDate = a?.submissionCloseDateTime
-            const bDate = b.fz == 'fz223' ? b?.submissionCloseDateTime : b?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
+      if (a.fz == 'fz223') {
+        const aDate = a?.submissionCloseDateTime
+        const bDate = b.fz == 'fz223' ? b?.submissionCloseDateTime : b?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
 
-            return new Date(bDate).getTime() - new Date(aDate).getTime()
-        } else {
-            const aDate = a?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
-            const bDate = b.fz == 'fz223' ? b?.submissionCloseDateTime : b?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
+        return new Date(bDate).getTime() - new Date(aDate).getTime()
+      } else {
+        const aDate = a?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
+        const bDate = b.fz == 'fz223' ? b?.submissionCloseDateTime : b?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
 
-            return new Date(bDate).getTime() - new Date(aDate).getTime()
-        }
+        return new Date(bDate).getTime() - new Date(aDate).getTime()
+      }
     })
 
     if (sortByDateFinished) {
-        const reverseTenders = tenders.reverse()
-        setTenders([...reverseTenders])
+      const reverseTenders = tenders.reverse()
+      setTenders([...reverseTenders])
     } else {
-        setTenders([...newTendersArray])
+      setTenders([...newTendersArray])
     }
 
-}
+  }
 
   const sortByDatePublicTenders = () => {
 
@@ -337,7 +337,7 @@ export function MyTendersPage(props: any) {
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '30px', width: 'fit-content' }}><p>Мои тендеры</p></div>
             <div className="preview-properties">
 
-              <div className="preview-property" onClick={() => {
+              <div className="preview-property" style={{ cursor: 'pointer' }} onClick={() => {
                 setShowAll(true)
                 setShowCurrent(false)
                 setShowFinished(false)
@@ -353,7 +353,7 @@ export function MyTendersPage(props: any) {
                 }
               </div>
 
-              <div className="preview-property" onClick={() => {
+              <div className="preview-property" style={{ cursor: 'pointer' }} onClick={() => {
                 setShowAll(false)
                 setShowCurrent(true)
                 setShowFinished(false)
@@ -369,7 +369,7 @@ export function MyTendersPage(props: any) {
                 }
               </div>
 
-              <div className="preview-property" onClick={() => {
+              <div className="preview-property" style={{ cursor: 'pointer' }} onClick={() => {
                 setShowAll(false)
                 setShowCurrent(false)
                 setShowFinished(true)
@@ -385,7 +385,7 @@ export function MyTendersPage(props: any) {
                 }
               </div>
 
-              <div className="preview-property" onClick={() => {
+              <div className="preview-property" style={{ cursor: 'pointer' }} onClick={() => {
                 setShowAll(false)
                 setShowCurrent(false)
                 setShowFinished(false)
@@ -417,7 +417,7 @@ export function MyTendersPage(props: any) {
               <div style={{ color: 'gray', paddingLeft: '0px', display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: '15px' }}><p>Сортировать по</p></div>
 
 
-              <div className="sort-property" onClick={() => {
+              <div className="sort-property" style={{ cursor: 'pointer' }} onClick={() => {
                 sortByDatePublicTenders()
 
                 setSortByDateAdded(false)
@@ -437,7 +437,7 @@ export function MyTendersPage(props: any) {
                 }
               </div>
 
-              <div className="sort-property" onClick={() => {
+              <div className="sort-property" style={{ cursor: 'pointer' }} onClick={() => {
                 sortByDateStartTenders()
 
                 setSortByDateAdded(false)
@@ -456,7 +456,7 @@ export function MyTendersPage(props: any) {
                 }
               </div>
 
-              <div className="sort-property" onClick={() => {
+              <div className="sort-property" style={{ cursor: 'pointer' }} onClick={() => {
                 sortByPriceTenders()
 
                 setSortByDateAdded(false)
@@ -475,7 +475,7 @@ export function MyTendersPage(props: any) {
                 }
               </div>
 
-              <div className="sort-property" onClick={() => {
+              <div className="sort-property" style={{ cursor: 'pointer' }} onClick={() => {
 
                 sortByDateFinishedTenders()
 
@@ -496,7 +496,7 @@ export function MyTendersPage(props: any) {
               </div>
 
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={() => createReportMyTender()}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right', cursor: 'pointer' }} onClick={() => createReportMyTender()}>
               <RiFileExcel2Line size={30} color='#3294F4' />
             </div>
           </div>

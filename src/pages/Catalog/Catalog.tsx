@@ -468,177 +468,177 @@ export const Catalog: FC = () => {
                 </LoaderTest>
             ) : (
                 <>
-                <CatalogPage>
-                    <FlexRow style={{ width: '100%', justifyContent: 'flex-start' }}>
-                        <FinderByID placeholder="Введите полностью или часть номера, наименование закупки, идентификационного номера кода закупки" onChange={(event) => setTextSearch(event.target.value)} value={textSearch} />
-                        <FindByIDButton onClick={
-                            () => {
-                                if (!auth) return showErrorMessage('Для доступа к поиску необходимо авторизоваться')
-                                fetchData()
+                    <CatalogPage>
+                        <FlexRow style={{ width: '100%', justifyContent: 'flex-start' }}>
+                            <FinderByID placeholder="Введите полностью или часть номера, наименование закупки, идентификационного номера кода закупки" onChange={(event) => setTextSearch(event.target.value)} value={textSearch} />
+                            <FindByIDButton onClick={
+                                () => {
+                                    if (!auth) return showErrorMessage('Для доступа к поиску необходимо авторизоваться')
+                                    fetchData()
 
-                            }
-                        }>Поиск</FindByIDButton>
-                    </FlexRow>
-                    {
-                        showAdvancedSearch
-                        &&
-                        <>
-                            <FlexRow style={{ width: '100%', justifyContent: 'flex-end' }}>
+                                }
+                            }>Поиск</FindByIDButton>
+                        </FlexRow>
+                        {
+                            showAdvancedSearch
+                            &&
+                            <>
+                                <FlexRow style={{ width: '100%', justifyContent: 'flex-end' }}>
+                                    <div style={{ width: "18%", display: 'flex', justifyContent: 'center', marginTop: '-10px' }} onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}>
+                                        <AdvancedFindP>Простой поиск</AdvancedFindP>
+                                    </div>
+                                </FlexRow>
+                                <AdvancedSearch
+
+                                    tags={tags} setTags={setTags}
+                                    stopTags={stopTags} setStopTags={setStopTags}
+                                    publicDateFrom={publicDateFrom} setPublicDateFrom={setPublicDateFrom}
+                                    publicDateTo={publicDateTo} setPublicDateTo={setPublicDateTo}
+                                    startDateFrom={startDateFrom} setStartDateFrom={setStartDateFrom}
+                                    startDateTo={startDateTo} setStartDateTo={setStartDateTo}
+                                    endDateFrom={endDateFrom} setEndDateFrom={setEndDateFrom}
+                                    endDateTo={endDateTo} setEndDateTo={setEndDateTo}
+                                    fz={fz} setFz={setFz}
+                                    region={region} setRegion={setRegion}
+                                    tenderNum={tenderNum} setTenderNum={setTenderNum}
+                                    customerName={customerName} setCustomerName={setCustomerName}
+                                    inn={inn} setInn={setInn}
+                                    priceFrom={priceFrom} setPriceFrom={setPriceFrom}
+                                    priceTo={priceTo} setPriceTo={setPriceTo}
+                                    enablePrice={enablePrice} setEnablePrice={setEnablePrice}
+                                    source={source} setSource={setSource}
+                                    enableSource={enableSource} setEnableSource={setEnableSource}
+                                    okpd2={okpd2} setOkpd2={setOkpd2}
+                                    setMethodDeterminingSupplier={setMethodDeterminingSupplier} methodDeterminingSupplier={methodDeterminingSupplier} setPurchaseStage={setPurchaseStage} purchaseStage={purchaseStage}
+                                    stopCustomerName={stopCustomerName} setStopCustomerName={setStopCustomerName}
+                                />
+                                <div style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', width: '100%' }}>
+                                    <div style={{ width: '50%', display: 'flex', justifyContent: 'space-around' }}>
+                                        <div className='AdvancedSearchButton' style={{ backgroundColor: 'dodgerblue', color: 'white', paddingLeft: '60px', paddingRight: '60px' }} onClick={() => getAdvancedSearch()}><p>Поиск</p></div>
+
+                                        <div className='AdvancedSearchButton' style={{ paddingLeft: '45px', paddingRight: '45px', cursor: 'pointer' }} onClick={createAutoSearch}><p>Автопоиск</p></div>
+
+                                        <div className='AdvancedSearchButton' style={{ paddingLeft: '45px', paddingRight: '45px', cursor: 'pointer' }} onClick={() => createReport(tendersList, auth)}><p>Excel</p></div>
+
+                                        <div className='AdvancedSearchButton' style={{ paddingLeft: '45px', paddingRight: '45px', cursor: 'pointer' }} onClick={clearAllFields}><p>Сбросить</p></div>
+                                    </div>
+                                </div>
+                            </>
+                        }
+                        {
+                            !showAdvancedSearch
+                            &&
+                            <FlexRow style={{ width: '100%', justifyContent: 'flex-end', }}>
                                 <div style={{ width: "18%", display: 'flex', justifyContent: 'center', marginTop: '-10px' }} onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}>
-                                    <AdvancedFindP>Простой поиск</AdvancedFindP>
+                                    <AdvancedFindP>Расширенный поиск <div style={{ padding: '3px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}><SlSettings /></div></AdvancedFindP>
                                 </div>
                             </FlexRow>
-                            <AdvancedSearch
+                        }
+                        <FlexTextRow style={{ alignItems: 'center', gap: '20px' }}>
+                            <TextBlack22pxRegular>Результаты поиска</TextBlack22pxRegular>
+                        </FlexTextRow>
+                        <div className="Mytenders-sort">
+                            <div className='Mytenders-sort-list'>
+                                <div style={{ color: 'gray', paddingLeft: '0px', display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: '15px' }}><p>Сортировать по</p></div>
 
-                                tags={tags} setTags={setTags}
-                                stopTags={stopTags} setStopTags={setStopTags}
-                                publicDateFrom={publicDateFrom} setPublicDateFrom={setPublicDateFrom}
-                                publicDateTo={publicDateTo} setPublicDateTo={setPublicDateTo}
-                                startDateFrom={startDateFrom} setStartDateFrom={setStartDateFrom}
-                                startDateTo={startDateTo} setStartDateTo={setStartDateTo}
-                                endDateFrom={endDateFrom} setEndDateFrom={setEndDateFrom}
-                                endDateTo={endDateTo} setEndDateTo={setEndDateTo}
-                                fz={fz} setFz={setFz}
-                                region={region} setRegion={setRegion}
-                                tenderNum={tenderNum} setTenderNum={setTenderNum}
-                                customerName={customerName} setCustomerName={setCustomerName}
-                                inn={inn} setInn={setInn}
-                                priceFrom={priceFrom} setPriceFrom={setPriceFrom}
-                                priceTo={priceTo} setPriceTo={setPriceTo}
-                                enablePrice={enablePrice} setEnablePrice={setEnablePrice}
-                                source={source} setSource={setSource}
-                                enableSource={enableSource} setEnableSource={setEnableSource}
-                                okpd2={okpd2} setOkpd2={setOkpd2}
-                                setMethodDeterminingSupplier={setMethodDeterminingSupplier} methodDeterminingSupplier={methodDeterminingSupplier} setPurchaseStage={setPurchaseStage} purchaseStage={purchaseStage}
-                                stopCustomerName={stopCustomerName} setStopCustomerName={setStopCustomerName}
-                            />
-                            <div style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', width: '100%' }}>
-                                <div style={{ width: '50%', display: 'flex', justifyContent: 'space-around' }}>
-                                    <div className='AdvancedSearchButton' style={{ backgroundColor: 'dodgerblue', color: 'white', paddingLeft: '60px', paddingRight: '60px' }} onClick={() => getAdvancedSearch()}><p>Поиск</p></div>
 
-                                    <div className='AdvancedSearchButton' style={{ paddingLeft: '45px', paddingRight: '45px' }} onClick={createAutoSearch}><p>Автопоиск</p></div>
+                                <div className="sort-property" style={{ cursor: 'pointer' }} onClick={() => {
+                                    sortByDatePublicTenders()
 
-                                    <div className='AdvancedSearchButton' style={{ paddingLeft: '45px', paddingRight: '45px' }} onClick={() => createReport(tendersList, auth)}><p>Excel</p></div>
+                                    setSortByDateAdded(false)
+                                    setSortByDateStart(false)
+                                    setSortByPrice(false)
+                                    setSortByDatePublic(true)
+                                    setSortByDateFinished(false)
 
-                                    <div className='AdvancedSearchButton' style={{ paddingLeft: '45px', paddingRight: '45px' }} onClick={clearAllFields}><p>Сбросить</p></div>
+
+                                }}>
+                                    {
+                                        !sortByDatePublic
+                                            ?
+                                            <p>Размещено</p>
+                                            :
+                                            <p style={{ fontWeight: 'bold' }}>Размещено</p>
+                                    }
                                 </div>
+
+                                <div className="sort-property" style={{ cursor: 'pointer' }} onClick={() => {
+                                    sortByDateStartTenders()
+
+                                    setSortByDateAdded(false)
+                                    setSortByPrice(false)
+                                    setSortByDateFinished(false)
+                                    setSortByDateStart(true)
+                                    setSortByDatePublic(false)
+
+                                }}>
+                                    {
+                                        !sortByDateStart
+                                            ?
+                                            <p>Обновлено</p>
+                                            :
+                                            <p style={{ fontWeight: 'bold' }}>Обновлено</p>
+                                    }
+                                </div>
+
+                                <div className="sort-property" style={{ cursor: 'pointer' }} onClick={() => {
+                                    sortByPriceTenders()
+
+                                    setSortByDateAdded(false)
+                                    setSortByDateStart(false)
+                                    setSortByDateFinished(false)
+                                    setSortByDatePublic(false)
+                                    setSortByPrice(true)
+
+                                }}>
+                                    {
+                                        !sortByPrice
+                                            ?
+                                            <p>Цена</p>
+                                            :
+                                            <p style={{ fontWeight: 'bold' }}>Цена</p>
+                                    }
+                                </div>
+
+                                <div className="sort-property" style={{ cursor: 'pointer' }} onClick={() => {
+
+                                    sortByDateFinishedTenders()
+
+                                    setSortByDateAdded(false)
+                                    setSortByDateStart(false)
+                                    setSortByPrice(false)
+                                    setSortByDateFinished(true)
+                                    setSortByDatePublic(false)
+
+                                }}>
+                                    {
+                                        !sortByDateFinished
+                                            ?
+                                            <p>Дата окончания</p>
+                                            :
+                                            <p style={{ fontWeight: 'bold' }}>Дата окончания</p>
+                                    }
+                                </div>
+
                             </div>
-                        </>
-                    }
-                    {
-                        !showAdvancedSearch
-                        &&
-                        <FlexRow style={{ width: '100%', justifyContent: 'flex-end', }}>
-                            <div style={{ width: "18%", display: 'flex', justifyContent: 'center', marginTop: '-10px' }} onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}>
-                                <AdvancedFindP>Расширенный поиск <div style={{ padding: '3px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}><SlSettings /></div></AdvancedFindP>
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right', cursor: 'pointer' }} onClick={() => createReport(tendersList, auth)}>
+                                <RiFileExcel2Line size={30} color='#3294F4' />
                             </div>
-                        </FlexRow>
-                    }
-                    <FlexTextRow style={{ alignItems: 'center', gap: '20px' }}>
-                        <TextBlack22pxRegular>Результаты поиска</TextBlack22pxRegular>
-                    </FlexTextRow>
-                    <div className="Mytenders-sort">
-                        <div className='Mytenders-sort-list'>
-                            <div style={{ color: 'gray', paddingLeft: '0px', display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: '15px' }}><p>Сортировать по</p></div>
-
-
-                            <div className="sort-property" onClick={() => {
-                                sortByDatePublicTenders()
-
-                                setSortByDateAdded(false)
-                                setSortByDateStart(false)
-                                setSortByPrice(false)
-                                setSortByDatePublic(true)
-                                setSortByDateFinished(false)
-
-
-                            }}>
-                                {
-                                    !sortByDatePublic
-                                        ?
-                                        <p>Размещено</p>
-                                        :
-                                        <p style={{ fontWeight: 'bold' }}>Размещено</p>
-                                }
-                            </div>
-
-                            <div className="sort-property" onClick={() => {
-                                sortByDateStartTenders()
-
-                                setSortByDateAdded(false)
-                                setSortByPrice(false)
-                                setSortByDateFinished(false)
-                                setSortByDateStart(true)
-                                setSortByDatePublic(false)
-
-                            }}>
-                                {
-                                    !sortByDateStart
-                                        ?
-                                        <p>Обновлено</p>
-                                        :
-                                        <p style={{ fontWeight: 'bold' }}>Обновлено</p>
-                                }
-                            </div>
-
-                            <div className="sort-property" onClick={() => {
-                                sortByPriceTenders()
-
-                                setSortByDateAdded(false)
-                                setSortByDateStart(false)
-                                setSortByDateFinished(false)
-                                setSortByDatePublic(false)
-                                setSortByPrice(true)
-
-                            }}>
-                                {
-                                    !sortByPrice
-                                        ?
-                                        <p>Цена</p>
-                                        :
-                                        <p style={{ fontWeight: 'bold' }}>Цена</p>
-                                }
-                            </div>
-
-                            <div className="sort-property" onClick={() => {
-
-                                sortByDateFinishedTenders()
-
-                                setSortByDateAdded(false)
-                                setSortByDateStart(false)
-                                setSortByPrice(false)
-                                setSortByDateFinished(true)
-                                setSortByDatePublic(false)
-
-                            }}>
-                                {
-                                    !sortByDateFinished
-                                        ?
-                                        <p>Дата окончания</p>
-                                        :
-                                        <p style={{ fontWeight: 'bold' }}>Дата окончания</p>
-                                }
-                            </div>
-
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={() => createReport(tendersList, auth)}>
-                            <RiFileExcel2Line size={30} color='#3294F4' />
-                        </div>
-                    </div>
-                    {tendersList
-                        .map((item: any, index: any) => (
-                            // Проверка на null перед отображением TenderPreiewC
-                            item ?
-                                item?.fz === 'fz223' ? (<TenderPreiewCard223 key={index} jsonData={item} auth={auth} myTender={false} />)
-                                    :
+                        {tendersList
+                            .map((item: any, index: any) => (
+                                // Проверка на null перед отображением TenderPreiewC
+                                item ?
+                                    item?.fz === 'fz223' ? (<TenderPreiewCard223 key={index} jsonData={item} auth={auth} myTender={false} />)
+                                        :
 
-                                    (<TenderPreiewCard44 key={index} jsonData={item} myTender={false} auth={auth} />)
-                                : null
+                                        (<TenderPreiewCard44 key={index} jsonData={item} myTender={false} auth={auth} />)
+                                    : null
 
-                        ))}
-                    <PaginationBlock handlePageChange={handlePageChange} currentPage={currentPage} countShowElements={countShowElements} setCountShowElements={setCountShowElements} />
+                            ))}
+                        <PaginationBlock handlePageChange={handlePageChange} currentPage={currentPage} countShowElements={countShowElements} setCountShowElements={setCountShowElements} />
 
-                </CatalogPage>
+                    </CatalogPage>
                 </>
             )}
         </Fragment>

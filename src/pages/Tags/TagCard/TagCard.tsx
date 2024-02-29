@@ -233,7 +233,7 @@ export function TagCard(props: ITagCardProps) {
               <div style={{ color: 'gray', paddingLeft: '0px', display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: '15px' }}><p>Сортировать по</p></div>
 
 
-              <div className="sort-property" onClick={() => {
+              <div className="sort-property" style={{cursor: 'pointer'}} onClick={() => {
                 sortByDatePublicTenders()
 
                 setSortByDateAdded(false)
@@ -253,7 +253,7 @@ export function TagCard(props: ITagCardProps) {
                 }
               </div>
 
-              <div className="sort-property" onClick={() => {
+              <div className="sort-property"  style={{cursor: 'pointer'}} onClick={() => {
                 sortByDateStartTenders()
 
                 setSortByDateAdded(false)
@@ -272,7 +272,7 @@ export function TagCard(props: ITagCardProps) {
                 }
               </div>
 
-              <div className="sort-property" onClick={() => {
+              <div className="sort-property" style={{cursor: 'pointer'}} onClick={() => {
                 sortByPriceTenders()
 
                 setSortByDateAdded(false)
@@ -291,7 +291,7 @@ export function TagCard(props: ITagCardProps) {
                 }
               </div>
 
-              <div className="sort-property" onClick={() => {
+              <div className="sort-property" style={{cursor: 'pointer'}} onClick={() => {
 
                 sortByDateFinishedTenders()
 
@@ -312,7 +312,7 @@ export function TagCard(props: ITagCardProps) {
               </div>
 
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right' }} onClick={() => createReportTag(tag)}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '15px', float: 'right', cursor: 'pointer' }} onClick={() => createReportTag(tag)}>
               <RiFileExcel2Line size={30} color='#3294F4' />
             </div>
           </div>

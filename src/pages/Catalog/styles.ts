@@ -21,12 +21,13 @@ export const FinderByID = styled.input`
 
 export const AdvancedFindP = styled.p`
   font-family: sans-serif;
-  
+
   color: gray;
   text-decoration: underline;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 
 
 
@@ -41,6 +42,7 @@ export const FindByIDButton = styled.button`
   color: white;
   font-family: sans-serif;
   margin-left: 0px;
+  cursor: pointer;
 `;
 export const ShowCount = styled.div`
   width: auto;

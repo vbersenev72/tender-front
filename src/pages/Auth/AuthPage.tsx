@@ -89,7 +89,7 @@ function Login() {
                         <AuthPageInput setInput={setPassword} value={password} />
                     </div>
                     <div style={{ display: 'grid', grid: 'center' }}>
-                        <div className="authmenucontentloginbutton" onClick={async () => await login()}>
+                        <div className="authmenucontentloginbutton" style={{cursor: 'pointer'}} onClick={async () => await login()}>
                             <p>Авторизоваться</p>
                         </div>
                         <div style={{ padding: '10px', display: 'flex', justifyContent: 'center', cursor: 'pointer' }} onClick={() => setOpenRecoveryModal(true)} >
@@ -183,13 +183,13 @@ function Register() {
                     <AuthPageInput setInput={setInn} value={inn} />
                 </div>
                 <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                    <div className="authmenucontentloginbutton" style={{ width: '320px' }} onClick={async () => await register()}>
+                    <div className="authmenucontentloginbutton" style={{ width: '320px', cursor: 'pointer' }} onClick={async () => await register()}>
                         <p>Зарегистрироваться</p>
                     </div>
                 </div>
                 <br />
                 <br />
-            
+
                 <div style={{  display: 'flex', justifyContent: 'center', }}>
                     <p style={{ fontSize: '14px' }}>Нажимая <span style={{ textDecoration: 'underline' }}>Зарегистрироваться</span> вы соглашаетесь с лицензионным соглашением</p>
                 </div>
