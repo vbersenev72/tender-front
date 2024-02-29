@@ -878,3 +878,7 @@ export const methodDeterminingSupplierList = [
     { value: 'поставщика', label: 'Закупки у единственного поставщика' },
 ]
 
+
+export const sourcesTenders = [
+    { value: 'zakupki', label: 'zakupki.gov.ru' },
+]

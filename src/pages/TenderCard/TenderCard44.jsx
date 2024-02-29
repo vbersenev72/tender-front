@@ -30,6 +30,7 @@ import { PiTagSimpleLight } from "react-icons/pi";
 import axios from "axios";
 import { GoPaperAirplane } from "react-icons/go";
 import { TagsModal } from "../../components/TagsModal/TagsModal";
+import { GrStatusGood } from "react-icons/gr";
 
 
 
@@ -40,13 +41,15 @@ export const TenderCard44 = ({ tender }) => {
     const [isZakupkiDocsVisible, setZakupkiDocsVisible] = useState(false);
     const [isProtocolsContainerVisible, setProtocolsContainerVisible] = useState(false);
 
-    const [isMyTender, setIsMyTender] = useState(false)
+    const [isSended, setIsSended] = useState(false)
+    const [isMyTender, setIsMyTender] = useState()
     const [markTag, setMarkTag] = useState()
     const [tags, setTags] = useState([])
     const [showTagsPopup, setShowTagsPopup] = useState(false);
     const [popupTagsPosition, setPopupTagsPosition] = useState({ x: 0, y: 0 })
 
-    const regNum = tender?.commonInfo?.purchaseNumber ? tender?.commonInfo?.purchaseNumber : tender?.registrationNumber
+    const regNum = tender.tender[0]?.commonInfo?.purchaseNumber ? tender.tender[0]?.commonInfo?.purchaseNumber : tender.tender[0]?.registrationNumber
+    console.log(tender);
 
     const handleClick = () => {
         // Изменяем состояние для показа/скрытия второго контейнера
@@ -64,12 +67,47 @@ export const TenderCard44 = ({ tender }) => {
     console.log(tender)
 
 
-    const addMyTenders = () => {
+    const addMyTenders = async () => {
+        try {
 
+
+            const response = await axios.post(`${process.env.REACT_APP_API}/api/lk/mytenders`, {
+                regNum: String(regNum)
+            }, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+
+            setIsMyTender(true)
+            showSuccesMessage('Тендер успешно добавлен!')
+
+
+        } catch (error) {
+            showErrorMessage('Тендер уже добавлен!')
+        }
     }
 
-    const deleteFromMyTenders = () => {
 
+
+    const deleteFromMyTenders = async () => {
+        try {
+
+
+
+            const response = await axios.delete(`${process.env.REACT_APP_API}/api/lk/mytenders/${regNum}`, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+
+            setIsMyTender(false)
+            showSuccesMessage('Тендер успешно удален!')
+
+
+        } catch (error) {
+            showErrorMessage('Тендер уже удален!')
+        }
     }
 
     const addTagWindow = async (event) => {
@@ -206,6 +244,44 @@ export const TenderCard44 = ({ tender }) => {
     }
 
 
+    const sendTenderSpecialist = async () => {
+        try {
+
+            const send = await axios.post(`${process.env.REACT_APP_API}/api/lk/sendtenderspecialist`, {
+                regNum: regNum
+            }, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+
+            showSuccesMessage('Отправлено тендерному специалисту!')
+            setIsSended(true)
+
+        } catch (error) {
+            showErrorMessage(error.data.response.data.message)
+        }
+    }
+
+    const checkSendTenderSpecialist = async () => {
+        try {
+
+            const response = await axios.post(`${process.env.REACT_APP_API}/api/lk/checksendtenderspecialist`, {
+                regNum: regNum
+            }, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+
+            setIsSended(response.data.message)
+
+        } catch (error) {
+            showErrorMessage(error.data.response.data.message)
+        }
+    }
+
+
     const { events, stage } = getEvents(tender);
     const [lastTender] = tender.tender.sort((a, b) => +b.versionNumber - +a.versionNumber)
 
@@ -217,18 +293,24 @@ export const TenderCard44 = ({ tender }) => {
         setShowTagsPopup(false)
     }
 
-    useEffect(() => {
-        getTagForRegNum().then((data) => console.log(data))
-        isMyTenderCheck().then((data) => console.log(data))
+    async function checkAllFunction() {
+        await isMyTenderCheck()
+        await getTagForRegNum()
+        await checkSendTenderSpecialist()
+    }
 
-    }, [])
+    useEffect(() => {
+
+        checkAllFunction()
+
+    }, [isMyTender])
 
     if (tender) {
         return (
             <div>
                 <div>
                     {(showTagsPopup && tags.length) > 0 && (
-                        <TagsModal tags={tags} closeModal={closeModal} addTagToTender={addTagToTender} popupTagsPosition={popupTagsPosition} jsonData={tender} addTag={markTag} setAddTag={setMarkTag} />
+                        <TagsModal tags={tags} closeModal={closeModal} addTagToTender={addTagToTender} popupTagsPosition={popupTagsPosition} jsonData={tender.tender[0]} addTag={markTag} setAddTag={setMarkTag} />
                     )
 
                     }
@@ -265,11 +347,19 @@ export const TenderCard44 = ({ tender }) => {
                                     <p>Добавить метку</p>
                                 </div>
                         }
-
-                        <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }} onClick={addTagWindow}>
-                            <GoPaperAirplane size={20} color="dodgerblue" />
-                            <p>Отправить тендерному специалисту</p>
-                        </div>
+                        {
+                            !isSended
+                                ?
+                                <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }} onClick={sendTenderSpecialist}>
+                                    <GoPaperAirplane size={20} color="dodgerblue" />
+                                    <p>Отправить тендерному специалисту</p>
+                                </div>
+                                :
+                                <div style={{ display: 'flex', padding: '10px', alignItems: 'center', cursor: 'pointer' }}>
+                                    <GrStatusGood size={20} color="dodgerblue" />
+                                    <p>Отправлено тендерному специалисту!</p>
+                                </div>
+                        }
 
                     </div>
                 </div>

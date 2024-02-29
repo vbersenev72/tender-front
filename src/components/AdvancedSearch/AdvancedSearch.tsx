@@ -4,13 +4,13 @@ import Select from 'react-select'
 import { TailSpin } from 'react-loader-spinner';
 import { LoaderTest } from '../../styles';
 import { Checkbox, FormControlLabel } from '@mui/material';
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import { Okpd2Select } from '../OKPD2Select/Okpd2Select';
 import { RegionSelect } from '../RegionSelect/RegionSelect';
-
+import { IonContent, IonDatetime, IonDatetimeButton, IonItem, IonLabel, IonModal, IonPage, setupIonicReact } from '@ionic/react';
 import "react-datepicker/dist/react-datepicker.css";
-import { methodDeterminingSupplierList, okpd2Nomenclature } from '../../data/tendersData.js';
-
+import { methodDeterminingSupplierList, okpd2Nomenclature, sourcesTenders } from '../../data/tendersData.js';
+import { DatePickerCustom } from '../DatePicker/DatePicker';
 
 
 export interface IAdvancedSearchProps {
@@ -42,6 +42,9 @@ export default function AdvancedSearch(
         purchaseStage, setPurchaseStage,
     }: any
 ) {
+
+
+
 
 
     const handleCheckboxChangeMethodSupplier = (options: any) => {
@@ -89,6 +92,12 @@ export default function AdvancedSearch(
     }
 
 
+    const getSource = (value:any) => {
+        for (let i = 0; i < sourcesTenders.length; i++) {
+            const source = sourcesTenders[i];
+            if (source.value == value) return source
+        }
+    }
 
 
 
@@ -146,7 +155,7 @@ export default function AdvancedSearch(
             </div>
             <div className='AdvancedSearch-content'>
                 <form className='AdvancedSearch-form'>
-                    <div className='AdvancedSearch-inputForm' style={{paddingBottom: '0'}}>
+                    <div className='AdvancedSearch-inputForm' style={{ paddingBottom: '0' }}>
                         <p className='AdvancedSearch-inputname'>Заказчик или организатор</p>
                         <input type="text" className='AdvancedSearch-input' placeholder='Наименование заказчика или организатора' value={customerName} onChange={(e: any) => setCustomerName(e.target.value)} />
                     </div>
@@ -161,7 +170,7 @@ export default function AdvancedSearch(
 
                     <div>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <div className='AdvancedSearch-inputForm' style={{paddingBottom: '0'}}>
+                            <div className='AdvancedSearch-inputForm' style={{ paddingBottom: '0' }}>
                                 <p className='AdvancedSearch-inputname'>Цена котракта от</p>
                                 <input type="text" className='AdvancedSearch-input' placeholder='Минимальная цена' value={priceFrom} onChange={(e: any) => setPriceFrom(e.target.value)} />
                             </div>
@@ -179,11 +188,15 @@ export default function AdvancedSearch(
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>Размещено</p>
-                                <DatePicker className='AdvancedSearch-input' selected={startDateFrom != '' ? new Date(startDateFrom) : startDateFrom} onChange={(e: any) => setStartDateFrom(e)} />
+                                <div style={{ marginLeft: '116px', paddingBottom: '5px' }}>
+                                    <DatePickerCustom  date={publicDateFrom != '' ? new Date(publicDateFrom) : publicDateFrom} setDate={(newdate: any) => setPublicDateFrom(newdate)}  />
+                                </div>
                             </div>
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>до</p>
-                                <DatePicker className='AdvancedSearch-input' selected={startDateTo != '' ? new Date(startDateTo) : startDateTo} onChange={(e: any) => setStartDateTo(e)} />
+                                <div style={{ paddingBottom: '5px' }}>
+                                    <DatePickerCustom  date={publicDateTo != '' ? new Date(publicDateTo) : publicDateTo} setDate={(newdate: any) => setPublicDateTo(newdate)} />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -192,11 +205,18 @@ export default function AdvancedSearch(
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>Окончание подачи заявки</p>
-                                <DatePicker className='AdvancedSearch-input' selected={endDateFrom != '' ? new Date(endDateFrom) : endDateFrom} onChange={(e: any) => setEndDateFrom(e)} />
+                                {/* <DatePicker className='AdvancedSearch-input' selected={endDateFrom != '' ? new Date(endDateFrom) : endDateFrom} onChange={(e: any) => setEndDateFrom(e)} /> */}
+                                <div style={{ marginLeft: '', paddingBottom: '5px' }}>
+                                    <DatePickerCustom date={endDateFrom != '' ? new Date(endDateFrom) : endDateFrom} setDate={(newdate: any) => setEndDateFrom(newdate)} />
+                                </div>
+
                             </div>
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>до</p>
-                                <DatePicker className='AdvancedSearch-input' selected={endDateTo != '' ? new Date(endDateTo) : endDateTo} onChange={(e: any) => setEndDateTo(e)} />
+                                <div style={{ paddingBottom: '5px' }}>
+                                    <DatePickerCustom date={endDateTo != '' ? new Date(endDateTo) : endDateTo} setDate={(newdate: any) => setEndDateTo(newdate)} />
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -205,11 +225,15 @@ export default function AdvancedSearch(
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>Обновлено</p>
-                                <DatePicker className='AdvancedSearch-input' selected={publicDateFrom != '' ? new Date(publicDateFrom) : publicDateFrom} onChange={(e: any) => setPublicDateFrom(e)} />
+                                <div style={{ marginLeft: '116px', paddingBottom: '5px' }}>
+                                    <DatePickerCustom  date={publicDateFrom != '' ? new Date(publicDateFrom) : publicDateFrom} setDate={(newdate: any) => setPublicDateFrom(newdate)} />
+                                </div>
                             </div>
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>до</p>
-                                <DatePicker className='AdvancedSearch-input' selected={publicDateTo != '' ? new Date(publicDateTo) : publicDateTo} onChange={(e: any) => setPublicDateTo(e)} />
+                                <div style={{ paddingBottom: '5px' }}>
+                                    <DatePickerCustom date={publicDateTo != '' ? new Date(publicDateTo) : publicDateTo} setDate={(newdate: any) => setPublicDateTo(newdate)}  />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -255,7 +279,7 @@ export default function AdvancedSearch(
 
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>Источник</p>
-                                <input type="text" className='AdvancedSearch-input' placeholder='Например: zakupki' value={source} onChange={(e: any) => setSource(e.target.value)} />
+                                <Select options={sourcesTenders} placeholder='Не выбрано' isMulti onChange={(v:any)=>setSource(v[0].value)} value={getSource(source)} />
                             </div>
 
                             <div style={{ display: 'flex', justifyContent: 'center' }}>

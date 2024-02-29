@@ -22,6 +22,7 @@ import { AutoSearchCard } from './pages/AutoSearchPage/AutoSearchCard/AutoSearch
 import { MenuContext } from './MenuContext';
 import { AuthContext } from './AuthContext';
 import { Footer } from './components/Footer/Footer';
+import '@ionic/react/css/core.css';
 
 function App() {
 

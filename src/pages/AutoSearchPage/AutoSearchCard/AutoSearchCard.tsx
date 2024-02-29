@@ -12,7 +12,7 @@ import { TenderPreiewCard223, TenderPreiewCard44 } from '../../../components/Ten
 import { createReport } from '../../../functions/createReport';
 import { createReportAutoSearch } from '../../../functions/createReportAutoSearch';
 import { Okpd2Select } from '../../../components/OKPD2Select/Okpd2Select';
-import { methodDeterminingSupplierList, okpd2Nomenclature, regionsList } from '../../../data/tendersData';
+import { methodDeterminingSupplierList, okpd2Nomenclature, regionsList, sourcesTenders } from '../../../data/tendersData';
 import { PaginationBlock } from '../../../components/PaginationBlock/PaginationBlock';
 
 export interface IAutoSearchCardProps {
@@ -178,6 +178,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
       }
     }
   }
+
 
   const getAutoSearchFields = async () => {
     try {

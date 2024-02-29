@@ -342,7 +342,7 @@ return (
                         </FlexTextRow>
                         <FlexTextRow style={{ width: '100%', paddingBottom: '5px', borderBottom: '1px solid #F2F2F2' }}>
                             <TextBlue16pxSemiBold style={{ width: '60%' }}>
-                                223-ФЗ Электронный аукцион
+                                223-ФЗ
                             </TextBlue16pxSemiBold>
                             {jsonData?.registrationNumber ? (
                                 <Link onClick={() => {
@@ -371,7 +371,7 @@ return (
                             </FlexRow>
                             <FlexRow>
                                 <div className="tenderProp" >
-                                    <TextGray14pxRegular style={{ marginRight: '20px' }}>Объём закупки</TextGray14pxRegular>
+                                    <TextGray14pxRegular style={{ marginRight: '20px' }}>Объект закупки</TextGray14pxRegular>
                                 </div>
                                 <div className="tenderData">
                                     <TextBlue14pxRegular>

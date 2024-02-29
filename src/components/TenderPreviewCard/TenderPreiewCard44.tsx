@@ -330,7 +330,7 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
                             <FlexTextRow style={{ width: '100%', paddingBottom: '5px', borderBottom: '1px solid #F2F2F2' }}>
                                 <TextBlue16pxSemiBold style={{ width: '60%' }}>
                                     {jsonData?.commonInfo?.placingWay?.code && jsonData?.commonInfo?.placingWay?.name
-                                        ? `${jsonData.commonInfo.placingWay.code} ${jsonData.commonInfo.placingWay.name}`
+                                        ? `44-ФЗ`
                                         : 'Нет данных'}
                                 </TextBlue16pxSemiBold>
                                 {jsonData?.commonInfo?.purchaseNumber && (
@@ -348,14 +348,14 @@ export const TenderPreiewCard44: FC = ({ jsonData, auth, myTender, showReadButto
                                 <FlexRow>
                                     <TextGray14pxRegular>Тип заявки</TextGray14pxRegular>
                                     <TextBlack14pxRegular>
-                                        {jsonData?.commonInfo?.purchaseObjectInfo
-                                            ? jsonData.commonInfo?.purchaseObjectInfo
+                                        {jsonData.commonInfo.placingWay.name
+                                            ? jsonData.commonInfo.placingWay.name
                                             : 'Нет данных'
                                         }
                                     </TextBlack14pxRegular>
                                 </FlexRow>
                                 <FlexRow>
-                                    <TextGray14pxRegular>Объём закупки</TextGray14pxRegular>
+                                    <TextGray14pxRegular>Объект закупки</TextGray14pxRegular>
                                     <TextBlue14pxRegular>{jsonData?.purchaseResponsibleInfo?.responsibleOrgInfo?.fullName
                                         ? jsonData.purchaseResponsibleInfo.responsibleOrgInfo.fullName
                                         : 'Нет данных'

@@ -1,4 +1,4 @@
-import {formatDate} from "./FormateDate";
+import { formatDate } from "./FormateDate";
 
 export const getEvents223 = (tender) => {
     if (tender) {
@@ -27,11 +27,11 @@ export const getEvents223 = (tender) => {
         } else {
             if (collectingStartDate.getTime() <= new Date().getTime()) {
                 events.push
-                ({
-                    date: collectingStartDate.toLocaleString(),
-                    message: `Закупка переведена на этап «Подача заявок» с этапа «Формирование извещения (приглашения)»`,
-                    ndate: collectingStartDate
-                })
+                    ({
+                        date: collectingStartDate.toLocaleString(),
+                        message: `Закупка переведена на этап «Подача заявок» с этапа «Формирование извещения (приглашения)»`,
+                        ndate: collectingStartDate
+                    })
                 stage = 'Подача заявок'
             }
             if (collectingEndDate && collectingEndDate.getTime() < new Date().getTime()) {
@@ -47,14 +47,14 @@ export const getEvents223 = (tender) => {
         console.log('protocols', tender?.protocols)
         tender?.protocols?.length && tender?.protocols?.forEach(proto => {
 
-            const protocol = {...proto}
+            const protocol = { ...proto }
 
             protocol.pubDate = new Date(protocol?.publicationDateTime || protocol?.procedureDate)
             events.push(
                 {
                     date: protocol?.pubDate?.toLocaleString(),
                     message: `Размещен протокол № ${protocol.registrationNumber} «${protocol.typeName?.split(' ').filter(word => !word.startsWith('/')).join(' ') ||
-                    protocol.purchaseInfo?.name}» от ${formatDate(new Date(protocol?.pubDate).toISOString())}`,
+                        protocol.purchaseInfo?.name}» от ${formatDate(new Date(protocol?.pubDate).toISOString())}`,
                     ndate: protocol?.pubDate
                 })
         })
@@ -69,11 +69,13 @@ export const getEvents223 = (tender) => {
             stage = 'Определение поставщика завершено'
         }
 
-        return events.sort((a, b) => {
-                return a.ndate < b.ndate ? 1 :
-                    a.ndate > b.ndate ? -1 :
-                        a.message[0] !== b.message[0] ? 1 : -1
-            }
+        const sortedEvents = events.sort((a, b) => {
+            return a.ndate < b.ndate ? 1 :
+                a.ndate > b.ndate ? -1 :
+                    a.message[0] !== b.message[0] ? 1 : -1
+        }
         )
+
+        return sortedEvents.map((event)=> ({...event, stage}))
     }
 }
