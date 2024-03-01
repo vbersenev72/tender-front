@@ -92,7 +92,7 @@ export default function AdvancedSearch(
     }
 
 
-    const getSource = (value:any) => {
+    const getSource = (value: any) => {
         for (let i = 0; i < sourcesTenders.length; i++) {
             const source = sourcesTenders[i];
             if (source.value == value) return source
@@ -189,13 +189,13 @@ export default function AdvancedSearch(
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>Размещено</p>
                                 <div style={{ marginLeft: '116px', paddingBottom: '5px' }}>
-                                    <DatePickerCustom  date={publicDateFrom != '' ? new Date(publicDateFrom) : publicDateFrom} setDate={(newdate: any) => setPublicDateFrom(newdate)}  />
+                                    <DatePickerCustom date={startDateFrom != '' ? new Date(startDateFrom) : startDateFrom} setDate={(newdate: any) => setStartDateFrom(newdate)} />
                                 </div>
                             </div>
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>до</p>
                                 <div style={{ paddingBottom: '5px' }}>
-                                    <DatePickerCustom  date={publicDateTo != '' ? new Date(publicDateTo) : publicDateTo} setDate={(newdate: any) => setPublicDateTo(newdate)} />
+                                    <DatePickerCustom date={startDateTo != '' ? new Date(startDateTo) : startDateTo} setDate={(newdate: any) => setStartDateTo(newdate)} />
                                 </div>
                             </div>
                         </div>
@@ -226,13 +226,13 @@ export default function AdvancedSearch(
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>Обновлено</p>
                                 <div style={{ marginLeft: '116px', paddingBottom: '5px' }}>
-                                    <DatePickerCustom  date={publicDateFrom != '' ? new Date(publicDateFrom) : publicDateFrom} setDate={(newdate: any) => setPublicDateFrom(newdate)} />
+                                    <DatePickerCustom date={publicDateFrom != '' ? new Date(publicDateFrom) : publicDateFrom} setDate={(newdate: any) => setPublicDateFrom(newdate)} />
                                 </div>
                             </div>
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>до</p>
                                 <div style={{ paddingBottom: '5px' }}>
-                                    <DatePickerCustom date={publicDateTo != '' ? new Date(publicDateTo) : publicDateTo} setDate={(newdate: any) => setPublicDateTo(newdate)}  />
+                                    <DatePickerCustom date={publicDateTo != '' ? new Date(publicDateTo) : publicDateTo} setDate={(newdate: any) => setPublicDateTo(newdate)} />
                                 </div>
                             </div>
                         </div>
@@ -279,7 +279,9 @@ export default function AdvancedSearch(
 
                             <div className='AdvancedSearch-inputForm'>
                                 <p className='AdvancedSearch-inputname'>Источник</p>
-                                <Select options={sourcesTenders} placeholder='Не выбрано' isMulti onChange={(v:any)=>setSource(v[0].value)} value={getSource(source)} />
+                                <div style={{ width: '100%' }}>
+                                    <Select options={sourcesTenders} placeholder='Не выбрано' isMulti onChange={(v: any) => setSource(v[0]?.value)} value={getSource(source)} />
+                                </div>
                             </div>
 
                             <div style={{ display: 'flex', justifyContent: 'center' }}>
