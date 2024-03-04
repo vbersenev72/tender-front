@@ -19,11 +19,10 @@ const style = {
 };
 
 
-export default function MuiModal({ open, setOpen, title, text, submitFunction, buttonText, emailChange, showEmailInput }: any) {
+export default function MuiModal({ open, setOpen, title, text, submitFunction, buttonText, emailChange, showEmailInput, placeholder }: any) {
 
     const handleSubmit = () => {
         submitFunction()
-        setOpen(false)
     }
 
     const handleClose = () => {
@@ -48,10 +47,11 @@ export default function MuiModal({ open, setOpen, title, text, submitFunction, b
                     &&
                     <>
 
+                        <br />
                         <TextField
                             id="standard-multiline-flexible"
-                            label="Email"
-                            placeholder='Введите Email'
+                            label={!placeholder ? 'Email' : '' }
+                            placeholder={!placeholder ? 'Введите email' : placeholder }
                             variant="standard"
 
                             style={{ width: '80%' }}

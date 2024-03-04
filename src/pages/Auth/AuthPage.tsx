@@ -59,6 +59,7 @@ function Login() {
             })
 
 
+            setOpenRecoveryModal(false)
             showSuccesMessage(resetPass.data.message)
 
         } catch (error: any) {

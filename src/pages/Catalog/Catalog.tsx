@@ -19,6 +19,7 @@ import { createReportAutoSearch } from "../../functions/createReportAutoSearch";
 import { PaginationBlock } from "../../components/PaginationBlock/PaginationBlock";
 import { SlSettings } from "react-icons/sl";
 import { Footer } from "../../components/Footer/Footer";
+import MuiModal from "../../components/MuiModal/MuiModal";
 
 
 export const Catalog: FC = () => {
@@ -74,8 +75,10 @@ export const Catalog: FC = () => {
     const [okpd2, setOkpd2] = React.useState<any>([])
     const [methodDeterminingSupplier, setMethodDeterminingSupplier] = useState<any>([])
     const [purchaseStage, setPurchaseStage] = useState<any>([])
-
     ///
+
+    const [openModal, setOpenModal] = useState(false)
+    const [nameAutoSearch, setNameAutoSearch] = useState('')
 
     const formatDate = (dateString: any) => {
         const date: any = new Date(dateString)
@@ -410,12 +413,12 @@ export const Catalog: FC = () => {
     const createAutoSearch = async () => {
         try {
 
-            if (tags == '') {
-                return showErrorMessage('Введите набор ключевых слов для поиска')
+            if (nameAutoSearch == '') {
+                return showErrorMessage('Введите название автопоиска')
             }
 
             const create = await axios.post(`${process.env.REACT_APP_API}/api/autosearch/create`, {
-                name: tags,
+                name: nameAutoSearch,
                 tags: tags,
                 stopTags: stopTags,
                 publicDateFrom: publicDateFrom,
@@ -445,6 +448,7 @@ export const Catalog: FC = () => {
             })
 
             showSuccesMessage('Автопоиск создан!')
+            setOpenModal(false)
 
             setTimeout(() => {
                 window.location.reload()
@@ -456,11 +460,24 @@ export const Catalog: FC = () => {
         }
     }
 
+    const closeModalFunc = () => {
+        setOpenModal(false);
+    };
+
+    const openModalFunc = () => {
+        setOpenModal(true);
+    };
+
+
     // @ts-ignore
     return (
         <Fragment>
             {
                 !auth && <AccesNotif openAccesNotif={openAccesNotif} setOpenAccesNotif={setOpenAccesNotif} />
+            }
+            {
+                openModal && <MuiModal title={'Введите название автопоиска'} text={''} submitFunction={createAutoSearch} open={openModal} setOpen={closeModalFunc} buttonText={'Создать'} emailChange = {setNameAutoSearch} showEmailInput={true} placeholder={'Название автопоиска'} />
+
             }
             {loading ? (
                 <LoaderTest>
@@ -516,7 +533,7 @@ export const Catalog: FC = () => {
                                     <div style={{ width: '50%', display: 'flex', justifyContent: 'space-around' }}>
                                         <div className='AdvancedSearchButton' style={{ backgroundColor: 'dodgerblue', color: 'white', paddingLeft: '60px', paddingRight: '60px' }} onClick={() => getAdvancedSearch()}><p>Поиск</p></div>
 
-                                        <div className='AdvancedSearchButton' style={{ paddingLeft: '45px', paddingRight: '45px', cursor: 'pointer' }} onClick={createAutoSearch}><p>Автопоиск</p></div>
+                                        <div className='AdvancedSearchButton' style={{ paddingLeft: '45px', paddingRight: '45px', cursor: 'pointer' }} onClick={openModalFunc}><p>Автопоиск</p></div>
 
                                         <div className='AdvancedSearchButton' style={{ paddingLeft: '45px', paddingRight: '45px', cursor: 'pointer' }} onClick={() => createReport(tendersList, auth)}><p>Excel</p></div>
 

@@ -473,7 +473,7 @@ export function AutoSearchCard(props: IAutoSearchCardProps) {
                   <br />
                   <br />
                   <p>Результаты автопоиска</p>
-                  <p style={{ fontSize: '16px', color: '#2F3D4A', marginLeft: '10px', paddingTop: '5px' }}>Найдено {count} тендеров</p>
+                  {/* <p style={{ fontSize: '16px', color: '#2F3D4A', marginLeft: '10px', paddingTop: '5px' }}>Найдено {count} тендеров</p> */}
                 </div>
 
                 <div className="Mytenders-sort">
