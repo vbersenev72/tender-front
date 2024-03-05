@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useState } from 'react';
 import { SlArrowDown } from "react-icons/sl";
 import { SlArrowUp } from "react-icons/sl";
+import { showErrorMessage, showSuccesMessage } from '../../../functions/Message';
+import axios from 'axios';
 
 export interface IFeedBacksProps {
 }
@@ -9,6 +11,7 @@ export interface IFeedBacksProps {
 export default function FeedBacks(props: IFeedBacksProps) {
 
   const [showAnswer, setShowAnswer] = useState(0)
+  const [text, setText] = useState('')
 
   const PopularQuestions: any = [
     {
@@ -39,6 +42,28 @@ export default function FeedBacks(props: IFeedBacksProps) {
 
   ]
 
+
+  async function giveFeedbackEmail() {
+    try {
+
+      const send = await axios.post(`${process.env.REACT_APP_API}/api/lk/sendtogivefeedback`, {
+        text: text
+      }, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+
+      showSuccesMessage(send.data.message)
+
+      setText('')
+
+    } catch (error:any) {
+      console.log(error);
+      showErrorMessage(error.data.response.data.message)
+    }
+  }
+
   return (
     <div className='personal-menu-content-property'>
       <div style={{ marginBottom: '30px', textAlign: 'center', alignItems: 'center', justifyContent: 'center', marginTop: '30px' }}>
@@ -63,11 +88,11 @@ export default function FeedBacks(props: IFeedBacksProps) {
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', textAlign: 'center', width: '40%', }}>
         <p>Опишите свою проблему или задайте вопрос</p>
 
-        <textarea style={{ height: '150px', writingMode: 'horizontal-tb', }} />
+        <textarea style={{ height: '150px', writingMode: 'horizontal-tb', }} onChange={(e: any) => setText(e.target.value)} value={text}/>
         <br />
 
         <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-          <div style={{ display: 'flex', width: '30%', height: '50px', backgroundColor: 'dodgerblue', color: 'white', cursor: 'pointer', alignItems: 'center', textAlign: 'center', justifyContent: 'center' }}>
+          <div onClick={giveFeedbackEmail} style={{ display: 'flex', width: '30%', height: '50px', backgroundColor: 'dodgerblue', color: 'white', cursor: 'pointer', alignItems: 'center', textAlign: 'center', justifyContent: 'center' }}>
             <p>Отправить</p>
           </div>
         </div>

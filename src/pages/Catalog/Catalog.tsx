@@ -33,7 +33,6 @@ export const Catalog: FC = () => {
     // const [findedTenderId, setFindedTenderId] = useState('')
 
     const [loading, setLoading] = useState(false) // true
-    const [textSearch, setTextSearch] = useState('')
 
 
     const [auth, setAuth] = useState<boolean>(false)
@@ -45,6 +44,7 @@ export const Catalog: FC = () => {
     const [sortByPrice, setSortByPrice] = useState(false)
     const [sortByDateFinished, setSortByDateFinished] = useState(false)
     const [sortByDatePublic, setSortByDatePublic] = useState(false)
+    const [sortSymbol, setSortSymbol] = useState('publicDate')
 
     const { openMenu, setOpenMenu }: any = useContext(MenuContext);
 
@@ -96,7 +96,7 @@ export const Catalog: FC = () => {
     const getAdvancedSearch = async () => {
         try {
             setLoading(true)
-            const response: any = await axios.post(`${process.env.REACT_APP_API}/api/find/advancedfind`, {
+            const response: any = await axios.post(`${process.env.REACT_APP_API}/api/find/advancedfind?sort=${sortSymbol}`, {
                 tags: tags,
                 stopTags: stopTags,
                 publicDateFrom: formatDate(publicDateFrom),
@@ -120,12 +120,14 @@ export const Catalog: FC = () => {
                 okpd2: okpd2.map((obj: any) => obj.code).join(';'),
                 page: currentPage,
                 limit: countShowElements,
+                // sort: sortSymbol,
                 methodDeterminingSupplier: methodDeterminingSupplier.map((method: any) => method.value).join(';'),
 
             }, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem('token')}`
-                }
+                },
+
             })
 
 
@@ -173,38 +175,38 @@ export const Catalog: FC = () => {
     }
 
 
-    const fetchData = async () => {
-        try {
+    // const fetchData = async () => {
+    //     try {
 
 
 
-            setLoading(true)
-            if (!checkDigitsOnly(textSearch) || textSearch == '') {
+    //         setLoading(true)
+    //         if (!checkDigitsOnly(textSearch) || textSearch == '') {
 
-                const response = await axios.post(`${process.env.REACT_APP_API}/api/find/find`, {
-                    limit: countShowElements,
-                    tags: textSearch.trim(),
-                    page: currentPage
-                });
+    //             const response = await axios.post(`${process.env.REACT_APP_API}/api/find/find`, {
+    //                 limit: countShowElements,
+    //                 tags: textSearch.trim(),
+    //                 page: currentPage
+    //             });
 
-                setTendersList(response.data.message);
-                setBeforeTenders(response.data.message)
+    //             setTendersList(response.data.message);
+    //             setBeforeTenders(response.data.message)
 
-            } else {
-                const response = await axios.get(`${process.env.REACT_APP_API}/api/find/innOrRegnumber/${textSearch}`);
-                console.log(response.data.tender);
+    //         } else {
+    //             const response = await axios.get(`${process.env.REACT_APP_API}/api/find/innOrRegnumber/${textSearch}`);
+    //             console.log(response.data.tender);
 
-                setTendersList(response.data.tender); // Обновите состояние данными из ответа
-                setBeforeTenders(response.data.message)
-            }
+    //             setTendersList(response.data.tender); // Обновите состояние данными из ответа
+    //             setBeforeTenders(response.data.message)
+    //         }
 
-            setLoading(false)
-        } catch (error) {
-            console.log(error);
+    //         setLoading(false)
+    //     } catch (error) {
+    //         console.log(error);
 
-            showErrorMessage('Что то пошло не так. Попробуйте позже!')
-        }
-    };
+    //         showErrorMessage('Что то пошло не так. Попробуйте позже!')
+    //     }
+    // };
 
     const getMyTenders = async () => {
         try {
@@ -258,102 +260,51 @@ export const Catalog: FC = () => {
         checkAuth().then((auth) => setAuth(auth))
         //getMyTenders()
 
-        if (showAdvancedSearch) {
-            getAdvancedSearch()
-        } else {
-            fetchData();
-        }
+        getAdvancedSearch()
 
 
-    }, [currentPage, countShowElements]);
+    }, [currentPage, countShowElements,]);
 
 
     const handlePageChange = (newPage: number) => {
         setCurrentPage(newPage);
-        fetchData()
+        getAdvancedSearch()
     };
 
 
     const sortByDatePublicTenders = () => {
 
-        const newTendersArray = beforeTenders.sort((a: any, b: any) => {
-            console.log(a);
-
-            if (a.fz == 'fz223') {
-                const aDate = a?.publicationDateTime
-                const bDate = b.fz == 'fz223' ? b?.publicationDateTime : b?.commonInfo?.publishDTInEIS
-
-                return new Date(bDate).getTime() - new Date(aDate).getTime()
-            } else {
-                const aDate = a?.commonInfo?.publishDTInEIS
-                const bDate = b.fz == 'fz223' ? b?.publicationDateTime : b?.commonInfo?.publishDTInEIS
-
-
-                return new Date(bDate).getTime() - new Date(aDate).getTime()
-            }
-        })
-
         if (sortByDatePublic) {
-            const reverseTenders = tendersList.reverse()
-            setTendersList([...reverseTenders])
+            setSortSymbol('publicDateReverse')
         } else {
-            setTendersList([...newTendersArray])
+            setSortSymbol('publicDate')
         }
 
+        getAdvancedSearch()
 
     }
 
     const sortByDateStartTenders = () => {
 
-        const newTendersArray = beforeTenders.sort((a: any, b: any) => {
-            console.log(a);
-
-            if (a.fz == 'fz223') {
-                const aDate = a?.modificationDate
-                const bDate = b.fz == 'fz223' ? b?.modificationDate : b?.customDate
-
-                return new Date(bDate).getTime() - new Date(aDate).getTime()
-            } else {
-                const aDate = a?.customDate
-                const bDate = b.fz == 'fz223' ? b?.modificationDate : b?.customDate
-
-                return new Date(bDate).getTime() - new Date(aDate).getTime()
-            }
-        })
-
         if (sortByDateStart) {
-            const reverseTenders = tendersList.reverse()
-            setTendersList([...reverseTenders])
+            setSortSymbol('customDateReverse')
         } else {
-            setTendersList([...newTendersArray])
+            setSortSymbol('customDate')
         }
+
+        getAdvancedSearch()
 
     }
 
     const sortByPriceTenders = () => {
 
-        const newTendersArray = beforeTenders.sort((a: any, b: any) => {
-            console.log(a);
-
-            if (a.fz == 'fz223') {
-                const aPrice = a.lots?.lot?.lotData?.initialSum
-                const bPrice = b.fz == 'fz223' ? b.lots?.lot?.lotData?.initialSum : b.notificationInfo?.contractConditionsInfo?.maxPriceInfo?.maxPrice
-
-                return parseFloat(aPrice) - parseFloat(bPrice)
-            } else {
-                const aPrice = a.notificationInfo?.contractConditionsInfo?.maxPriceInfo?.maxPrice
-                const bPrice = b.fz == 'fz223' ? b.lots?.lot?.lotData?.initialSum : b.notificationInfo?.contractConditionsInfo?.maxPriceInfo?.maxPrice
-
-                return parseFloat(aPrice) - parseFloat(bPrice)
-            }
-        })
-
         if (sortByPrice) {
-            const reverseTenders = tendersList.reverse()
-            setTendersList([...reverseTenders])
+            setSortSymbol('PriceReverse')
         } else {
-            setTendersList([...newTendersArray])
+            setSortSymbol('Price')
         }
+
+        getAdvancedSearch()
 
     }
 
@@ -385,28 +336,14 @@ export const Catalog: FC = () => {
     }
 
     const sortByDateFinishedTenders = () => {
-        const newTendersArray = beforeTenders.sort((a: any, b: any) => {
-            console.log(a);
-
-            if (a.fz == 'fz223') {
-                const aDate = a?.submissionCloseDateTime
-                const bDate = b.fz == 'fz223' ? b?.submissionCloseDateTime : b?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
-
-                return new Date(bDate).getTime() - new Date(aDate).getTime()
-            } else {
-                const aDate = a?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
-                const bDate = b.fz == 'fz223' ? b?.submissionCloseDateTime : b?.notificationInfo?.procedureInfo?.collectingInfo?.endDT
-
-                return new Date(bDate).getTime() - new Date(aDate).getTime()
-            }
-        })
 
         if (sortByDateFinished) {
-            const reverseTenders = tendersList.reverse()
-            setTendersList([...reverseTenders])
+            setSortSymbol('FinishDateReverse')
         } else {
-            setTendersList([...newTendersArray])
+            setSortSymbol('FinishDate')
         }
+
+        getAdvancedSearch()
 
     }
 
@@ -476,7 +413,7 @@ export const Catalog: FC = () => {
                 !auth && <AccesNotif openAccesNotif={openAccesNotif} setOpenAccesNotif={setOpenAccesNotif} />
             }
             {
-                openModal && <MuiModal title={'Введите название автопоиска'} text={''} submitFunction={createAutoSearch} open={openModal} setOpen={closeModalFunc} buttonText={'Создать'} emailChange = {setNameAutoSearch} showEmailInput={true} placeholder={'Название автопоиска'} />
+                openModal && <MuiModal title={'Сохранить автопоиск'} text={'Введите название автопоиска'} submitFunction={createAutoSearch} open={openModal} setOpen={closeModalFunc} buttonText={'Создать'} emailChange = {setNameAutoSearch} showEmailInput={true} placeholder={'Название автопоиска'} />
 
             }
             {loading ? (
@@ -487,11 +424,11 @@ export const Catalog: FC = () => {
                 <>
                     <CatalogPage>
                         <FlexRow style={{ width: '100%', justifyContent: 'flex-start' }}>
-                            <FinderByID placeholder="Введите полностью или часть номера, наименование закупки, идентификационного номера кода закупки" onChange={(event) => setTextSearch(event.target.value)} value={textSearch} />
+                            <FinderByID placeholder="Введите полностью или часть номера, наименование закупки, идентификационного номера кода закупки" onChange={(event) => setTags(event.target.value)} value={tags} />
                             <FindByIDButton onClick={
                                 () => {
                                     if (!auth) return showErrorMessage('Для доступа к поиску необходимо авторизоваться')
-                                    fetchData()
+                                    getAdvancedSearch()
 
                                 }
                             }>Поиск</FindByIDButton>
@@ -560,13 +497,12 @@ export const Catalog: FC = () => {
 
 
                                 <div className="sort-property" style={{ cursor: 'pointer' }} onClick={() => {
-                                    sortByDatePublicTenders()
-
                                     setSortByDateAdded(false)
                                     setSortByDateStart(false)
                                     setSortByPrice(false)
                                     setSortByDatePublic(true)
                                     setSortByDateFinished(false)
+                                    sortByDatePublicTenders()
 
 
                                 }}>
