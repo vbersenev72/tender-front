@@ -1,0 +1,344 @@
+{
+    "_id": ObjectId("657c46af1f48c406aaa5cc4b"),
+    "id": "33810209",
+    "versionNumber": "1",
+    "commonInfo": {
+        "purchaseNumber": "0117100000223000013",
+        "docNumber": "№0117100000223000013",
+        "directDT": "2023-10-04T16:12:58.045+07:00",
+        "plannedPublishDate": "2023-10-05+07:00",
+        "publishDTInEIS": "2023-10-05T09:44:22.322+07:00",
+        "href": "https://zakupki.gov.ru/epz/order/notice/ea20/view/common-info.html?regNumber=0117100000223000013",
+        "notPublishedOnEIS": "true",
+        "placingWay": {
+            "code": "EAP20",
+            "name": "Электронный аукцион"
+        },
+        "ETP": {
+            "code": "ETP_SBAST",
+            "name": "АО «Сбербанк-АСТ»",
+            "url": "http://www.sberbank-ast.ru"
+        },
+        "contractConclusionOnSt83Ch2": "true",
+        "purchaseObjectInfo": "Поставка кабеля USB 3.0 USB A(m)-USB A (f) (вилка- розетка) для нужд Управления Минюста России по Алтайскому краю"
+    },
+    "purchaseResponsibleInfo": {
+        "responsibleOrgInfo": {
+            "regNum": "01171000002",
+            "consRegistryNum": "00187994",
+            "fullName": "УПРАВЛЕНИЕ МИНИСТЕРСТВА ЮСТИЦИИ РОССИЙСКОЙ ФЕДЕРАЦИИ ПО АЛТАЙСКОМУ КРАЮ",
+            "shortName": "УПРАВЛЕНИЕ МИНИСТЕРСТВА ЮСТИЦИИ РОССИЙСКОЙ ФЕДЕРАЦИИ ПО АЛТАЙСКОМУ КРАЮ",
+            "postAddress": "Российская Федерация, 656056, Алтайский край, Барнаул г, ПР-КТ ЛЕНИНА, Д.8",
+            "factAddress": "Российская Федерация, 656056, Алтайский край, Барнаул г, ПР-КТ ЛЕНИНА, Д.8",
+            "INN": "2225096062",
+            "KPP": "222501001"
+        },
+        "responsibleRole": "CU",
+        "responsibleInfo": {
+            "orgPostAddress": "Российская Федерация, 656056, Алтайский край, Барнаул г, ПР-КТ ЛЕНИНА, Д.8",
+            "orgFactAddress": "Российская Федерация, 656056, Алтайский край, Барнаул г, ПР-КТ ЛЕНИНА, Д.8",
+            "contactPersonInfo": {
+                "lastName": "Бандеева",
+                "firstName": "Надежда",
+                "middleName": "Юрьевна"
+            },
+            "contactEMail": "ru22@minjust.gov.ru",
+            "contactPhone": "7-3852-560548-303",
+            "contactFax": "7-3852-560546"
+        }
+    },
+    "printFormInfo": {
+        "url": "https://zakupki.gov.ru/epz/order/notice/printForm/view.html?regNumber=0117100000223000013"
+    },
+    "attachmentsInfo": {
+        "attachmentInfo": [
+            {
+                "publishedContentId": "06E0A2BD266C8517E06334548D0AEE4F",
+                "fileName": "НМЦК.xls",
+                "fileSize": "47104",
+                "docDescription": "НМЦК",
+                "docDate": "2023-10-04T11:19:56+03:00",
+                "url": "https://zakupki.gov.ru/44fz/filestore/public/1.0/download/priz/file.html?uid=06E0A2BD266C8517E06334548D0AEE4F",
+                "docKindInfo": {
+                    "code": "MRJ",
+                    "name": "Обоснование начальной (максимальной) цены контракта"
+                },
+                "cryptoSigns": {}
+            },
+            {
+                "publishedContentId": "06E00E612D03A43FE06334548D0A7DE2",
+                "fileName": "ПРОЕКТ КОНТРАКТА.doc",
+                "fileSize": "278528",
+                "docDescription": "ПРОЕКТ КОНТРАКТА",
+                "docDate": "2023-10-04T11:20:09+03:00",
+                "url": "https://zakupki.gov.ru/44fz/filestore/public/1.0/download/priz/file.html?uid=06E00E612D03A43FE06334548D0A7DE2",
+                "docKindInfo": {
+                    "code": "CP",
+                    "name": "Проект контракта"
+                },
+                "cryptoSigns": {}
+            },
+            {
+                "publishedContentId": "06DFEC2024453265E06334548D0A6ECA",
+                "fileName": "ОПИСАНИЕ обьекта закупки.doc",
+                "fileSize": "76288",
+                "docDescription": "ОПИСАНИЕ обьекта закупки",
+                "docDate": "2023-10-04T11:20:19+03:00",
+                "url": "https://zakupki.gov.ru/44fz/filestore/public/1.0/download/priz/file.html?uid=06DFEC2024453265E06334548D0A6ECA",
+                "docKindInfo": {
+                    "code": "POD",
+                    "name": "Описание объекта закупки"
+                },
+                "cryptoSigns": {}
+            }
+        ]
+    },
+    "notificationInfo": {
+        "procedureInfo": {
+            "collectingInfo": {
+                "startDT": "2023-10-05T09:44:22+07:00",
+                "endDT": "2023-10-13T09:00:00+07:00"
+            },
+            "biddingDate": "2023-10-13+07:00",
+            "summarizingDate": "2023-10-16+07:00"
+        },
+        "contractConditionsInfo": {
+            "maxPriceInfo": {
+                "maxPrice": "8933.33",
+                "currency": {
+                    "code": "RUB",
+                    "name": "Российский рубль"
+                }
+            }
+        },
+        "customerRequirementsInfo": {
+            "customerRequirementInfo": {
+                "customer": {
+                    "regNum": "01171000002",
+                    "consRegistryNum": "00187994",
+                    "fullName": "УПРАВЛЕНИЕ МИНИСТЕРСТВА ЮСТИЦИИ РОССИЙСКОЙ ФЕДЕРАЦИИ ПО АЛТАЙСКОМУ КРАЮ"
+                },
+                "contractGuarantee": {
+                    "amount": "893.33",
+                    "account": {
+                        "bik": "000000000",
+                        "settlementAccount": "00000000000000000000",
+                        "personalAccount": "См. прилагаемые документы"
+                    },
+                    "procedureInfo": "В соответствии со ст. 96 Закона 44-ФЗ исполнение контракта может обеспечиваться предоставлением независимой гарантии, соответствующей требованиям ст. 45 Закона 44-ФЗ и утвержденным Постановлением Правительства РФ от 08.11.2013 1005 или внесением денежных средств на указанный заказчиком счет, на котором в соответствии с законодательством РФ учитываются операции со средствами, поступающими заказчику. Способ обеспечения исполнения контракта, срок действия независимой гарантии определяются в соответствии с требованиями Закона 44-ФЗ участником закупки, с которым заключается контракт, самостоятельно. При этом срок действия независимой гарантии должен превышать предусмотренный контрактом срок исполнения обязательств, которые должны быть обеспечены такой независимой гарантией, не менее чем на один месяц, в том числе в случае его изменения в соответствии со ст. 95 Закона 44-ФЗ. Контракт заключается после предоставления участником закупки, с которым заключается контракт, обеспечения исполнения контракта. В случае, если участником предложена цена контракта, которая на двадцать пять и более процентов ниже начальной (максимальной) цены контракта, либо предложена сумма цен единиц товара, которая на двадцать пять и более процентов ниже начальной суммы цен указанных единиц, участник электронного закупки, с которым заключается контракт, предоставляет обеспечение исполнения контракта с учетом положений ст. 37 Закона 44-ФЗ. Положения Закона 44-ФЗ об обеспечении исполнения контракта, включая положения о предоставлении такого обеспечения с учетом положений ст. 37 Закона 44-ФЗ не применяются в случаях, предусмотренных ч. 8 ст. 96 Закона 44-ФЗ",
+                    "part": "10.0"
+                },
+                "contractConditionsInfo": {
+                    "maxPriceInfo": {
+                        "maxPrice": "8933.33"
+                    },
+                    "mustPublicDiscussion": "false",
+                    "IKZInfo": {
+                        "purchaseCode": "231222509606222250100100270012732242",
+                        "publishYear": "2023",
+                        "OKPD2Info": {
+                            "OKPD2": {
+                                "OKPDCode": "27.32",
+                                "OKPDName": "Провода и кабели электронные и электрические прочие"
+                            }
+                        },
+                        "KVRInfo": {
+                            "KVR": {
+                                "code": "242",
+                                "name": "Закупка товаров, работ и услуг в сфере информационно-коммуникационных технологий"
+                            }
+                        },
+                        "customerCode": "12225096062222501001",
+                        "purchaseNumber": "0027",
+                        "purchaseOrderNumber": "001"
+                    },
+                    "tenderPlan2020Info": {
+                        "plan2020Number": "202301171000002001",
+                        "position2020Number": "202301171000002001000062"
+                    },
+                    "contractExecutionPaymentPlan": {
+                        "contractExecutionTermsInfo": {
+                            "notRelativeTermsInfo": {
+                                "isFromConclusionDate": "true",
+                                "endDate": "2023-12-29+03:00"
+                            }
+                        },
+                        "financingSourcesInfo": {
+                            "budgetFinancingsInfo": {
+                                "budgetInfo": {
+                                    "code": "99010001",
+                                    "name": "Федеральный бюджет"
+                                },
+                                "budgetLevel": "10",
+                                "OKTMOInfo": {
+                                    "code": "00000001",
+                                    "name": "отсутствует в справочнике"
+                                }
+                            },
+                            "currentYear": "2023",
+                            "financeInfo": {
+                                "total": "8933.33",
+                                "currentYear": "8933.33",
+                                "firstYear": "0",
+                                "secondYear": "0",
+                                "subsecYears": "0"
+                            }
+                        },
+                        "stagesInfo": {
+                            "stageInfo": {
+                                "sid": "6056013",
+                                "termsInfo": {
+                                    "notRelativeTermsInfo": {
+                                        "isFromConclusionDate": "true",
+                                        "endDate": "2023-12-29+03:00"
+                                    }
+                                },
+                                "budgetFinancingsInfo": {
+                                    "budgetFinancingInfo": {
+                                        "KBK": "31803044240990020242",
+                                        "paymentYearInfo": {
+                                            "total": "8933.33",
+                                            "currentYear": "8933.33",
+                                            "firstYear": "0",
+                                            "secondYear": "0",
+                                            "subsecYears": "0"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "deliveryPlacesInfo": {
+                        "deliveryPlaceInfo": {
+                            "kladr": {
+                                "kladrCode": "22000001000",
+                                "fullName": "Российская Федерация, Алтайский край, Барнаул г"
+                            },
+                            "deliveryPlace": "проспект Ленина, д. 8"
+                        }
+                    },
+                    "isOneSideRejectionSt95": "true"
+                },
+                "warrantyInfo": {
+                    "warrantyServiceRequirement": "В соответствии с аукционной документацией.",
+                    "manufacturersWarrantyRequirement": "В соответствии с аукционной документацией.",
+                    "warrantyTerm": "Гарантийный срок составляет 12 месяцев и исчисляется с момента подписания Сторонами документа о приемке и распространяется на весь поставляемый товар."
+                }
+            }
+        },
+        "purchaseObjectsInfo": {
+            "notDrugPurchaseObjectsInfo": {
+                "purchaseObject": [
+                    {
+                        "sid": "135787344",
+                        "OKPD2": {
+                            "OKPDCode": "27.32.13.199",
+                            "OKPDName": "Кабели, провода и другие проводники прочие на напряжение до 1 кВ, не включенные в другие группировки"
+                        },
+                        "name": "Поставка кабеля USB 3.0 USB A(m) - USB A(f) (вилка – розетка) для нужд Управления Министерства юстиции Российской Федерации по Алтайскому краю",
+                        "OKEI": {
+                            "code": "796",
+                            "nationalCode": "ШТ",
+                            "name": "Штука"
+                        },
+                        "price": "446.66",
+                        "quantity": {
+                            "value": "19"
+                        },
+                        "sum": "8486.54",
+                        "type": "PRODUCT",
+                        "hierarchyType": "ND"
+                    },
+                    {
+                        "sid": "135787345",
+                        "OKPD2": {
+                            "OKPDCode": "27.32.13.199",
+                            "OKPDName": "Кабели, провода и другие проводники прочие на напряжение до 1 кВ, не включенные в другие группировки"
+                        },
+                        "name": "Поставка кабеля USB 3.0 USB A(m) - USB A(f) (вилка – розетка) для нужд Управления Министерства юстиции Российской Федерации по Алтайскому краю",
+                        "OKEI": {
+                            "code": "796",
+                            "nationalCode": "ШТ",
+                            "name": "Штука"
+                        },
+                        "price": "446.79",
+                        "quantity": {
+                            "value": "1"
+                        },
+                        "sum": "446.79",
+                        "type": "PRODUCT",
+                        "hierarchyType": "ND"
+                    }
+                ],
+                "totalSum": "8933.33",
+                "quantityUndefined": "false"
+            }
+        },
+        "preferensesInfo": {
+            "preferenseInfo": {
+                "preferenseRequirementInfo": {
+                    "shortName": "RBK126",
+                    "name": "Участникам, заявки или окончательные предложения которых содержат предложения о поставке товаров в соответствии с приказом Минфина России от 04.06.2018 № 126н"
+                },
+                "prefValue": "15.0"
+            }
+        },
+        "requirementsInfo": {
+            "requirementInfo": [
+                {
+                    "preferenseRequirementInfo": {
+                        "shortName": "ET44",
+                        "name": "Единые требования к участникам закупок в соответствии с ч. 1 ст. 31 Закона № 44-ФЗ"
+                    }
+                },
+                {
+                    "preferenseRequirementInfo": {
+                        "shortName": "TR442",
+                        "name": "Требования к участникам закупок в соответствии с ч. 1.1 ст. 31 Закона № 44-ФЗ"
+                    }
+                }
+            ]
+        },
+        "restrictionsInfo": {
+            "restrictionInfo": {
+                "preferenseRequirementInfo": {
+                    "shortName": "JB2149",
+                    "name": "Запрет на допуск товаров, работ, услуг при осуществлении закупок, а также ограничения и условия допуска в соответствии с требованиями, установленными ст. 14 Закона № 44-ФЗ"
+                },
+                "restrictionsSt14": {
+                    "restrictionSt14": [
+                        {
+                            "requirementsType": {
+                                "requirementType": {
+                                    "type": "RA"
+                                }
+                            },
+                            "NPAInfo": {
+                                "code": "18",
+                                "name": "Постановление Правительства РФ от 30.04.2020 № 617 \"Об ограничениях допуска отдельных видов промышленных товаров, происходящих из иностранных государств для целей осуществления закупок для обеспечения государственных и муниципальных нужд\"",
+                                "shortName": "Постановление Правительства РФ от 30.04.2020 № 617"
+                            }
+                        },
+                        {
+                            "requirementsType": {
+                                "requirementType": {
+                                    "type": "AC"
+                                }
+                            },
+                            "NPAInfo": {
+                                "code": "1",
+                                "name": "Участникам, заявки или окончательные предложения которых содержат предложения о поставке товаров в соответствии с приказом Минфина России № 126н от 04.06.2018",
+                                "shortName": "Приказ Минфина от 04.06.2018 № 126н"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "flags": {
+            "purchaseObjectsCh9St37": "false"
+        }
+    },
+    "fz": "fz44",
+    "customDate": "2023-10-05T09:44:22.322+07:00"
+}

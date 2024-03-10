@@ -93,18 +93,18 @@ export const Catalog: FC = () => {
         return `${year}-${month}-${day}`;
     }
 
-    const getAdvancedSearch = async () => {
+    const getAdvancedSearch = async (symbol:any) => {
         try {
 
 
             setLoading(true)
 
-            if (checkDigitsOnly(tags)) {
+            if (tags != '' && checkDigitsOnly(tags)) {
 
                 const response = await axios.get(`${process.env.REACT_APP_API}/api/find/innOrRegnumber/${tags}`);
                 console.log(response.data.tender);
 
-                setTendersList([...response.data.tender]); // Обновите состояние данными из ответа
+                setTendersList([...response.data.tender]); 
                 setBeforeTenders([...response.data.message])
 
                 setLoading(false)
@@ -112,7 +112,7 @@ export const Catalog: FC = () => {
                 return
             }
 
-            const response: any = await axios.post(`${process.env.REACT_APP_API}/api/find/advancedfind?sort=${sortSymbol}`, {
+            const response: any = await axios.post(`${process.env.REACT_APP_API}/api/find/advancedfind?sort=${symbol}`, {
                 tags: tags,
                 stopTags: stopTags,
                 publicDateFrom: formatDate(publicDateFrom),
@@ -149,6 +149,31 @@ export const Catalog: FC = () => {
 
 
             const result = response.data.message
+
+            if (symbol == 'Price' || symbol == 'PriceReverse') {
+                const newTendersArray = result.sort((a: any, b: any) => {
+                    console.log(a);
+        
+                    if (a.fz == 'fz223') {
+                        const aPrice = a.lots?.lot?.lotData?.initialSum
+                        const bPrice = b.fz == 'fz223' ? b.lots?.lot?.lotData?.initialSum : b.notificationInfo?.contractConditionsInfo?.maxPriceInfo?.maxPrice
+        
+                        return parseFloat(aPrice) - parseFloat(bPrice)
+                    } else {
+                        const aPrice = a.notificationInfo?.contractConditionsInfo?.maxPriceInfo?.maxPrice
+                        const bPrice = b.fz == 'fz223' ? b.lots?.lot?.lotData?.initialSum : b.notificationInfo?.contractConditionsInfo?.maxPriceInfo?.maxPrice
+        
+                        return parseFloat(aPrice) - parseFloat(bPrice)
+                    }
+                })
+
+                setBeforeTenders([...newTendersArray])
+                setTendersList([...newTendersArray])
+
+                setLoading(false)
+                return
+            }
+
 
             setBeforeTenders([...result])
             setTendersList([...result])
@@ -276,7 +301,7 @@ export const Catalog: FC = () => {
         checkAuth().then((auth) => setAuth(auth))
         //getMyTenders()
 
-        getAdvancedSearch()
+        getAdvancedSearch('publicDate')
 
 
     }, [currentPage, countShowElements,]);
@@ -284,43 +309,44 @@ export const Catalog: FC = () => {
 
     const handlePageChange = (newPage: number) => {
         setCurrentPage(newPage);
-        getAdvancedSearch()
+        getAdvancedSearch(sortSymbol)
     };
 
 
     const sortByDatePublicTenders = () => {
 
-        if (sortByDatePublic) {
+        if (sortSymbol == 'publicDate') {
             setSortSymbol('publicDateReverse')
+            getAdvancedSearch('publicDateReverse')
         } else {
             setSortSymbol('publicDate')
+            getAdvancedSearch('publicDate')
         }
-
-        getAdvancedSearch()
 
     }
 
     const sortByDateStartTenders = () => {
 
-        if (sortByDateStart) {
+        if (sortSymbol == 'customDate') {
             setSortSymbol('customDateReverse')
+            getAdvancedSearch('customDateReverse')
         } else {
             setSortSymbol('customDate')
+            getAdvancedSearch('customDate')
         }
-
-        getAdvancedSearch()
 
     }
 
-    const sortByPriceTenders = () => {
+    const sortByPriceTenders = async () => {
 
-        if (sortByPrice) {
+        if (sortSymbol == 'Price') {
             setSortSymbol('PriceReverse')
+            getAdvancedSearch('PriceReverse')
         } else {
             setSortSymbol('Price')
+            getAdvancedSearch('Price')
         }
 
-        getAdvancedSearch()
 
     }
 
@@ -353,13 +379,13 @@ export const Catalog: FC = () => {
 
     const sortByDateFinishedTenders = () => {
 
-        if (sortByDateFinished) {
+        if (sortSymbol == 'FinishDate') {
             setSortSymbol('FinishDateReverse')
+            getAdvancedSearch('FinishDateReverse')
         } else {
             setSortSymbol('FinishDate')
+            getAdvancedSearch('FinishDate')
         }
-
-        getAdvancedSearch()
 
     }
 
@@ -444,7 +470,7 @@ export const Catalog: FC = () => {
                             <FindByIDButton onClick={
                                 () => {
                                     if (!auth) return showErrorMessage('Для доступа к поиску необходимо авторизоваться')
-                                    getAdvancedSearch()
+                                    getAdvancedSearch(sortSymbol)
 
                                 }
                             }>Поиск</FindByIDButton>
@@ -484,7 +510,7 @@ export const Catalog: FC = () => {
                                 />
                                 <div style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', width: '100%' }}>
                                     <div style={{ width: '50%', display: 'flex', justifyContent: 'space-around' }}>
-                                        <div className='AdvancedSearchButton' style={{ backgroundColor: 'dodgerblue', color: 'white', paddingLeft: '60px', paddingRight: '60px' }} onClick={() => getAdvancedSearch()}><p>Поиск</p></div>
+                                        <div className='AdvancedSearchButton' style={{ backgroundColor: 'dodgerblue', color: 'white', paddingLeft: '60px', paddingRight: '60px' }} onClick={() => getAdvancedSearch(sortSymbol)}><p>Поиск</p></div>
 
                                         <div className='AdvancedSearchButton' style={{ paddingLeft: '45px', paddingRight: '45px', cursor: 'pointer' }} onClick={openModalFunc}><p>Автопоиск</p></div>
 
