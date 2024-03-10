@@ -95,7 +95,23 @@ export const Catalog: FC = () => {
 
     const getAdvancedSearch = async () => {
         try {
+
+
             setLoading(true)
+
+            if (checkDigitsOnly(tags)) {
+
+                const response = await axios.get(`${process.env.REACT_APP_API}/api/find/innOrRegnumber/${tags}`);
+                console.log(response.data.tender);
+
+                setTendersList([...response.data.tender]); // Обновите состояние данными из ответа
+                setBeforeTenders([...response.data.message])
+
+                setLoading(false)
+
+                return
+            }
+
             const response: any = await axios.post(`${process.env.REACT_APP_API}/api/find/advancedfind?sort=${sortSymbol}`, {
                 tags: tags,
                 stopTags: stopTags,
@@ -413,7 +429,7 @@ export const Catalog: FC = () => {
                 !auth && <AccesNotif openAccesNotif={openAccesNotif} setOpenAccesNotif={setOpenAccesNotif} />
             }
             {
-                openModal && <MuiModal title={'Сохранить автопоиск'} text={'Введите название автопоиска'} submitFunction={createAutoSearch} open={openModal} setOpen={closeModalFunc} buttonText={'Создать'} emailChange = {setNameAutoSearch} showEmailInput={true} placeholder={'Название автопоиска'} />
+                openModal && <MuiModal title={'Сохранить автопоиск'} text={'Введите название автопоиска'} submitFunction={createAutoSearch} open={openModal} setOpen={closeModalFunc} buttonText={'Создать'} emailChange={setNameAutoSearch} showEmailInput={true} placeholder={'Название автопоиска'} />
 
             }
             {loading ? (
